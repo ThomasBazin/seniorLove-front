@@ -9,7 +9,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:prettier/recommended', // must be the last one
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', '/*.*', '!/*.html'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
