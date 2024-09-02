@@ -1,10 +1,10 @@
 //MobileFooterMenu V1 (before connexion)
 
-import Logo from '../assets/images/favicon-seniorlove.png';
-import DiscoverLogo from '../assets/images/decouvrir.png';
-import EventLogo from '../assets/images/evenement.png';
-import MessageLogo from '../assets/images/messages.png';
-import ProfileLogo from '../assets/images/mon-profil.png';
+import Logo from '../../assets/images/favicon-seniorlove.png';
+import DiscoverLogo from '../../assets/images/decouvrir.png';
+import EventLogo from '../../assets/images/evenement.png';
+import MessageLogo from '../../assets/images/messages.png';
+import ProfileLogo from '../../assets/images/mon-profil.png';
 
 function MobileFooterMenuV2() {
   return (
