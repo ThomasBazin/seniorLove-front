@@ -9,18 +9,21 @@ import NavBarV1 from './components/NavBar/NavBarV1';
 import NavBarV2 from './components/NavBar/NavBarV2';
 import Footer from './components/Footer';
 import SubscribeFormV2 from './components/SubscribeForms/SubscribeFormV2';
+import SubscribeFormV3 from './components/SubscribeForms/SubscribeFormV3';
 
 function App() {
   return (
     <>
       <NavBarV2 />
-      <NavBarV1 />
+      <SubscribeFormV3 />
+
+      {/* <NavBarV1 />
       <HeadbandComponent />
       <EditProfileComponent />
       <MobileFooterMenuV1 />
-      <MobileFooterMenuV2 />
+      <MobileFooterMenuV2 /> */}
       <SubscribeFormV2 />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
