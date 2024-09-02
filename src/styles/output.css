@@ -622,6 +622,16 @@ video {
   color: rgb(89 97 107 / var(--tw-text-opacity));
 }
 
+.text-primaryPink {
+  --tw-text-opacity: 1;
+  color: rgb(243 214 224 / var(--tw-text-opacity));
+}
+
+.text-secondaryPink {
+  --tw-text-opacity: 1;
+  color: rgb(216 80 113 / var(--tw-text-opacity));
+}
+
 .shadow-around {
   --tw-shadow: 1px 1px 7px 0px rgba(50,50,50,0.25);
   --tw-shadow-colored: 1px 1px 7px 0px var(--tw-shadow-color);
