@@ -1,8 +1,8 @@
 import messageIcon from '../../assets/messages.png';
 
-function Sticker() {
+function ProfileSticker() {
   return (
-    <div className="w-64 h-72 bg-white rounded-xl mx-auto shadow-lg relative">
+    <div className="w-64 h-72 m-7 bg-white rounded-xl mx-auto shadow-lg relative">
       <img
         src="/src/assets/grandma-506341_1280.jpg"
         alt="Utilisateur"
@@ -20,4 +20,4 @@ function Sticker() {
     </div>
   );
 }
-export default Sticker;
+export default ProfileSticker;
