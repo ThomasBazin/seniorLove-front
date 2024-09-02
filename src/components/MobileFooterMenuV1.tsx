@@ -2,12 +2,9 @@
 
 import Logo from '../assets/images/favicon-seniorlove.png';
 import ConnexionLogo from '../assets/images/connexion.png';
-import DiscoverLogo from '../assets/images/decouvrir.png';
 import EventLogo from '../assets/images/evenement.png';
-import MessageLogo from '../assets/images/messages.png';
-import ProfileLogo from '../assets/images/mon-profil.png';
 
-function MobileFooterMenu() {
+function MobileFooterMenuV1() {
   return (
     <div className="bg-white p-6 flex justify-between rounded-lg max-w-md mx-auto font-bold text-primaryText">
       <a href="#">
@@ -15,9 +12,9 @@ function MobileFooterMenu() {
           src={EventLogo}
           alt="bouton connexion"
           className="mx-auto w-14 h-14
-           sm:w-20 sm:h-20 md:w-22 md:h-22 lg:w-24 lg:h-24 xl:w-38 xl:h-38 object-contain"
+           sm:w-20 sm:h-20 md:w-22 md:h-22 object-contain"
         />
-        <p className="mb-4 text-base  text-center sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold">
+        <p className="mb-4 text-base  text-center sm:text-lg md:text-xl font-bold">
           Événements
         </p>
       </a>
@@ -26,9 +23,9 @@ function MobileFooterMenu() {
           src={Logo}
           alt="bouton accueil"
           className="mx-auto w-14 h-14
-           sm:w-20 sm:h-20 md:w-22 md:h-22 lg:w-24 lg:h-24 xl:w-38 xl:h-38 object-contain"
+           sm:w-20 sm:h-20 md:w-22 md:h-22 object-contain"
         />
-        <p className="mb-4 text-base text-center sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold ">
+        <p className="mb-4 text-base text-center sm:text-lg md:text-xl font-bold ">
           Accueil
         </p>
       </a>
@@ -37,9 +34,9 @@ function MobileFooterMenu() {
           src={ConnexionLogo}
           alt="bouton connexion"
           className="mx-auto w-14 h-14
-           sm:w-20 sm:h-20 md:w-22 md:h-22 lg:w-24 lg:h-24 xl:w-38 xl:h-38 object-contain"
+           sm:w-20 sm:h-20 md:w-22 md:h-22 object-contain"
         />
-        <p className="mb-4 text-base text-center sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold">
+        <p className="mb-4 text-base text-center sm:text-lg md:text-xl font-bold">
           Connexion
         </p>
       </a>
@@ -47,4 +44,4 @@ function MobileFooterMenu() {
   );
 }
 
-export default MobileFooterMenu;
+export default MobileFooterMenuV1;
