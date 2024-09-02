@@ -1,8 +1,8 @@
 //MobileFooterMenu V1 (before connexion)
 
-import Logo from '../assets/images/favicon-seniorlove.png';
-import ConnexionLogo from '../assets/images/connexion.png';
-import EventLogo from '../assets/images/evenement.png';
+import Logo from '../../assets/images/favicon-seniorlove.png';
+import ConnexionLogo from '../../assets/images/connexion.png';
+import EventLogo from '../../assets/images/evenement.png';
 
 function MobileFooterMenuV1() {
   return (
