@@ -130,7 +130,7 @@ function EditProfileComponent() {
     'Jeux et divertissement',
     'Technologie et innovation',
     'Spiritualité et bien-être intérieur',
-    'Bricolage et loisirs créatifs',
+    'Bricolage et loisirs creatifs',
     'Animaux et nature',
     'Histoire et patrimoine',
   ];
