@@ -4,10 +4,10 @@ function SentMessage() {
       <img
         src="/src/assets/pexels-olly-3831645.jpg"
         alt="Moi"
-        className="aspect-square rounded-full w-20 h-20 object-cover shadow-lg"
+        className="aspect-square rounded-full w-20 h-20 object-cover shadow-xl"
       />
-      <div className="p-4 rounded-xl shadow-lg">
-        <p className="text-sm">
+      <div className="p-4 border rounded-3xl shadow-around">
+        <p className="text-sm text-primaryText">
           Bonjour Helena,
           <br />
           <br />

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import SentMessage from './components/Messages/SentMessage';
+import ReceivedMessage from './components/Messages/ReceivedMessage';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -28,7 +29,10 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <SentMessage />
+      <div className="p-4">
+        <SentMessage />
+        <ReceivedMessage />
+      </div>
     </>
   );
 }
