@@ -14,11 +14,11 @@ function App() {
   return (
     <>
       <NavBarV2 />
-      {/* <NavBarV1 /> */}
-      {/* <HeadbandComponent />
+      <NavBarV1 />
+      <HeadbandComponent />
       <EditProfileComponent />
       <MobileFooterMenuV1 />
-      <MobileFooterMenuV2 /> */}
+      <MobileFooterMenuV2 />
       <SubscribeFormV2 />
       <Footer />
     </>
