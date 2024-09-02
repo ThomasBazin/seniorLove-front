@@ -39,7 +39,7 @@ function SubscribeFormV2() {
   ];
 
   return (
-    <div className="bg-white p-10 rounded-xl shadow-md max-w-2xl mx-auto">
+    <div className="bg-white p-10 rounded-xl shadow-md max-w-xl mx-auto">
       <form>
         <fieldset className="mb-4">
           <legend className="text-xl font-semibold leading-6 text-primaryText">
@@ -66,7 +66,7 @@ function SubscribeFormV2() {
             ))}
           </div>
         </fieldset>
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-center mt-6 mb-2">
           <button className="bg-secondaryPink text-primaryGrey font-semibold py-2 px-10 rounded-lg shadow-lg">
             Valider
           </button>
