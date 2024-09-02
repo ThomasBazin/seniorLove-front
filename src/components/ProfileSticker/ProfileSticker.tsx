@@ -8,7 +8,7 @@ function ProfileSticker() {
         alt="Utilisateur"
         className="h-full object-cover rounded-xl"
       />
-      <div className="m-2 w-fit absolute bottom-0 left-1 text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-2xl font-medium">
+      <div className="m-2 w-fit absolute bottom-0 left-1 text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] text-2xl font-medium">
         Hélèna, 68
       </div>
       <button
