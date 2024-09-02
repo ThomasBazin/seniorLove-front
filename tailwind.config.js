@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import plugin from 'tailwindcss'
+
 module.exports = {
   content: [
     "./src/**/*.{html,js,ts,jsx,tsx}",
@@ -13,7 +15,10 @@ module.exports = {
         'primaryText': '#59616B',
         'secondaryPink': '#D85071',
         'buttonGreen': '#ADD5AF',
-      }
+      },
+      backgroundImage: {
+        'homeBackground': "url('../../public/img/senior-taking-selfie-with-camera.webp')"
+      },
     },
   },
   plugins: [],
