@@ -100,12 +100,18 @@ function EditProfileComponent() {
 
   // UseState to define hobbies
   const [hobbies, setHobbies] = useState({
-    'La marche en plein air': false,
-    'La lecture': false,
-    'La cuisine': false,
-    'Le jardinage': false,
-    'Le bénévolat dans la communauté': false,
-    'Les jeux de société': false,
+    'Voyage et découvertes': false,
+    'Arts et culture': false,
+    'Sport et bien-être': false,
+    'Gastronomie et cuisine': false,
+    'Musique et danse': false,
+    'Bénévolat et engagement social': false,
+    'Jeux et divertissement': false,
+    'Technologie et innovation': false,
+    'Spiritualité et bien-être intérieur': false,
+    'Bricolage et loisirs créatifs': false,
+    'Animaux et nature': false,
+    'Histoire et patrimoine': false,
   });
 
   // Function to handle hobby change
