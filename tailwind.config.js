@@ -6,7 +6,15 @@ module.exports = {
     "./docs/**/*.html/"
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'primaryPink': '#F3D6E0',
+        'primaryGrey': '#EBEBEA',
+        'primaryText': '#59616B',
+        'secondaryPink': '#D85071',
+        'buttonGreen': '#ADD5AF',
+      }
+    },
   },
   plugins: [],
 }
