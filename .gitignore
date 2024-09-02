@@ -130,5 +130,4 @@ dist
 .pnp.*
 
 # Tailwindcss
-/src/styles/output.css
 src/styles/output.css
