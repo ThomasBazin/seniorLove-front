@@ -1,4 +1,7 @@
+import React, { useState } from 'react';
+
 function EditProfileComponent() {
+  const [description, setDescription] = useState('');
   return (
     <div className="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
       <form>
@@ -49,16 +52,15 @@ function EditProfileComponent() {
                     Description
                   </legend>
                   <div className="mt-6 space-y-3">
-                    <p>
-                      Je suis heureux de faire partie de SeniorLove pour
-                      rencontrer de nouvelles personnes et peut-être trouver
-                      l'amour. Grâce à cette communauté, j'ai découvert des
-                      activités passionnantes qui me permettent de tisser des
-                      liens d'amitié sincères. À mon âge, je pense qu'il est
-                      essentiel de rester actif et de profiter de chaque
-                      instant, et SeniorLove m'offre cette belle opportunité. Au
-                      plaisir de vous rencontrer lors d'une prochaine activité !
-                    </p>
+                    <textarea
+                      id="description"
+                      name="description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Entrez votre description ici..."
+                      className="block w-full rounded-md border-0 py-1.5 text-primaryText shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      rows={4}
+                    />
                   </div>
                 </fieldset>
               </div>
