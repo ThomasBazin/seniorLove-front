@@ -1,6 +1,6 @@
 import Logo from '../assets/images/favicon-seniorlove.png';
 
-function HandbandComponent() {
+function HeadbandComponent() {
   return (
     <div className="bg-white p-6 rounded-lg max-w-md mx-auto font-bold text-primaryText">
       <article className="text-center">
@@ -19,4 +19,4 @@ function HandbandComponent() {
   );
 }
 
-export default HandbandComponent;
+export default HeadbandComponent;
