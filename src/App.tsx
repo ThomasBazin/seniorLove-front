@@ -7,6 +7,8 @@ import MobileFooterMenuV1 from './components/MobileFooterMenu/MobileFooterMenuV1
 import MobileFooterMenuV2 from './components/MobileFooterMenu/MobileFooterMenuV2';
 import NavBarV1 from './components/NavBar/NavBarV1';
 import NavBarV2 from './components/NavBar/NavBarV2';
+import Footer from './components/Footer';
+
 function App() {
   return (
     <>
@@ -16,6 +18,7 @@ function App() {
       <EditProfileComponent />
       <MobileFooterMenuV1 />
       <MobileFooterMenuV2 />
+      <Footer />
     </>
   );
 }
