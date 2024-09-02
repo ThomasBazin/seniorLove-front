@@ -121,12 +121,18 @@ function EditProfileComponent() {
   };
 
   const hobbyArray = [
-    'La marche en plein air',
-    'La lecture',
-    'La cuisine',
-    'Le jardinage',
-    'Le bénévolat dans la communauté',
-    'Les jeux de société',
+    'Voyage et découvertes',
+    'Arts et culture',
+    'Sport et bien-être',
+    'Gastronomie et cuisine',
+    'Musique et danse',
+    'Bénévolat et engagement social',
+    'Jeux et divertissement',
+    'Technologie et innovation',
+    'Spiritualité et bien-être intérieur',
+    'Bricolage et loisirs créatifs',
+    'Animaux et nature',
+    'Histoire et patrimoine',
   ];
 
   return (
