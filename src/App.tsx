@@ -4,13 +4,15 @@ import viteLogo from '/vite.svg';
 
 //Importing components
 // import EditProfileComponent from './components/EditProfileComponent';
+import HandbandComponent from './components/HeadbandComponent';
+import EditProfileComponent from './components/EditProfileComponent';
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
-      <div>
+      {/* <div>
         <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -29,7 +31,10 @@ function App() {
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
-      </p>
+      </p> */}
+      <h1>SeniorLove</h1>
+      <HandbandComponent />
+      <EditProfileComponent />
     </>
   );
 }
