@@ -5,6 +5,7 @@ import viteLogo from '/vite.svg';
 //Importing components
 import EditProfileComponent from './components/EditProfileComponent';
 import HeadbandComponent from './components/HeadbandComponent';
+import MobileFooterMenu from './components/MobileFooterMenuV1';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -13,6 +14,7 @@ function App() {
     <>
       <HeadbandComponent />
       <EditProfileComponent />
+      <MobileFooterMenu />
     </>
   );
 }
