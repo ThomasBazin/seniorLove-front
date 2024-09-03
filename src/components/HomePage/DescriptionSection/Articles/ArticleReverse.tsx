@@ -12,25 +12,61 @@ export default function ArticleReverse({
       <div className="flex flex-col gap-3 md:flex-row-reverse md:px-16 md:items-center md:justify-between md:gap-12 lg:gap-24">
         <div className="flex flex-col gap-3 md:w-2/3">
           <p>
-            Imaginez-vous discuter de vos lectures préférées lors d&apos;un café
-            littéraire, explorer une nouvelle exposition avec un compagnon
-            d&apos;art, ou partager vos astuces de jardinage lors d&apos;un
-            atelier en plein air. Chez SeniorLove, nous facilitons non seulement
-            les rencontres en ligne, mais nous vous offrons aussi des
-            expériences enrichissantes dans le monde réel. Que vous recherchiez
-            l&apos;amour, l&apos;amitié ou simplement de nouvelles connexions,
-            notre plateforme est conçue pour répondre à vos attentes.
+            {!isFirstFormValidated && !isSecondFormValidated && (
+              <>
+                Imaginez-vous discuter de vos lectures préférées lors d&apos;un
+                café littéraire, explorer une nouvelle exposition avec un
+                compagnon d&apos;art, ou partager vos astuces de jardinage lors
+                d&apos;un atelier en plein air. Chez SeniorLove, nous facilitons
+                non seulement les rencontres en ligne, mais nous vous offrons
+                aussi des expériences enrichissantes dans le monde réel. Que
+                vous recherchiez l&apos;amour, l&apos;amitié ou simplement de
+                nouvelles connexions, notre plateforme est conçue pour répondre
+                à vos attentes.
+              </>
+            )}
+            {isFirstFormValidated && !isSecondFormValidated && (
+              <>
+                Que vous soyez à la recherche d&apos;une belle histoire
+                d&apos;amour, d&apos;une nouvelle amitié, ou d&apos;activités à
+                partager, vous trouverez des personnes avec les mêmes centres
+                d&apos;intérêt, prêtes à vivre ces moments avec vous. Votre
+                sécurité et votre confort sont nos priorités absolues. Nos
+                événements sont conçus pour vous offrir un cadre convivial où
+                vous pouvez vous épanouir en toute sérénité.
+              </>
+            )}
           </p>
-          <p className="font-semibold">
-            Rejoignez Senior Love aujourd&apos;hui et commencez une nouvelle
-            aventure riche en découvertes et en rencontres !
-          </p>
+          <h3 className="font-semibold">
+            {!isFirstFormValidated && !isSecondFormValidated && (
+              <>
+                Rejoignez Senior Love aujourd&apos;hui et commencez une nouvelle
+                aventure riche en découvertes et en rencontres !
+              </>
+            )}
+            {isFirstFormValidated && !isSecondFormValidated && (
+              <>
+                Rejoignez-nous et découvrez un nouveau monde de possibilités.
+                Chez Senior Love, chaque rencontre est une chance de créer des
+                souvenirs mémorables !
+              </>
+            )}
+          </h3>
         </div>
-        <img
-          src="/img/senior-love-guitar.webp"
-          alt="Un homme jouant de la guitare avec une femme à ses côtés."
-          className="hidden md:block w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
-        />
+        {!isFirstFormValidated && !isSecondFormValidated && (
+          <img
+            src="/img/senior-love-guitar.webp"
+            alt="Un homme jouant de la guitare avec une femme à ses côtés."
+            className="hidden md:block w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
+          />
+        )}
+        {isFirstFormValidated && !isSecondFormValidated && (
+          <img
+            src="/img/senior-dancer.webp"
+            alt="Un couple qui danse"
+            className="hidden md:block w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
+          />
+        )}
       </div>
     </article>
   );

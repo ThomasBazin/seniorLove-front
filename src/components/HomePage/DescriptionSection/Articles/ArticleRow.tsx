@@ -76,7 +76,7 @@ export default function ArticleRow({
         {isFirstFormValidated && !isSecondFormValidated && (
           <img
             src="/img/senior-friends-activities.webp"
-            alt="Un homme enlaçant une femme."
+            alt="Deux couples au théatre tenant des accessoires"
             className="w-96 h-80 mx-auto xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
           />
         )}
