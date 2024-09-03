@@ -1,4 +1,12 @@
-export default function ArticleReverse() {
+interface ArticleReverseProps {
+  isFirstFormValidated: boolean;
+  isSecondFormValidated: boolean;
+}
+
+export default function ArticleReverse({
+  isFirstFormValidated,
+  isSecondFormValidated,
+}: ArticleReverseProps) {
   return (
     <article className="bg-primaryGrey px-3 md:px-12 xl:px-24 py-12 flex flex-col">
       <div className="flex flex-col gap-3 md:flex-row-reverse md:px-16 md:items-center md:justify-between md:gap-12 lg:gap-24">

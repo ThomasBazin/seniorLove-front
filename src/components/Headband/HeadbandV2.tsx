@@ -6,8 +6,8 @@ function HeadbandV2() {
       <article className="text-center">
         <p className="mb-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold">
           <span className="text-secondaryPink font-bold">
-            &quot;Partagez Vos Passions ,
-          </span>
+            &quot;Partagez Vos Passions,
+          </span>{' '}
           Créez des Connexions&quot;
         </p>
         <img
