@@ -17,7 +17,7 @@ module.exports = {
         'buttonGreen': '#ADD5AF',
       },
       backgroundImage: {
-        'homeBackground': "url('../../public/img/senior-taking-selfie-with-camera.webp')"
+        'homeBackground': "url('/img/senior-taking-selfie-with-camera.webp')"
       },
     },
   },
