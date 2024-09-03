@@ -4,12 +4,12 @@ import Logo from '/img/logo-text-seniorlove.webp';
 
 function NavBarV2() {
   const NavBarButtons = [
-    { text: 'Accueil' },
-    { text: 'Découvrir' },
-    { text: 'Événements' },
-    { text: 'Messages' },
-    { text: 'Mon profil' },
-    { text: 'Se déconnecter' },
+    { text: 'Accueil', href: '#' },
+    { text: 'Découvrir', href: '#' },
+    { text: 'Événements', href: '#' },
+    { text: 'Messages', href: '#' },
+    { text: 'Mon profil', href: '#' },
+    { text: 'Se déconnecter', href: '#' },
   ];
 
   return (
@@ -24,10 +24,10 @@ function NavBarV2() {
         </a>
       </div>
       <div className="buttons_container flex flex-col lg:flex-row lg:space-x-4">
-        {NavBarButtons.map((button, index) => (
+        {NavBarButtons.map((button) => (
           <a
-            href="/"
-            key={index}
+            href={button.href}
+            key={button.text}
             className="bg-primaryGrey hover:bg-secondaryPink text-secondaryPink hover:text-primaryGrey font-bold py-4 px-6 hidden lg:block rounded-3xl sm:text-base md:text-lg lg:text-xs xl:text-lg"
           >
             {button.text}

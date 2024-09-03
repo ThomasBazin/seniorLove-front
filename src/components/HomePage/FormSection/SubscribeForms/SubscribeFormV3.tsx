@@ -27,11 +27,11 @@ function SubscribeFormV3() {
       <form>
         <fieldset className="mb-4">
           <legend className="text-xl text-center font-semibold leading-6 text-primaryText mb-8">
-            Il ne vous reste plus qu'une étape pour finaliser votre inscription
-            !
+            Il ne vous reste plus qu&apos;une étape pour finaliser votre
+            inscription !
           </legend>
-          {formInputs.map((input, index) => (
-            <div className="mb-4" key={index}>
+          {formInputs.map((input) => (
+            <div className="mb-4" key={input.id}>
               <label
                 htmlFor={input.id}
                 className="block text-lg font-medium leading-6 text-primaryText"
@@ -53,8 +53,11 @@ function SubscribeFormV3() {
           ))}
         </fieldset>
         <div className="flex justify-center mt-6 mb-2">
-          <button className="bg-secondaryPink text-primaryGrey font-semibold py-2 px-10 rounded-lg shadow-lg">
-            Valider l'inscription
+          <button
+            type="button"
+            className="bg-secondaryPink text-primaryGrey font-semibold py-2 px-10 rounded-lg shadow-lg"
+          >
+            Valider l&apos;inscription
           </button>
         </div>
         <div className="step_paragraph flex justify-end">

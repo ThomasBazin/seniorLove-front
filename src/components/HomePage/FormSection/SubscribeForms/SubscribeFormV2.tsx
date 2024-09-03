@@ -44,11 +44,11 @@ function SubscribeFormV2() {
         <fieldset className="mb-4">
           <legend className="text-xl font-semibold leading-6 text-primaryText">
             Afin de mieux vous connaître, veuillez sélectionner vos centres
-            d'intérêt parmi ces options:
+            d&apos;intérêt parmi ces options:
           </legend>
           <div className="mt-6 grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-8">
             {hobbyArray.map((hobby, index) => (
-              <div key={index} className="flex items-center">
+              <div key={hobby} className="flex items-center">
                 <input
                   id={`hobby-${index}`}
                   type="checkbox"
@@ -67,7 +67,10 @@ function SubscribeFormV2() {
           </div>
         </fieldset>
         <div className="flex justify-center mt-6 mb-2">
-          <button className="bg-secondaryPink text-primaryGrey font-semibold py-2 px-10 rounded-lg shadow-lg">
+          <button
+            type="button"
+            className="bg-secondaryPink text-primaryGrey font-semibold py-2 px-10 rounded-lg shadow-lg"
+          >
             Valider
           </button>
         </div>

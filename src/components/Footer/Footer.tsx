@@ -27,8 +27,8 @@ export default function Footer() {
       </div>
       <div className="footer-links_container flex justify-center w-full">
         <ul className="flex flex-wrap justify-center gap-2 md:gap-4">
-          {footerLinks.map((link, index) => (
-            <li key={index} className="list-none text-center">
+          {footerLinks.map((link) => (
+            <li key={link.text} className="list-none text-center">
               <a href={link.href} className="text-primaryText hover:underline">
                 {link.text}
               </a>{' '}
