@@ -9,12 +9,14 @@
 // import SubscribeFormV2 from './components/SubscribeForms/SubscribeFormV2';
 // import SubscribeFormV3 from './components/SubscribeForms/SubscribeFormV3';
 // import HeadbandV2 from './components/Headband/HeadbandV2';
+import SearchForm from './components/SearchForm/SearchForm';
 import HomePage from './pages/HomePage';
 
 function App() {
   return (
     <>
-      <HomePage />
+      <SearchForm />
+      {/* <HomePage /> */}
       {/* <NavBarV2 />
       <NavBarV1 />
       <HeadbandV1 />
