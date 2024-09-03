@@ -19,6 +19,9 @@ module.exports = {
       backgroundImage: {
         'homeBackground': "url('/img/senior-taking-selfie-with-camera.webp')"
       },
+      boxShadow: {
+        'mobileNav': '2px 0px 14px 3px rgba(0,0,0,0.2)',
+      }
     },
   },
   plugins: [],

@@ -1,4 +1,4 @@
-import Logo from '../../assets/images/favicon-seniorlove.png';
+import Logo from '/icon/logo-pink-background.png';
 
 function HeadbandV2() {
   return (

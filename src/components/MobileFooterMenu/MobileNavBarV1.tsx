@@ -1,20 +1,19 @@
-//MobileFooterMenu V1 (before connexion)
+// MobileFooterMenu V1 (before connexion)
 
-import Logo from '../../assets/images/favicon-seniorlove.png';
-import ConnexionLogo from '../../assets/images/connexion.png';
-import EventLogo from '../../assets/images/evenement.png';
+import Logo from '/icon/logo-pink-background.png';
+import ConnexionLogo from '/icon/connexion.png';
+import EventLogo from '/icon/evenement.png';
 
 function MobileFooterMenuV1() {
   return (
-    <div className="bg-white p-6 flex justify-between rounded-lg max-w-md mx-auto font-bold text-primaryText">
+    <div className="bg-white shadow-mobileNav w-full px-3 pt-2 flex justify-around items-center font-semibold text-primaryText fixed bottom-0 z-10 md:hidden">
       <a href="#">
         <img
           src={EventLogo}
           alt="bouton connexion"
-          className="mx-auto w-14 h-14
-           sm:w-20 sm:h-20 md:w-22 md:h-22 object-contain"
+          className="mx-auto w-8 object-contain"
         />
-        <p className="mb-4 text-base text-primaryText text-center sm:text-lg md:text-xl font-bold">
+        <p className="mb-1 text-base text-primaryText text-center">
           Événements
         </p>
       </a>
@@ -22,23 +21,17 @@ function MobileFooterMenuV1() {
         <img
           src={Logo}
           alt="bouton accueil"
-          className="mx-auto w-14 h-14
-           sm:w-20 sm:h-20 md:w-22 md:h-22 object-contain"
+          className="mx-auto w-8 object-contain"
         />
-        <p className="mb-4 text-base text-primaryText text-center sm:text-lg md:text-xl font-bold ">
-          Accueil
-        </p>
+        <p className="mb-1 text-base text-primaryText text-center ">Accueil</p>
       </a>
       <a href="#">
         <img
           src={ConnexionLogo}
           alt="bouton connexion"
-          className="mx-auto w-14 h-14
-           sm:w-20 sm:h-20 md:w-22 md:h-22 object-contain"
+          className="mx-auto w-8 object-contain"
         />
-        <p className="mb-4 text-base text-primaryText text-center sm:text-lg md:text-xl font-bold">
-          Connexion
-        </p>
+        <p className="mb-1 text-base text-primaryText text-center">Connexion</p>
       </a>
     </div>
   );

@@ -1,14 +1,17 @@
 // NavBar V1 (before connexion)
 
+import MobileFooterMenuV1 from '../MobileFooterMenu/MobileNavBarV1';
 import Logo from '/img/logo-text-seniorlove.webp';
 
 function NavBarV1() {
   const NavBarButtons = [{ text: 'Événements' }, { text: 'Se connecter' }];
 
   return (
-    <header className="bg-white bg-opacity-90 md:fixed top-0 w-full py-4">
+    <header className="bg-white bg-opacity-90 md:fixed top-0 w-full py-4 z-10">
       <nav className="flex justify-center md:justify-between items-center w-full px-3 lg:px-8 ">
-        <img src={Logo} alt="" className="max-w-44 lg:max-w-72" />
+        <a href="/">
+          <img src={Logo} alt="" className="max-w-44 lg:max-w-72" />
+        </a>
         <div className="flex gap-6">
           {NavBarButtons.map((button, index) => (
             <a
@@ -21,6 +24,7 @@ function NavBarV1() {
           ))}
         </div>
       </nav>
+      <MobileFooterMenuV1 />
     </header>
   );
 }

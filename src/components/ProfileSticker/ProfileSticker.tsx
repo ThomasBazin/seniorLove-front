@@ -1,4 +1,4 @@
-import messageIcon from '../../assets/messages.png';
+import messageIcon from '/icon/messages.png';
 
 function ProfileSticker() {
   return (
