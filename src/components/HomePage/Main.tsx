@@ -1,0 +1,32 @@
+import { useEffect, useState } from 'react';
+import HeadbandV1 from '../Headband/HeadbandV1';
+import DescriptionSection from './DescriptionSection/DescriptionSection';
+import FormSection from './FormSection/FormSection';
+import HeadbandV2 from '../Headband/HeadbandV2';
+
+// TODO State button validate
+
+export default function Main() {
+  const [isFirstFormValidated, setIsFirstFormValidated] = useState(false);
+  const [isSecondFormValidated, setIsSecondFormValidated] = useState(false);
+  useEffect(() => {
+    console.log(isSecondFormValidated);
+  }, [isSecondFormValidated]);
+
+  return (
+    <main className="w-full">
+      <FormSection
+        isFirstFormValidated={isFirstFormValidated}
+        setIsFirstFormValidated={setIsFirstFormValidated}
+        isSecondFormValidated={isSecondFormValidated}
+        setIsSecondFormValidated={setIsSecondFormValidated}
+      />
+
+      {!isFirstFormValidated ? <HeadbandV1 /> : <HeadbandV2 />}
+      <DescriptionSection
+        isFirstFormValidated={isFirstFormValidated}
+        isSecondFormValidated={isSecondFormValidated}
+      />
+    </main>
+  );
+}
