@@ -25,6 +25,9 @@ export default function ArticleRow({
                 qu&apos;une simple rencontre !
               </>
             )}
+            {isFirstFormValidated && isSecondFormValidated && (
+              <>Rejoignez Senior Love et épanouissez-vous !</>
+            )}
           </h3>
           {/* Paragraph */}
           {!isFirstFormValidated && !isSecondFormValidated && (
@@ -62,13 +65,24 @@ export default function ArticleRow({
               des personnes, vous créerez des liens autour de passions communes.
             </p>
           )}
+          {isFirstFormValidated && isSecondFormValidated && (
+            <p>
+              Chez Senior Love, nous croyons que chaque étape de la vie est une
+              opportunité d&apos;explorer, de découvrir et de se reconnecter.
+              Nous vous invitons à faire le premier pas vers une nouvelle
+              aventure enrichissante. En rejoignant notre communauté, vous
+              accédez à un réseau de personnes partageant vos passions et vos
+              intérêts, prêtes à vivre des moments précieux avec vous. Ne
+              laissez pas passer l&apos;occasion de faire de nouvelles
+              rencontres et de participer à des événements qui vous inspirent.
+            </p>
+          )}
         </div>
 
         {/* Photo */}
-        {/* TODO Maybe change 1st photo with a landscape one??? */}
         {!isFirstFormValidated && !isSecondFormValidated && (
           <img
-            src="/img/portrait-senior-couple.webp"
+            src="/img/senior-forest.webp"
             alt="Un homme enlaçant une femme."
             className="w-96 h-80 mx-auto xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
           />
@@ -77,6 +91,13 @@ export default function ArticleRow({
           <img
             src="/img/senior-friends-activities.webp"
             alt="Deux couples au théatre tenant des accessoires"
+            className="w-96 h-80 mx-auto xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
+          />
+        )}
+        {isFirstFormValidated && isSecondFormValidated && (
+          <img
+            src="/img/senior-chess.webp"
+            alt="Deux couple qui joue aux échecs "
             className="w-96 h-80 mx-auto xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
           />
         )}

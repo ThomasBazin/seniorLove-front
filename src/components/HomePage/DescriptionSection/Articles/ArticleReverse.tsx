@@ -36,6 +36,19 @@ export default function ArticleReverse({
                 vous pouvez vous épanouir en toute sérénité.
               </>
             )}
+            {isFirstFormValidated && isSecondFormValidated && (
+              <>
+                Chaque jour est une chance de découvrir quelque chose de nouveau
+                et de créer des souvenirs mémorables. Avec Senior Love, vous
+                êtes entouré de personnes qui comprennent vos aspirations et
+                sont prêtes à partager des expériences enrichissantes. Nous vous
+                offrons bien plus qu&apos;une simple plateforme de rencontres :
+                nous vous ouvrons les portes d&apos;une communauté dynamique où
+                chaque interaction peut devenir un moment exceptionnel. Faites
+                le choix de vous épanouir et de vous connecter en toute
+                sérénité.
+              </>
+            )}
           </p>
           <h3 className="font-semibold">
             {!isFirstFormValidated && !isSecondFormValidated && (
@@ -51,6 +64,9 @@ export default function ArticleReverse({
                 souvenirs mémorables !
               </>
             )}
+            {isFirstFormValidated && isSecondFormValidated && (
+              <>Un Voyage Vers de Nouvelles Connexions !</>
+            )}
           </h3>
         </div>
         {!isFirstFormValidated && !isSecondFormValidated && (
@@ -64,6 +80,13 @@ export default function ArticleReverse({
           <img
             src="/img/senior-dancer.webp"
             alt="Un couple qui danse"
+            className="hidden md:block w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
+          />
+        )}
+        {isFirstFormValidated && isSecondFormValidated && (
+          <img
+            src="/img/senior-field.webp"
+            alt="Un couple qui fait du trekking"
             className="hidden md:block w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
           />
         )}
