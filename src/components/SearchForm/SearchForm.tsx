@@ -17,9 +17,30 @@ export default function SearchForm() {
   };
 
   const genderArray = ['Femmes', 'Hommes', 'Autres', 'Tous'];
+
+  const [isCheckboxClicked, setIsCheckboxClicked] = useState({
+    "Centres d'intérêt": false,
+  });
+
+  const handleCheckboxToggle = (status: string) => {
+    setIsCheckboxClicked((prevStatus) => ({
+      ...prevStatus,
+      [status]: !prevStatus[status],
+    }));
+  };
+
+  const interests = ["Centres d'intérêt"];
+
   return (
-    <div className="bg-gray-200 p-6 rounded-lg shadow-md max-w-md">
+    <div className="bg-white p-6 rounded-lg shadow-md max-w-md">
       <form>
+        <fieldset className="mb-4">
+          <legend className="text-sm font-semibold leading-6 text-primaryText">
+            Rechercher par :
+          </legend>
+          {/* Add content here if needed */}
+        </fieldset>
+
         <fieldset className="mb-4">
           <legend className="text-sm font-semibold leading-6 text-primaryText">
             Sexe :
@@ -28,7 +49,7 @@ export default function SearchForm() {
             {genderArray.map((gender, index) => (
               <div key={index} className="flex items-center">
                 <input
-                  id={`hobby-${index}`}
+                  id={`gender-${index}`}
                   type="checkbox"
                   checked={genders[gender]}
                   onChange={() => handleGenderChange(gender)}
@@ -44,14 +65,40 @@ export default function SearchForm() {
             ))}
           </div>
         </fieldset>
+
         <fieldset className="mb-4">
           <legend className="text-sm font-semibold leading-6 text-primaryText">
             Age :
           </legend>
           <div className="flex gap-4 items-center">
-            <AgeDropdown />
+            <AgeDropdown /> {/* Start of the age range */}
             <p> à </p>
-            <AgeDropdown />
+            <AgeDropdown /> {/* End of the age range */}
+          </div>
+        </fieldset>
+
+        <fieldset className="mb-4">
+          <legend className="text-sm font-semibold leading-6 text-primaryText">
+            Centres d&apos;intérêt :
+          </legend>
+          <div className="mt-6 flex items-center gap-4 flex-wrap">
+            {interests.map((interest, index) => (
+              <div key={index} className="flex items-center">
+                <input
+                  id={`interest-${index}`}
+                  type="checkbox"
+                  checked={isCheckboxClicked[interest]}
+                  onChange={() => handleCheckboxToggle(interest)}
+                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                />
+                <label
+                  htmlFor={`interest-${index}`}
+                  className="ml-3 block text-sm font-medium text-primaryText"
+                >
+                  {interest}
+                </label>
+              </div>
+            ))}
           </div>
         </fieldset>
       </form>
