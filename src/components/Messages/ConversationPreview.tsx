@@ -7,7 +7,7 @@ function ConversationPreview() {
         className="aspect-square rounded-full w-20 h-20 object-cover shadow-xl"
       />
       <div>
-        <h2 className="text-sm text-secondaryPink">Helena</h2>
+        <h2 className="text-sm font-bold text-secondaryPink">Helena</h2>
         <p className="text-sm text-primaryText">
           J'ai également passé une très belle...
         </p>

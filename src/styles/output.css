@@ -617,6 +617,10 @@ video {
   line-height: 1.25rem;
 }
 
+.font-bold {
+  font-weight: 700;
+}
+
 .text-primaryText {
   --tw-text-opacity: 1;
   color: rgb(89 97 107 / var(--tw-text-opacity));
