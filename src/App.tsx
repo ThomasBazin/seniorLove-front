@@ -1,32 +1,28 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+//Importing components
+import EditProfileComponent from './components/EditProfileForm';
+import HeadbandV1 from './components/Headband/HeadbandV1';
+import MobileFooterMenuV1 from './components/MobileFooterMenu/MobileFooterMenuV1';
+import MobileFooterMenuV2 from './components/MobileFooterMenu/MobileFooterMenuV2';
+import NavBarV1 from './components/NavBar/NavBarV1';
+import NavBarV2 from './components/NavBar/NavBarV2';
+import Footer from './components/Footer';
+import SubscribeFormV2 from './components/SubscribeForms/SubscribeFormV2';
+import SubscribeFormV3 from './components/SubscribeForms/SubscribeFormV3';
+import HeadbandV2 from './components/Headband/HeadbandV2';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button type="button" onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <NavBarV2 />
+      <NavBarV1 />
+      <HeadbandV1 />
+      <HeadbandV2 />
+      <EditProfileComponent />
+      <MobileFooterMenuV1 />
+      <MobileFooterMenuV2 />
+      <SubscribeFormV2 />
+      <SubscribeFormV3 />
+      <Footer />
     </>
   );
 }
