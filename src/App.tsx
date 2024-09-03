@@ -1,4 +1,4 @@
-//Importing components
+// Importing components
 // import EditProfileComponent from './components/EditProfileForm';
 // import HeadbandV1 from './components/Headband/HeadbandV1';
 // import MobileFooterMenuV1 from './components/MobileFooterMenu/MobileFooterMenuV1';
@@ -9,27 +9,23 @@
 // import SubscribeFormV2 from './components/SubscribeForms/SubscribeFormV2';
 // import SubscribeFormV3 from './components/SubscribeForms/SubscribeFormV3';
 // import HeadbandV2 from './components/Headband/HeadbandV2';
-
-import NavBarV1 from './components/NavBar/NavBarV1';
-import SearchForm from './components/SearchForm';
 import HomePage from './pages/HomePage';
 
 function App() {
   return (
     <>
+      <HomePage />
+      {/* <NavBarV2 />
       <NavBarV1 />
-      <SearchForm />
+      <HeadbandV1 />
+      <HeadbandV2 />
+      <EditProfileComponent />
+      <MobileFooterMenuV1 />
+      <MobileFooterMenuV2 />
+      <SubscribeFormV2 />
+      <SubscribeFormV3 />
+      <Footer /> */}
     </>
-    //  <NavBarV2 />
-    // <NavBarV1 />
-    // <HeadbandV1 />
-    // <HeadbandV2 />
-    // <EditProfileComponent />
-    // <MobileFooterMenuV1 />
-    // <MobileFooterMenuV2 />
-    // <SubscribeFormV2 />
-    // <SubscribeFormV3 />
-    // <Footer />
   );
 }
 
