@@ -3,9 +3,9 @@ import plugin from 'tailwindcss'
 
 module.exports = {
   content: [
-    "./src/**/*.{html,js,ts,jsx,tsx}",
-    "./src/**/**/*.{html,js,ts,jsx,tsx}",
-    "./docs/**/*.html/"
+    './src/**/*.{html,js,ts,jsx,tsx}',
+    './src/**/**/*.{html,js,ts,jsx,tsx}',
+    './docs/**/*.html/',
   ],
   theme: {
     extend: {
@@ -22,5 +22,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
-
+};
