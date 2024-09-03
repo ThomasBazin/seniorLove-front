@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 
-function SubscribeFormV2() {
+interface SubscribeFormV2Props {
+  setIsSecondFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function SubscribeFormV2({
+  setIsSecondFormValidated,
+}: SubscribeFormV2Props) {
   const [hobbies, setHobbies] = useState({
     'Voyage et découvertes': false,
     'Arts et culture': false,
@@ -39,7 +45,7 @@ function SubscribeFormV2() {
   ];
 
   return (
-    <div className="bg-white opacity-85 p-10 rounded-xl shadow-md max-w-xl mx-auto">
+    <div className="bg-white opacity-90 p-10 rounded-xl shadow-md max-w-xl my-10 mx-4 md:mx-auto md:my-0">
       <form>
         <fieldset className="mb-4">
           <legend className="text-xl font-semibold leading-6 text-primaryText">
@@ -70,6 +76,7 @@ function SubscribeFormV2() {
           <button
             type="button"
             className="bg-secondaryPink text-primaryGrey font-semibold py-2 px-10 rounded-lg shadow-lg"
+            onClick={() => setIsSecondFormValidated(true)}
           >
             Valider
           </button>
@@ -81,5 +88,3 @@ function SubscribeFormV2() {
     </div>
   );
 }
-
-export default SubscribeFormV2;

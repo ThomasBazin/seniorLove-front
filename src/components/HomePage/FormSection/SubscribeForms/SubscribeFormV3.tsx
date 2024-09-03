@@ -23,7 +23,7 @@ function SubscribeFormV3() {
     },
   ];
   return (
-    <div className="bg-primaryGrey p-10 rounded-xl shadow-md max-w-xl mx-auto">
+    <div className="bg-white opacity-90 p-10 rounded-xl shadow-md max-w-xl my-10 mx-4 md:mx-auto md:my-0">
       <form>
         <fieldset className="mb-4">
           <legend className="text-xl text-center font-semibold leading-6 text-primaryText mb-8">
@@ -60,7 +60,7 @@ function SubscribeFormV3() {
             Valider l&apos;inscription
           </button>
         </div>
-        <div className="step_paragraph flex justify-end">
+        <div className="step_paragraph text-primaryText flex justify-center">
           <p>Etape 3/3: Validation inscription</p>
         </div>
       </form>

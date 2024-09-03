@@ -17,7 +17,9 @@ module.exports = {
         'buttonGreen': '#ADD5AF',
       },
       backgroundImage: {
-        'homeBackground': "url('/img/senior-taking-selfie-with-camera.webp')"
+        'firstForm': "url('/img/first-form.webp')",
+        'secondForm': "url('/img/second-form.webp')",
+        'thirdForm': "url('/img/third-form.webp')",
       },
       boxShadow: {
         'mobileNav': '2px 0px 14px 3px rgba(0,0,0,0.2)',

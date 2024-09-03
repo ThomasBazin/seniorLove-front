@@ -1,6 +1,12 @@
-export default function SubscribeFormV1() {
+interface SubscribeFormV1Props {
+  setIsFirstFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function SubscribeFormV1({
+  setIsFirstFormValidated,
+}: SubscribeFormV1Props) {
   return (
-    <div className="bg-white opacity-90 p-10 rounded-xl shadow-md mx-auto my-10 md:my-0">
+    <div className="bg-white opacity-90 p-10 rounded-xl shadow-md my-10 mx-4 md:mx-auto md:my-0">
       <form className="text-primaryText">
         <label htmlFor="firstname" className="flex flex-col mb-4">
           Prénom
@@ -41,6 +47,7 @@ export default function SubscribeFormV1() {
           <button
             type="button"
             className="bg-secondaryPink text-primaryGrey font-semibold py-2 px-10 rounded-lg shadow-lg"
+            onClick={() => setIsFirstFormValidated(true)}
           >
             Valider
           </button>
