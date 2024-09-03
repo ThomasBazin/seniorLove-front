@@ -39,7 +39,7 @@ function SubscribeFormV2() {
   ];
 
   return (
-    <div className="bg-white p-10 rounded-xl shadow-md max-w-xl mx-auto">
+    <div className="bg-white opacity-85 p-10 rounded-xl shadow-md max-w-xl mx-auto">
       <form>
         <fieldset className="mb-4">
           <legend className="text-xl font-semibold leading-6 text-primaryText">
@@ -71,7 +71,7 @@ function SubscribeFormV2() {
             Valider
           </button>
         </div>
-        <div className="step_paragraph flex justify-end">
+        <div className="step_paragraph text-primaryText flex justify-center">
           <p>Etape 2/3: Centres d’intérêt</p>
         </div>
       </form>

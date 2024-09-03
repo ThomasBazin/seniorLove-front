@@ -2,7 +2,7 @@ import Logo from '../../assets/images/favicon-seniorlove.png';
 
 function HeadbandV1() {
   return (
-    <div className="bg-white p-6 rounded-lg max-w-md mx-auto font-bold text-primaryText">
+    <div className="bg-white p-6 rounded-lg max-w-lg mx-auto font-bold text-primaryText">
       <article className="text-center">
         <p className="mb-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold">
           <span className="text-secondaryPink font-bold">Senior Love</span> : le
