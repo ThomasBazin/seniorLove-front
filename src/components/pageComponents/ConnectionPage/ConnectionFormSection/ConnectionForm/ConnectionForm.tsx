@@ -1,4 +1,4 @@
-import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
+import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
 import Logo from '/img/logo-text-seniorlove.webp';
 
 export default function ConnectionForm() {

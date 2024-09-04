@@ -1,4 +1,4 @@
-import ConnectionForm from '../ConnectionForm/ConnectionForm';
+import ConnectionForm from './ConnectionForm/ConnectionForm';
 
 export default function ConnectionFormSection() {
   return (

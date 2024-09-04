@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import EventsPage from './pages/EventsPage';
 import HomePageLogged from './pages/HomePageLogged';
-import ConnexionPage from './pages/ConnectiononPage';
+import ConnexionPage from './pages/ConnectionPage';
 
 export default function App() {
   return (
