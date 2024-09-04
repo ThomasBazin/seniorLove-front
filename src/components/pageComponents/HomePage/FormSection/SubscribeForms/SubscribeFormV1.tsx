@@ -36,9 +36,7 @@ export default function SubscribeFormV1({
             className="rounded-lg p-2 border border-primaryGrey"
           >
             <option value="male">Un homme</option>
-            <option value="female" className="hover:bg-violet-600">
-              Une femme
-            </option>
+            <option value="female">Une femme</option>
             <option value="other">Autres</option>
           </select>
         </label>
