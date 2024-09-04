@@ -1,3 +1,5 @@
+import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
+
 function SubscribeFormV3() {
   const formInputs = [
     {
@@ -53,12 +55,7 @@ function SubscribeFormV3() {
           ))}
         </fieldset>
         <div className="flex justify-center mt-6 mb-2">
-          <button
-            type="button"
-            className="bg-secondaryPink text-primaryGrey font-semibold py-2 px-10 rounded-lg shadow-lg"
-          >
-            Valider l&apos;inscription
-          </button>
+          <DefaultBtn btnText="Valider" />
         </div>
         <div className="step_paragraph text-primaryText flex justify-center">
           <p>Etape 3/3: Validation inscription</p>

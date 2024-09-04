@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
+import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
 
 export default function EventSection() {
   const events = [
@@ -98,11 +99,12 @@ export default function EventSection() {
   }, []);
   return (
     <div className="w-full py-10">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-center mx-auto w-11/12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-center mx-auto w-11/12 pb-8">
         {events.slice(0, numEvents).map((event) => (
           <EventSticker event={event} key={event.photo} />
         ))}
       </div>
+      <DefaultBtn btnText="Voir plus de profil" />
     </div>
   );
 }
