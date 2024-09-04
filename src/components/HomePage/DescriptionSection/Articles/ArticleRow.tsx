@@ -9,7 +9,7 @@ export default function ArticleRow({
 }: ArticleRowProps) {
   return (
     <article className="bg-primaryGrey px-3 pt-12 md:px-12 xl:px-24 md:py-12 flex flex-col">
-      <div className="flex flex-col gap-3 md:flex-row md:px-16 md:items-center md:justify-between md:gap-12 lg:gap-24">
+      <div className="flex flex-col mx-auto gap-3 md:flex-row md:px-16 md:items-center md:justify-between md:gap-12 lg:gap-24">
         <div className="flex flex-col gap-3 md:w-2/3">
           {/* Title */}
           <h3 className="font-semibold">
@@ -84,21 +84,21 @@ export default function ArticleRow({
           <img
             src="/img/senior-forest.webp"
             alt="Un homme enlaçant une femme."
-            className="w-96 h-80 mx-auto xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
+            className="w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg mx-auto"
           />
         )}
         {isFirstFormValidated && !isSecondFormValidated && (
           <img
             src="/img/senior-friends-activities.webp"
             alt="Deux couples au théatre tenant des accessoires"
-            className="w-96 h-80 mx-auto xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
+            className="w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg mx-auto"
           />
         )}
         {isFirstFormValidated && isSecondFormValidated && (
           <img
             src="/img/senior-chess.webp"
             alt="Deux couple qui joue aux échecs "
-            className="w-96 h-80 mx-auto xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
+            className="w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg mx-auto"
           />
         )}
       </div>

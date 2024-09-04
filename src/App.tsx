@@ -10,7 +10,7 @@
 // import SubscribeFormV3 from './components/SubscribeForms/SubscribeFormV3';
 // import HeadbandV2 from './components/Headband/HeadbandV2';
 // import SearchForm from './components/SearchForm/SearchForm';
-// import HomePage from './pages/HomePage';
+import HomePage from './pages/HomePage';
 // import ConnexionForm from './components/ConnexionForm/ConnexionForm';
 // import UserHeadband from './components/UserHeadband/UserHeadband';
 
@@ -20,7 +20,7 @@ function App() {
       {/* <UserHeadband />
       <ConnexionForm />
       <SearchForm /> */}
-      {/* <HomePage /> */}
+      <HomePage />
       {/* <NavBarV2 />
       <NavBarV1 />
       <HeadbandV1 />

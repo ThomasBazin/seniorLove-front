@@ -45,7 +45,7 @@ function SubscribeFormV3() {
                     name={input.id}
                     type={input.type}
                     placeholder={input.placeholder}
-                    className="block w-full border-0 bg-transparent py-1.5 pl-1 text-primaryText placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    className="block w-full border-0 bg-transparent py-1.5 p-2 text-primaryText placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
