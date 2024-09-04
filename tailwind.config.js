@@ -10,13 +10,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'primaryPink': '#F3D6E0',
-        'primaryGrey': '#EBEBEA',
-        'primaryText': '#59616B',
-        'secondaryPink': '#D85071',
-        'secondaryPinkHover': '#e86484',
-        'buttonGreen': '#ADD5AF',
-        'backgroundPink': '#FFF4F7'
+        primaryPink: '#F3D6E0',
+        primaryGrey: '#EBEBEA',
+        primaryText: '#59616B',
+        secondaryPink: '#D85071',
+        secondaryPinkHover: '#e86484',
+        buttonGreen: '#ADD5AF',
+        backgroundPink: '#FFF4F7',
       },
       backgroundImage: {
         firstForm: "url('/img/first-form.webp')",
@@ -27,6 +27,10 @@ module.exports = {
       boxShadow: {
         mobileNav: '2px 0px 14px 3px rgba(0,0,0,0.2)',
         around: '1px 1px 7px 0px rgba(50,50,50,0.25)',
+      },
+      screens: {
+        xxs: '0px',
+        xs: '496px', // Example custom breakpoint
       },
     },
   },

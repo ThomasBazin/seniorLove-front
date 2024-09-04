@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import EventsPage from './pages/EventsPage';
 import HomePageLogged from './pages/HomePageLogged';
 import ConnexionPage from './pages/ConnectionPage';
+import EventPage from './pages/EventPage';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
       <Route path="/events" element={<EventsPage />} />
       <Route path="/loggedIn" element={<HomePageLogged />} />
       <Route path="/login" element={<ConnexionPage />} />
+      <Route path="/event/:id" element={<EventPage />} />
     </Routes>
   );
 }
