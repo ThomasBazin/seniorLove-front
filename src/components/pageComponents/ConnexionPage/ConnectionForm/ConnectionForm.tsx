@@ -1,3 +1,4 @@
+import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 import Logo from '/img/logo-text-seniorlove.webp';
 
 export default function ConnectionForm() {
@@ -57,12 +58,12 @@ export default function ConnectionForm() {
         ))}
 
         <div className="flex justify-center mt-6 mb-2">
-          <button
-            type="button"
-            className="bg-secondaryPink text-primaryGrey font-semibold py-2 px-10 rounded-lg shadow-lg"
-          >
-            Connexion
-          </button>
+          <DefaultBtn
+            btnText={'Connexion'}
+            onClick={() => {
+              alert('Who are you?');
+            }}
+          />
         </div>
       </form>
     </div>
