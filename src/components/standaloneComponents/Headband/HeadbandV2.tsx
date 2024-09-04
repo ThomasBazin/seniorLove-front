@@ -2,8 +2,8 @@ import Logo from '/icon/logo-pink-background.png';
 
 function HeadbandV2() {
   return (
-    <div className="bg-white p-6 rounded-lg max-w-md mx-auto font-bold text-primaryText">
-      <article className="text-center">
+    <div className="bg-white p-6 rounded-lg mx-auto font-bold text-primaryText w-full">
+      <article className="text-center w-full">
         <p className="mb-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold">
           <span className="text-secondaryPink font-bold">
             &quot;Partagez Vos Passions,

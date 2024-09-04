@@ -1,25 +1,25 @@
 // MobileFooterMenu V1 (before connexion)
 
 import Logo from '/icon/logo-pink-background.png';
-import ConnexionLogo from '/icon/connexion.png';
+import DiscoverLogo from '/icon/decouvrir.png';
 import EventLogo from '/icon/evenement.png';
+import MessageLogo from '/icon/messages.png';
+import ProfileLogo from '/icon/mon-profil.png';
 
-export default function MobileFooterMenuV1() {
+export default function MobileNavBarLogged() {
   const menuItems = [
     {
-      logo: EventLogo,
-      alt: 'bouton connexion',
-      text: 'Événements',
-      href: '/events',
-    },
-    { logo: Logo, alt: 'bouton accueil', text: 'Accueil', href: '/' },
-    {
-      logo: ConnexionLogo,
-      alt: 'bouton connexion',
-      text: 'Connexion',
+      logo: DiscoverLogo,
+      alt: 'bouton decouvrir',
+      text: 'Decouvrir',
       href: '#',
     },
+    { logo: MessageLogo, alt: 'bouton messages', text: 'Messages', href: '#' },
+    { logo: Logo, alt: 'bouton accueil', text: 'Accueil', href: '/' },
+    { logo: EventLogo, alt: 'bouton connexion', text: 'Événements', href: '#' },
+    { logo: ProfileLogo, alt: 'bouton profile', text: 'Profil', href: '#' },
   ];
+
   return (
     <div className="bg-white shadow-mobileNav w-full px-3 pt-2 flex justify-around items-center font-semibold text-primaryText fixed bottom-0 z-10 md:hidden">
       {menuItems.map((item) => (

@@ -1,8 +1,9 @@
 // NavBar V2 (after connexion)
 
 import Logo from '/img/logo-text-seniorlove.webp';
+import MobileNavBarLogged from '../MobileNavBar/MobileNavBarLogged';
 
-function NavBarV2() {
+export default function NavBarLogged() {
   const NavBarButtons = [
     { text: 'Accueil', href: '#' },
     { text: 'Découvrir', href: '#' },
@@ -13,29 +14,28 @@ function NavBarV2() {
   ];
 
   return (
-    <div className="bg-white p-6 flex lg:flex-row lg:justify-between items-center rounded-lg w-full mx-auto font-bold text-primaryText">
-      <div className="logo_container mb-2 lg:mb-0 flex justify-center w-full lg:w-auto">
+    <header className="bg-white bg-opacity-90 md:sticky top-0 w-full py-4 z-10">
+      <nav className="flex justify-center md:justify-between items-center w-full px-3">
         <a href="/">
           <img
             src={Logo}
-            alt="seniorlove logo"
-            className="w-64 h-32 object-contain"
+            alt="Retour a l'accueil"
+            className="max-w-44 lg:max-w-72"
           />
         </a>
-      </div>
-      <div className="buttons_container flex flex-col lg:flex-row lg:space-x-4">
-        {NavBarButtons.map((button) => (
-          <a
-            href={button.href}
-            key={button.text}
-            className="bg-primaryGrey hover:bg-secondaryPink text-secondaryPink hover:text-primaryGrey font-bold py-4 px-6 hidden lg:block rounded-3xl sm:text-base md:text-lg lg:text-xs xl:text-lg"
-          >
-            {button.text}
-          </a>
-        ))}
-      </div>
-    </div>
+        <div className="flex gap-2 flex-wrap justify-end">
+          {NavBarButtons.map((button) => (
+            <a
+              href={button.href}
+              key={button.text}
+              className=" text-secondaryPink hover:text-primaryText font-semibold py-2 px-3 hidden md:block"
+            >
+              {button.text}
+            </a>
+          ))}
+        </div>
+      </nav>
+      <MobileNavBarLogged />
+    </header>
   );
 }
-
-export default NavBarV2;
