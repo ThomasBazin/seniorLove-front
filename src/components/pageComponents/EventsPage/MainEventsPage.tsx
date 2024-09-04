@@ -3,78 +3,91 @@ import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 export default function MainEventsPage() {
   const events = [
     {
+      id: 1,
       name: 'Cours de cuisine',
       location: 'Paris',
       photo: '/img/events/cuisine.webp',
       alt: 'Cours de cuisine à Paris',
     },
     {
+      id: 2,
       name: 'Apéro poterie',
       location: 'Lyon',
       photo: '/img/events/poterie.webp',
       alt: 'Apéro poterie à Lyon',
     },
     {
+      id: 3,
       name: 'Atelier mixologie',
       location: 'Marseille',
       photo: '/img/events/mixologie.webp',
       alt: 'Atelier mixologie à Marseille',
     },
     {
+      id: 4,
       name: 'Dégustation de vins',
       location: 'Bordeaux',
       photo: '/img/events/degustation.webp',
       alt: 'Dégustation de vins à Bordeaux',
     },
     {
+      id: 5,
       name: 'Speed dating',
       location: 'Nice',
       photo: '/img/events/dating.webp',
       alt: 'Speed dating à Nice',
     },
     {
+      id: 6,
       name: 'Atelier jardinage',
       location: 'Toulouse',
       photo: '/img/events/jardinage.webp',
       alt: 'Atelier jardinage à Toulouse',
     },
     {
+      id: 7,
       name: 'Cours de photographie',
       location: 'Strasbourg',
       photo: '/img/events/photographie.webp',
       alt: 'Cours de photographie à Strasbourg',
     },
     {
+      id: 8,
       name: 'Soirée jazz',
       location: 'Nantes',
       photo: '/img/events/jazz.webp',
       alt: 'Soirée jazz à Nantes',
     },
     {
+      id: 9,
       name: 'Club de lecture virtuel',
       location: 'Lille',
       photo: '/img/events/lecture.webp',
       alt: 'Club de lecture virtuel à Lille',
     },
     {
+      id: 10,
       name: 'Cours de guitare',
       location: 'Avignon',
       photo: '/img/events/guitare.webp',
       alt: 'Cours de guitare à Avignon',
     },
     {
+      id: 11,
       name: 'Soirée méditation',
       location: 'Rennes',
       photo: '/img/events/meditation.webp',
       alt: 'Soirée méditation à Rennes',
     },
     {
+      id: 12,
       name: 'Montgolfière',
       location: 'Saumur',
       photo: '/img/events/montgolfiere.webp',
       alt: 'Montgolfière à Saumur',
     },
   ];
+
   return (
     <main className="w-full min-h-screen flex-grow flex flex-col justify-start items-center bg-primaryGrey pb-8 gap-8">
       <p className="text-sm text-center font-semibold md:text-xl my-4 text-primaryText w-9/12 pt-8">
