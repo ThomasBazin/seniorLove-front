@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 
-export default function MainEventsPage() {
+export default function EventSection() {
   const events = [
     {
       name: 'Cours de cuisine',
@@ -75,22 +76,33 @@ export default function MainEventsPage() {
       alt: 'Montgolfière à Saumur',
     },
   ];
+  const [numEvents, setnumEvents] = useState(3);
+
+  useEffect(() => {
+    const updatenumEvents = () => {
+      if (window.innerWidth >= 1280) {
+        setnumEvents(8);
+      } else if (window.innerWidth >= 1024) {
+        setnumEvents(6);
+      } else if (window.innerWidth >= 640) {
+        setnumEvents(4);
+      } else {
+        setnumEvents(3);
+      }
+    };
+
+    updatenumEvents(); // Set initial value
+    window.addEventListener('resize', updatenumEvents); // Update on resize
+
+    return () => window.removeEventListener('resize', updatenumEvents);
+  }, []);
   return (
-    <main className="w-full min-h-screen flex-grow flex flex-col justify-start items-center bg-primaryGrey pb-8 gap-8">
-      <p className="text-sm text-center font-semibold md:text-xl my-4 text-primaryText w-9/12 pt-8">
-        Bienvenue sur notre page dédiée aux{' '}
-        <span className="text-secondaryPink">événements</span> que nous
-        organisons ! Découvrez une sélection d&apos;activités et
-        d&apos;événements qui se dérouleront prochainement dans notre
-        communauté. Que vous soyez amateur de culture, passionné de sport, ou
-        simplement à la recherche d&apos;une sortie en plein air, il y en a pour
-        tous les goûts.
-      </p>
-      <div className="flex flex-wrap gap-10 justify-center content-around w-10/12">
-        {events.map((event) => (
-          <EventSticker event={event} key={event.name} />
+    <div className="w-full py-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-center mx-auto w-11/12">
+        {events.slice(0, numEvents).map((event) => (
+          <EventSticker event={event} key={event.photo} />
         ))}
       </div>
-    </main>
+    </div>
   );
 }

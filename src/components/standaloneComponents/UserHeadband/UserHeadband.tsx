@@ -1,17 +1,29 @@
 import photo from '/img/old-man_profile.webp';
 
 export default function UserHeadband() {
+  const user = {
+    name: 'Jean',
+    image: photo,
+  };
   return (
-    <div className="bg-gradient-to-r from-white via-gray-200 to-gray-300 p-8 w-full font-bold text-primaryText">
-      <div className="flex items-center space-x-4">
+    <div className="bg-gradient-to-r from-white via-gray-200 to-white p-2 w-full font-bold text-primaryText">
+      <div className="flex items-center justify-center space-x-4">
         <img
-          src={photo}
-          alt="Profile Image"
-          className="w-32 h-32 rounded-full object-cover shadow-lg"
+          src={user.image}
+          alt="profil"
+          className="w-16 h-16 md:w-24 md:h-24 rounded-full object-cover shadow-around"
         />
-        <p className="italic text-base font-normal sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
-          Bienvenue Jean !
-        </p>
+        <div>
+          <p className="italic text-base font-normal md:text-xl lg:text-2xl">
+            Bienvenue {user.name} !
+          </p>
+          <button
+            type="button"
+            className="text-sm md:hidden text-secondaryPink hover:text-primaryText font-semibold py-2 px-3"
+          >
+            Déconnexion
+          </button>
+        </div>
       </div>
     </div>
   );

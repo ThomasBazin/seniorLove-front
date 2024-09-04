@@ -15,6 +15,7 @@ module.exports = {
         'primaryText': '#59616B',
         'secondaryPink': '#D85071',
         'buttonGreen': '#ADD5AF',
+        'backgroundPink': '#FFF4F7'
       },
       backgroundImage: {
         'firstForm': "url('/img/first-form.webp')",
