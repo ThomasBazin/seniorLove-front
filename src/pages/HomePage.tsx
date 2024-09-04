@@ -1,5 +1,5 @@
 import Footer from '../components/standaloneComponents/Footer/Footer';
-import Main from '../components/pageComponents/HomePage/Main';
+import Main from '../components/pageComponents/HomePage/MainHomePage';
 import NavBarV1 from '../components/standaloneComponents/NavBar/NavBar';
 
 export default function HomePage() {
@@ -8,7 +8,6 @@ export default function HomePage() {
       <NavBarV1 />
       <Main />
       <Footer />
-      {/* <MobileFooterMenuV1 /> */}
     </>
   );
 }

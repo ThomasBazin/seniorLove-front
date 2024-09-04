@@ -5,7 +5,7 @@ import Logo from '/img/logo-text-seniorlove.webp';
 
 function NavBarV1() {
   const NavBarButtons = [
-    { text: 'Évènements', href: '#' },
+    { text: 'Évènements', href: '/events' },
     { text: 'Se connecter', href: '#' },
   ];
 
@@ -13,7 +13,11 @@ function NavBarV1() {
     <header className="bg-white bg-opacity-90 md:fixed top-0 w-full py-4 z-10">
       <nav className="flex justify-center md:justify-between items-center w-full px-3 lg:px-8 ">
         <a href="/">
-          <img src={Logo} alt="" className="max-w-44 lg:max-w-72" />
+          <img
+            src={Logo}
+            alt="Retour a l'accueil"
+            className="max-w-44 lg:max-w-72"
+          />
         </a>
         <div className="flex gap-6">
           {NavBarButtons.map((button) => (

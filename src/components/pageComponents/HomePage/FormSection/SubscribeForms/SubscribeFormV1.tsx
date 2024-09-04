@@ -1,3 +1,5 @@
+import Logo from '/img/logo-text-seniorlove.webp';
+
 interface SubscribeFormV1Props {
   setIsFirstFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -6,7 +8,13 @@ export default function SubscribeFormV1({
   setIsFirstFormValidated,
 }: SubscribeFormV1Props) {
   return (
-    <div className="bg-white opacity-90 p-10 rounded-xl shadow-md my-10 mx-4 md:mx-auto md:my-0">
+    <div className="bg-white opacity-90 px-10 pb-10 pt-4 rounded-xl shadow-md my-10 mx-4 md:mx-auto md:my-0">
+      <div className="flex flex-col items-center justify-center mb-4">
+        <img src={Logo} alt="" className="max-w-44 mb-4" />
+      </div>
+      <p className="mb-4 text-lg text-primaryText font-semibold text-center uppercase">
+        Inscription
+      </p>
       <form className="text-primaryText">
         <label htmlFor="firstname" className="flex flex-col mb-4">
           Prénom

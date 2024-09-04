@@ -10,7 +10,7 @@ export default function Footer() {
   ];
 
   return (
-    <div className="bg-white p-6 flex-column lg:justify-between items-center rounded-lg w-full mx-auto text-primaryText text-sm md:text-base pb-20">
+    <footer className="bg-white p-6 flex-column lg:justify-between items-center rounded-lg w-full mx-auto text-primaryText text-sm md:text-base pb-20 md:pb-6 static bottom-0">
       <div className="footer-assistance_container text-center mb-2">
         <p>Assistance</p>
         <p>
@@ -36,6 +36,6 @@ export default function Footer() {
           ))}
         </ul>
       </div>
-    </div>
+    </footer>
   );
 }

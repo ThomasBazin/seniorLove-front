@@ -6,8 +6,13 @@ import EventLogo from '/icon/evenement.png';
 
 export default function MobileFooterMenuV1() {
   const menuItems = [
-    { logo: EventLogo, alt: 'bouton connexion', text: 'Événements', href: '#' },
-    { logo: Logo, alt: 'bouton accueil', text: 'Accueil', href: '#' },
+    {
+      logo: EventLogo,
+      alt: 'bouton connexion',
+      text: 'Événements',
+      href: '/events',
+    },
+    { logo: Logo, alt: 'bouton accueil', text: 'Accueil', href: '/' },
     {
       logo: ConnexionLogo,
       alt: 'bouton connexion',
