@@ -61,7 +61,7 @@ export default function SubscribeFormV1({
         <div className="connexion_paragraph text-primaryText text-center text-base mb-4">
           <p>
             Deja membre? Connectez-vous{' '}
-            <a href="/" className="text-secondaryPink">
+            <a href="/login" className="text-secondaryPink">
               ici
             </a>
             .

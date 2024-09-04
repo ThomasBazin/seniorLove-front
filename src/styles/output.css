@@ -1091,6 +1091,10 @@ video {
   --tw-bg-opacity: 0.9;
 }
 
+.bg-connectionForm {
+  background-image: url('/img/connection-form.webp');
+}
+
 .bg-firstForm {
   background-image: url('/img/first-form.webp');
 }

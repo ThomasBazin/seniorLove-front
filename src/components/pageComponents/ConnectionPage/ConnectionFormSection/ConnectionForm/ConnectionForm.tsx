@@ -1,6 +1,7 @@
+import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
 import Logo from '/img/logo-text-seniorlove.webp';
 
-export default function ConnexionForm() {
+export default function ConnectionForm() {
   const formInputs = [
     {
       label: 'Adresse e-mail',
@@ -20,16 +21,10 @@ export default function ConnexionForm() {
   return (
     <div className="bg-white opacity-90 p-10 rounded-xl shadow-md my-10 mx-4 md:mx-auto md:my-0">
       <div className="flex flex-col items-center justify-center mb-4">
-        <img src={Logo} alt="" className="max-w-44 lg:max-w-72 mb-2" />
-        <p className="mb-4 text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold">
-          <span className="text-secondaryPink font-semibold">
-            Partagez Vos Passions,
-          </span>{' '}
-          Créez des Connexions
-        </p>
+        <img src={Logo} alt="" className="max-w-44 mb-4" />
       </div>
-      <p className="mb-4 text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold">
-        Me connecter
+      <p className="mb-4 text-lg text-primaryText font-semibold text-center uppercase">
+        Connexion
       </p>
       <div className="connexion_paragraph text-primaryText text-base mb-4">
         <p>
@@ -63,12 +58,12 @@ export default function ConnexionForm() {
         ))}
 
         <div className="flex justify-center mt-6 mb-2">
-          <button
-            type="button"
-            className="bg-secondaryPink text-primaryGrey font-semibold py-2 px-10 rounded-lg shadow-lg"
-          >
-            Connexion
-          </button>
+          <DefaultBtn
+            btnText={'Connexion'}
+            onClick={() => {
+              alert('Who are you?');
+            }}
+          />
         </div>
       </form>
     </div>
