@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import HeadbandV1 from '../Headband/HeadbandV1';
+import HeadbandV1 from '../../standaloneComponents/Headband/HeadbandV1';
 import DescriptionSection from './DescriptionSection/DescriptionSection';
 import FormSection from './FormSection/FormSection';
-import HeadbandV2 from '../Headband/HeadbandV2';
+import HeadbandV2 from '../../standaloneComponents/Headband/HeadbandV2';
 
 export default function Main() {
   const [isFirstFormValidated, setIsFirstFormValidated] = useState(false);
