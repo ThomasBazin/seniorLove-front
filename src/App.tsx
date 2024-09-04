@@ -9,17 +9,18 @@
 // import SubscribeFormV2 from './components/SubscribeForms/SubscribeFormV2';
 // import SubscribeFormV3 from './components/SubscribeForms/SubscribeFormV3';
 // import HeadbandV2 from './components/Headband/HeadbandV2';
-// import SearchForm from './components/SearchForm/SearchForm';
+import SearchForm from './components/SearchForm/SearchForm';
 // import HomePage from './pages/HomePage';
-
 import ConnexionForm from './components/ConnexionForm/ConnexionForm';
-import SubscribeFormV1 from './components/HomePage/FormSection/SubscribeForms/SubscribeFormV1';
+import UserHeadband from './components/UserHeadband/UserHeadband';
 
 function App() {
   return (
     <>
+      <UserHeadband />
       <ConnexionForm />
-      {/* <SearchForm /> */}
+      <SearchForm />
+
       {/* <HomePage /> */}
       {/* <NavBarV2 />
       <NavBarV1 />
