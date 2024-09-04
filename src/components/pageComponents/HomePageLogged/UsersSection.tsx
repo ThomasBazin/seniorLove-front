@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import ProfileSticker from '../../standaloneComponents/ProfileSticker/ProfileSticker';
+import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
 
 export default function UsersSection() {
   const users = [
@@ -87,11 +88,12 @@ export default function UsersSection() {
   }, []);
   return (
     <div className="w-full py-10">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-center mx-auto w-11/12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-center mx-auto w-11/12 pb-8">
         {users.slice(0, numProfiles).map((user) => (
           <ProfileSticker user={user} key={user.picture} />
         ))}
       </div>
+      <DefaultBtn btnText="Voir plus de profil" />
     </div>
   );
 }

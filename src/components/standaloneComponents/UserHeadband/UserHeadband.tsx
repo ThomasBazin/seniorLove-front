@@ -6,7 +6,7 @@ export default function UserHeadband() {
     image: photo,
   };
   return (
-    <div className="bg-gradient-to-r from-white via-gray-200 to-white p-2 w-full font-bold text-primaryText">
+    <div className="bg-gradient-to-r from-gray-100 via-white to-gray-100 p-2 w-full font-bold text-primaryText">
       <div className="flex items-center justify-center space-x-4">
         <img
           src={user.image}

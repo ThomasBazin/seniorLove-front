@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
 
 interface SubscribeFormV2Props {
   setIsSecondFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -73,13 +74,10 @@ export default function SubscribeFormV2({
           </div>
         </fieldset>
         <div className="flex justify-center mt-6 mb-2">
-          <button
-            type="button"
-            className="bg-secondaryPink text-primaryGrey font-semibold py-2 px-10 rounded-lg shadow-lg"
+          <DefaultBtn
+            btnText="Valider"
             onClick={() => setIsSecondFormValidated(true)}
-          >
-            Valider
-          </button>
+          />
         </div>
         <div className="step_paragraph text-primaryText flex justify-center">
           <p>Etape 2/3: Centres d’intérêt</p>

@@ -1,3 +1,4 @@
+import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
 import Logo from '/img/logo-text-seniorlove.webp';
 
 interface SubscribeFormV1Props {
@@ -52,13 +53,10 @@ export default function SubscribeFormV1({
           />
         </label>
         <div className="flex justify-center mt-6 mb-2">
-          <button
-            type="button"
-            className="bg-secondaryPink text-primaryGrey font-semibold py-2 px-10 rounded-lg shadow-lg"
+          <DefaultBtn
+            btnText="Valider"
             onClick={() => setIsFirstFormValidated(true)}
-          >
-            Valider
-          </button>
+          />
         </div>
         <div className="connexion_paragraph text-primaryText text-center text-base mb-4">
           <p>

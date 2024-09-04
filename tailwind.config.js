@@ -14,6 +14,7 @@ module.exports = {
         'primaryGrey': '#EBEBEA',
         'primaryText': '#59616B',
         'secondaryPink': '#D85071',
+        'secondaryPinkHover': '#e86484',
         'buttonGreen': '#ADD5AF',
         'backgroundPink': '#FFF4F7'
       },
