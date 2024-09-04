@@ -9,7 +9,7 @@ export default function ForeignProfile() {
   return (
     <>
       <div className="w-full bg-primaryPink md:mt-24 flex justify-center">
-        <div className="flex-grow flex flex-col justify-around items-center  p-8 mb-4  md:flex-row md:gap-6 md:max-w-4xl">
+        <div className="flex-grow flex flex-col justify-around items-center p-8 mb-4  md:flex-row md:gap-6 md:max-w-4xl">
           <div className="photo_container w-max h-72 bg-white rounded-xl shadow-around relative mb-4 md:w-full md:h-full md:max-w-lg md:rounded-3xl">
             <img
               src="/img/people/foreign-profile.webp"
@@ -38,7 +38,7 @@ export default function ForeignProfile() {
             <div className="hobbies_container w-80 h-fit bg-white rounded-xl shadow-lg relative mb-4">
               <p className="text-primaryText w-auto m-4 italic py-2">
                 Centres d'intérêt :{' '}
-                <ul>
+                <ul className="m-2">
                   {interests.map((interest, index) => (
                     <li key={index}>{interest}</li>
                   ))}
