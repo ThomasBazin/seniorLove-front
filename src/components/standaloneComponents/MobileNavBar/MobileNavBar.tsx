@@ -17,7 +17,7 @@ export default function MobileNavBar() {
       logo: ConnexionLogo,
       alt: 'bouton connexion',
       text: 'Connexion',
-      href: '#',
+      href: '/login',
     },
   ];
   return (

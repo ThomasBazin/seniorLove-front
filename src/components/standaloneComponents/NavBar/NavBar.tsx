@@ -6,7 +6,7 @@ import Logo from '/img/logo-text-seniorlove.webp';
 export default function NavBarV1() {
   const NavBarButtons = [
     { text: 'Évènements', href: '/events' },
-    { text: 'Se connecter', href: '#' },
+    { text: 'Se connecter', href: '/login' },
   ];
 
   return (
