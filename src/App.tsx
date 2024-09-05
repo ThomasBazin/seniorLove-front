@@ -1,34 +1,24 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+// Importing components
 
-function App() {
-  const [count, setCount] = useState(0);
+import { Route, Routes } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import EventsPage from './pages/EventsPage';
+import HomePageLogged from './pages/HomePageLogged';
+import SearchProfilPage from './pages/SearchProfilPage';
+import ConnexionPage from './pages/ConnectionPage';
+import EventPage from './pages/EventPage';
 
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button type="button" onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Routes>
+      {/* TODO isAuthenticated */}
+      {/* isAuthentified ? <Route path="/" element={<HomePageLogged />} /> : <Route path="/" element={<HomePage />} /> */}
+      <Route path="/" element={<HomePage />} />
+      <Route path="/events" element={<EventsPage />} />
+      <Route path="/loggedIn" element={<HomePageLogged />} />
+      <Route path="/profils" element={<SearchProfilPage />} />
+      <Route path="/login" element={<ConnexionPage />} />
+      <Route path="/event/:id" element={<EventPage />} />
+    </Routes>
   );
 }
-
-export default App;
