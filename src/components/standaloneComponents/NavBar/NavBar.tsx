@@ -1,33 +1,34 @@
 // NavBar V1 (before connexion)
 
+import { Link } from 'react-router-dom';
 import MobileFooterMenuV1 from '../MobileNavBar/MobileNavBar';
 import Logo from '/img/logo-text-seniorlove.webp';
 
 export default function NavBarV1() {
   const NavBarButtons = [
-    { text: 'Évènements', href: '/events' },
-    { text: 'Se connecter', href: '/login' },
+    { text: 'Évènements', to: '/events' },
+    { text: 'Se connecter', to: '/login' },
   ];
 
   return (
     <header className="bg-white bg-opacity-90 md:sticky top-0 w-full py-4 z-10">
       <nav className="flex justify-center md:justify-between items-center w-full px-3">
-        <a href="/">
+        <Link to="/">
           <img
             src={Logo}
             alt="Retour a l'accueil"
             className="max-w-44 lg:max-w-72"
           />
-        </a>
+        </Link>
         <div className="flex gap-6">
           {NavBarButtons.map((button) => (
-            <a
-              href={button.href}
+            <Link
+              to={button.to}
               key={button.text}
               className="text-secondaryPink hover:text-primaryText font-bold py-2 px-3 hidden md:block"
             >
               {button.text}
-            </a>
+            </Link>
           ))}
         </div>
       </nav>
