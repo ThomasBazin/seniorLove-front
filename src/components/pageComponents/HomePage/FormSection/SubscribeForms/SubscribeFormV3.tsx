@@ -41,7 +41,7 @@ function SubscribeFormV3() {
                 {input.label}
               </label>
               <div className="mt-2">
-                <div className="flex bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                <div className="flex bg-white rounded-md shadow-sm border">
                   <input
                     id={input.id}
                     name={input.id}
