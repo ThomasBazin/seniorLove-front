@@ -17,7 +17,7 @@ export default function FilterPanel() {
         onClick={toggleFilterVisibility}
       />
       <div
-        className={`flex gap-20 items-center ${!isFilterVisible ? 'hidden' : 'block'}`}
+        className={`flex flex-col lg:flex-row gap-6 lg:gap-20 items-center ${!isFilterVisible ? 'hidden' : 'block'}`}
       >
         <label htmlFor="gender" className="flex items-center gap-2">
           Genre :
