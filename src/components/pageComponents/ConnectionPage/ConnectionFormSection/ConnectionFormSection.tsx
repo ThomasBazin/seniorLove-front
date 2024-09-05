@@ -1,6 +1,6 @@
 import axios from '../../../../axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { setTokenInLocalStorage } from '../../../../localStorage/localStorage';
+import { setTokenAndDataInLocalStorage } from '../../../../localStorage/localStorage';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 import Logo from '/img/logo-text-seniorlove.webp';
 
@@ -23,7 +23,11 @@ export default function ConnectionFormSection({
         email,
         password,
       });
-      setTokenInLocalStorage(response.data.token);
+      setTokenAndDataInLocalStorage(
+        response.data.token,
+        response.data.name,
+        response.data.picture
+      );
       setIsAuthenticated(true);
       navigate('/');
     } catch (error) {
