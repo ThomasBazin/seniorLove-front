@@ -1,12 +1,8 @@
-import photo from '/img/old-man_profile.webp';
+import { getTokenAndDataFromLocalStorage } from '../../../localStorage/localStorage';
 
 export default function UserHeadband() {
-  // const user = {
-  //   name: 'Jean',
-  //   image: photo,
-  // };
-  const name = localStorage.getItem('name');
-  const picture = localStorage.getItem('picture');
+  const response = getTokenAndDataFromLocalStorage();
+  const { name, picture } = response || { name: null, picture: null };
   return (
     <div className="bg-gradient-to-r from-gray-100 via-white to-gray-100 p-2 w-full font-bold text-primaryText">
       <div className="flex items-center justify-center space-x-4">
