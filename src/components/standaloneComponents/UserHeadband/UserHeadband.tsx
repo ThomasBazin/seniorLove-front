@@ -11,8 +11,8 @@ export default function UserHeadband() {
     <div className="bg-gradient-to-r from-gray-100 via-white to-gray-100 p-2 w-full font-bold text-primaryText">
       <div className="flex items-center justify-center space-x-4">
         <img
-          src={picture}
-          alt="profil"
+          src={picture ?? ''}
+          alt={name ?? ''}
           className="w-16 h-16 md:w-24 md:h-24 rounded-full object-cover shadow-around"
         />
         <div>
