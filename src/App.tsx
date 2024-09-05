@@ -1,8 +1,5 @@
 // Importing components
-import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-
-import { getTokenFromLocalStorage } from './localStorage/localStorage';
 
 import HomePage from './pages/HomePage';
 import EventsPage from './pages/EventsPage';
@@ -11,29 +8,37 @@ import SearchProfilPage from './pages/SearchProfilPage';
 import ConnexionPage from './pages/ConnectionPage';
 import EventPage from './pages/EventPage';
 
-export default function App() {
+interface AppProps {
+  isAuthenticated: boolean;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function App({ isAuthenticated, setIsAuthenticated }: AppProps) {
   // JWT state
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   // Every time the page is rendered, we are checking for the existence of a token in localStorage
-  useEffect(() => {
-    const response = getTokenFromLocalStorage();
+  // useEffect(() => {
+  //   const response = getTokenFromLocalStorage();
 
-    if (!response) {
-      setIsAuthenticated(false);
-    }
-  }, []);
+  //   if (!response) {
+  //     setIsAuthenticated(false);
+  //   }
+  // }, []);
 
   return (
     <Routes>
       {/* TODO isAuthenticated */}
       {isAuthenticated ? (
-        <Route path="/" element={<HomePageLogged />} />
+        <>
+          <Route path="/" element={<HomePageLogged />} />
+          <Route path="/profils" element={<SearchProfilPage />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/events/:id" element={<EventPage />} />
+        </>
       ) : (
         <Route path="/" element={<HomePage />} />
       )}
-      <Route path="/profils" element={<SearchProfilPage />} />
-      <Route path="/" element={<HomePage />} />
       <Route path="/events" element={<EventsPage />} />
       <Route
         path="/login"

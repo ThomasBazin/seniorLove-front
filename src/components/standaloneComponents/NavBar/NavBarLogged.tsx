@@ -3,15 +3,26 @@
 import Logo from '/img/logo-text-seniorlove.webp';
 import MobileNavBarLogged from '../MobileNavBar/MobileNavBarLogged';
 import { Link } from 'react-router-dom';
+import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
 
-export default function NavBarLogged() {
+interface NavBarLoggedProps {
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function NavBarLogged({
+  setIsAuthenticated,
+}: NavBarLoggedProps) {
+  const onClickDisconnect = () => {
+    setIsAuthenticated(false);
+    removeTokenFromLocalStorage();
+  };
   const NavBarButtons = [
-    { text: 'Accueil', to: '#' },
-    { text: 'Découvrir', to: '#' },
-    { text: 'Événements', to: '#' },
+    { text: 'Accueil', to: '/' },
+    { text: 'Découvrir', to: '/profils' },
+    { text: 'Événements', to: '/events' },
     { text: 'Messages', to: '#' },
     { text: 'Mon profil', to: '#' },
-    { text: 'Se déconnecter', to: '#' },
+    { text: 'Se déconnecter', to: '/', onclick: onClickDisconnect },
   ];
 
   return (
@@ -29,6 +40,7 @@ export default function NavBarLogged() {
             <Link
               to={button.to}
               key={button.text}
+              onClick={button.onclick || undefined}
               className=" text-secondaryPink hover:text-primaryText font-semibold py-2 px-3 hidden md:block"
             >
               {button.text}
