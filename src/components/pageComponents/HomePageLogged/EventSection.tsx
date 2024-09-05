@@ -104,7 +104,7 @@ export default function EventSection() {
           <EventSticker event={event} key={event.photo} />
         ))}
       </div>
-      <DefaultBtn btnText="Voir plus de profil" />
+      <DefaultBtn btnText="Voir plus d'évenements" />
     </div>
   );
 }
