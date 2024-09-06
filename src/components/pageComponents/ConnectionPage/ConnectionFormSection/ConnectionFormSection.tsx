@@ -1,5 +1,6 @@
-import axios from '../../../../axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import axios from '../../../../axios';
 import { setTokenAndDataInLocalStorage } from '../../../../localStorage/localStorage';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 import Logo from '/img/logo-text-seniorlove.webp';
@@ -14,7 +15,7 @@ export default function ConnectionFormSection({
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   // State for error message
-  // const [error, setError] = useState<null | string>(null);
+  const [errorLog, setErrorLog] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const checkCredentials = async (email: string, password: string) => {
@@ -29,9 +30,11 @@ export default function ConnectionFormSection({
         response.data.picture
       );
       setIsAuthenticated(true);
+      setErrorLog(false);
       navigate('/');
     } catch (error) {
       // si par contre on a catch une erreur et qu'on reçoit une 401 on renregistre une erreur dans le state
+      setErrorLog(true);
       console.error(401);
     }
   };
@@ -95,7 +98,11 @@ export default function ConnectionFormSection({
                 </div>
               </div>
             </div>
-
+            {errorLog ? (
+              <p className="text-center text-red-600 font-semibold">
+                Email et/ou Mot de passe invalide
+              </p>
+            ) : null}
             <div className="flex justify-center mt-6 mb-2">
               <DefaultBtn btnText="Connexion" btnType="submit" />
             </div>
