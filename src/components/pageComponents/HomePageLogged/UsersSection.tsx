@@ -11,14 +11,16 @@ export default function UsersSection() {
   const [users, setUsers] = useState<IUsers[]>([]);
 
   useEffect(() => {
-    const fetchUsers = async (token: string) => {
+    const fetchUsers = async (authToken: string) => {
       try {
-        const response = await axios.get('/private/users/me/suggestions', {
+        const responseFetch = await axios.get('/private/users/me/suggestions', {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${authToken}`,
           },
         });
-        const shuffledUsers = response.data.sort(() => 0.5 - Math.random());
+        const shuffledUsers = responseFetch.data.sort(
+          () => 0.5 - Math.random()
+        );
         setUsers(shuffledUsers);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -52,7 +54,7 @@ export default function UsersSection() {
     <div className="w-full py-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-center mx-auto w-11/12 pb-8">
         {users.slice(0, numProfiles).map((user) => (
-          <ProfileSticker user={user} key={user.name} />
+          <ProfileSticker user={user} key={user.id} />
         ))}
       </div>
       {/* TODO redirect to discover */}
