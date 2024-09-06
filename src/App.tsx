@@ -7,6 +7,7 @@ import HomePageLogged from './pages/HomePageLogged';
 import SearchProfilPage from './pages/SearchProfilPage';
 import ConnexionPage from './pages/ConnectionPage';
 import EventPage from './pages/EventPage';
+import NotFound from './pages/NotFound';
 
 interface AppProps {
   isAuthenticated: boolean;
@@ -45,6 +46,7 @@ export default function App({ isAuthenticated, setIsAuthenticated }: AppProps) {
         element={<ConnexionPage setIsAuthenticated={setIsAuthenticated} />}
       />
       <Route path="/events/:id" element={<EventPage />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
