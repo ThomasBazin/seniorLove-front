@@ -13,7 +13,7 @@ export default function UsersSection() {
   useEffect(() => {
     const fetchUsers = async (token: string) => {
       try {
-        const response = await axios.get('/private/users', {
+        const response = await axios.get('/private/users/me/suggestions', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
