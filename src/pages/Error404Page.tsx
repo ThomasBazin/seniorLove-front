@@ -53,8 +53,8 @@ export default function NotFoundPage() {
   return (
     <div className="flex flex-col items-center justify-center h-full text-center text-primaryText my-20">
       <h1 className="text-3xl font-semibold mb-20">
-        🐔 Oups ! Cette page a pris la poudre d'escampette... comme une poule
-        effrayée ! 🐔
+        🐔 Oups ! Cette page a pris la poudre d&apos;escampette... comme une
+        poule effrayée ! 🐔
       </h1>
       <div className="mx-20">
         {' '}
@@ -67,7 +67,7 @@ export default function NotFoundPage() {
           <li>
             Retourner au{' '}
             <Link to="/" className="text-secondaryPink">
-              nid d'accueil
+              nid d&apos;accueil
             </Link>{' '}
             pour commencer à nouveau.
           </li>
@@ -85,7 +85,7 @@ export default function NotFoundPage() {
             </Link>{' '}
             ou{' '}
             <Link to="/" className="text-secondaryPink">
-              s'inscrire
+              s&apos;inscrire
             </Link>{' '}
             pour rejoindre notre communauté.
           </li>
