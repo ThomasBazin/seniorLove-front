@@ -69,6 +69,7 @@ import {
   getTokenAndDataFromLocalStorage,
   removeTokenFromLocalStorage,
 } from './localStorage/localStorage';
+import axios from './axios';
 
 export default function Root() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -83,15 +84,10 @@ export default function Root() {
     const checkAuthentication = () => {
       const response = getTokenAndDataFromLocalStorage();
       const token = response?.token;
-
-      console.log('token >>>', token);
-      console.log('userToken >>>', userToken);
-
       if (token && token === userToken) {
-        console.log('good');
         setIsAuthenticated(true);
+        axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;
       } else {
-        console.log('bad');
         setIsAuthenticated(false);
         removeTokenFromLocalStorage();
       }
