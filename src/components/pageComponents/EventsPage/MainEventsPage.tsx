@@ -16,7 +16,6 @@ export default function MainEventsPage() {
     };
     fetchAndSaveEvents();
   }, []);
-  // console.log(events);
   return (
     <main className="w-full min-h-screen flex-grow flex flex-col justify-start items-center bg-primaryGrey pb-8 gap-8">
       <p className="text-sm text-center font-semibold md:text-xl my-4 text-primaryText w-9/12 pt-8">

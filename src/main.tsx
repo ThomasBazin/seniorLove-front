@@ -15,7 +15,7 @@ export default function Root() {
       {isAuthenticated ? (
         <NavBarLogged setIsAuthenticated={setIsAuthenticated} />
       ) : (
-        <NavBarV1 setIsAuthenticated={setIsAuthenticated} />
+        <NavBarV1 />
       )}
       <App
         isAuthenticated={isAuthenticated}

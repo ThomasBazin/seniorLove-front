@@ -1,71 +1,33 @@
 import { useEffect, useState } from 'react';
 import ProfileSticker from '../../standaloneComponents/ProfileSticker/ProfileSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
+import { getTokenAndDataFromLocalStorage } from '../../../localStorage/localStorage';
+import axios from '../../../axios';
+import { IUsers } from '../../../@types/IUsers';
 
 export default function UsersSection() {
-  const users = [
-    {
-      name: 'Natasha',
-      picture: '/img/users/natasha.webp',
-      alt: 'Natasha',
-      age: 63,
-    },
-    {
-      name: 'Isabella',
-      picture: '/img/users/isabella.webp',
-      alt: 'Isabella',
-      age: 61,
-    },
-    {
-      name: 'Helena',
-      picture: '/img/users/helena.webp',
-      alt: 'Helena',
-      age: 68,
-    },
-    {
-      name: 'Eva',
-      picture: '/img/users/eva.webp',
-      alt: 'Eva',
-      age: 64,
-    },
-    {
-      name: 'Dominique',
-      picture: '/img/users/dominique.webp',
-      alt: 'Dominique',
-      age: 68,
-    },
-    {
-      name: 'Etienne',
-      picture: '/img/users/etienne.webp',
-      alt: 'Etienne',
-      age: 66,
-    },
-    {
-      name: 'Emilien',
-      picture: '/img/users/emilien.webp',
-      alt: 'Emilien',
-      age: 75,
-    },
-    {
-      name: 'Thomas',
-      picture: '/img/users/thomas.webp',
-      alt: 'Thomas',
-      age: 65,
-    },
-    {
-      name: 'Kevin',
-      picture: '/img/users/kevin.webp',
-      alt: 'Kevin',
-      age: 63,
-    },
-    {
-      name: 'Widi',
-      picture: '/img/users/widi.webp',
-      alt: 'Widi',
-      age: 72,
-    },
-  ];
+  const response = getTokenAndDataFromLocalStorage();
+  const token = response?.token;
+  const [users, setUsers] = useState<IUsers[]>([]);
 
+  useEffect(() => {
+    const fetchUsers = async (token: string) => {
+      try {
+        const response = await axios.get('/private/users/me/suggestions', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const shuffledUsers = response.data.sort(() => 0.5 - Math.random());
+        setUsers(shuffledUsers);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+    if (token) {
+      fetchUsers(token);
+    }
+  }, [token]);
   const [numProfiles, setNumProfiles] = useState(3);
 
   useEffect(() => {
@@ -90,9 +52,10 @@ export default function UsersSection() {
     <div className="w-full py-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-center mx-auto w-11/12 pb-8">
         {users.slice(0, numProfiles).map((user) => (
-          <ProfileSticker user={user} key={user.picture} />
+          <ProfileSticker user={user} key={user.name} />
         ))}
       </div>
+      {/* TODO redirect to discover */}
       <DefaultBtn btnText="Voir plus de profil" />
     </div>
   );

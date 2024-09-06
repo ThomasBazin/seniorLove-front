@@ -8,6 +8,7 @@ import SearchProfilPage from './pages/SearchProfilPage';
 import ConnexionPage from './pages/ConnectionPage';
 import EventPage from './pages/EventPage';
 import NotFound from './pages/NotFound';
+import Error404Page from './pages/Error404Page';
 
 interface AppProps {
   isAuthenticated: boolean;
@@ -26,27 +27,32 @@ export default function App({ isAuthenticated, setIsAuthenticated }: AppProps) {
   //     setIsAuthenticated(false);
   //   }
   // }, []);
-
   return (
     <Routes>
       {/* TODO isAuthenticated */}
       {isAuthenticated ? (
         <>
-          <Route path="/" element={<HomePageLogged />} />
+          <Route
+            path="/"
+            element={<HomePageLogged setIsAuthenticated={setIsAuthenticated} />}
+          />
           <Route path="/profils" element={<SearchProfilPage />} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/events/:id" element={<EventPage />} />
+          <Route path="*" element={<Error404Page />} />
         </>
       ) : (
-        <Route path="/" element={<HomePage />} />
+        <>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/login"
+            element={<ConnexionPage setIsAuthenticated={setIsAuthenticated} />}
+          />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/events/:id" element={<EventPage />} />
+          <Route path="*" element={<Error404Page />} />
+        </>
       )}
-      <Route path="/events" element={<EventsPage />} />
-      <Route
-        path="/login"
-        element={<ConnexionPage setIsAuthenticated={setIsAuthenticated} />}
-      />
-      <Route path="/events/:id" element={<EventPage />} />
-      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
