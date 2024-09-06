@@ -12,7 +12,7 @@ import Error404Page from './pages/Error404Page';
 interface AppProps {
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-  setUserToken?: React.Dispatch<React.SetStateAction<string | null>>;
+  setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export default function App({
@@ -38,12 +38,7 @@ export default function App({
           <Route path="/" element={<HomePage />} />
           <Route
             path="/login"
-            element={
-              <ConnexionPage
-                setIsAuthenticated={setIsAuthenticated}
-                setUserToken={setUserToken}
-              />
-            }
+            element={<ConnexionPage setUserToken={setUserToken} />}
           />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/events/:id" element={<EventPage />} />

@@ -4,19 +4,14 @@ import ConnectionFormSection from './ConnectionFormSection/ConnectionFormSection
 
 interface MainConnectionPageProps {
   setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function MainConnectionPage({
-  setIsAuthenticated,
   setUserToken,
 }: MainConnectionPageProps) {
   return (
     <main className="w-full">
-      <ConnectionFormSection
-        setIsAuthenticated={setIsAuthenticated}
-        setUserToken={setUserToken}
-      />
+      <ConnectionFormSection setUserToken={setUserToken} />
       <HeadbandV1 />
       <ConnectionDescriptionSection />
     </main>

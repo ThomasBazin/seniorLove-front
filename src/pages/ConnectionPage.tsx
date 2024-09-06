@@ -2,17 +2,8 @@ import MainConnectionPage from '../components/pageComponents/ConnectionPage/Main
 
 interface ConnectionPageProps {
   setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ConnectionPage({
-  setUserToken,
-  setIsAuthenticated,
-}: ConnectionPageProps) {
-  return (
-    <MainConnectionPage
-      setIsAuthenticated={setIsAuthenticated}
-      setUserToken={setUserToken}
-    />
-  );
+export default function ConnectionPage({ setUserToken }: ConnectionPageProps) {
+  return <MainConnectionPage setUserToken={setUserToken} />;
 }

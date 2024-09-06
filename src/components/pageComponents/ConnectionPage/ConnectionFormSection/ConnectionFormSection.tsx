@@ -7,11 +7,9 @@ import Logo from '/img/logo-text-seniorlove.webp';
 
 interface ConnectionFormSectionProps {
   setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function ConnectionFormSection({
-  setIsAuthenticated,
   setUserToken,
 }: ConnectionFormSectionProps) {
   // State for error message
