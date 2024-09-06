@@ -12,20 +12,14 @@ import Error404Page from './pages/Error404Page';
 interface AppProps {
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+  setUserToken?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-export default function App({ isAuthenticated, setIsAuthenticated }: AppProps) {
-  // JWT state
-  // const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
-  // Every time the page is rendered, we are checking for the existence of a token in localStorage
-  // useEffect(() => {
-  //   const response = getTokenFromLocalStorage();
-
-  //   if (!response) {
-  //     setIsAuthenticated(false);
-  //   }
-  // }, []);
+export default function App({
+  isAuthenticated,
+  setIsAuthenticated,
+  setUserToken,
+}: AppProps) {
   return (
     <Routes>
       {/* TODO isAuthenticated */}
@@ -44,7 +38,12 @@ export default function App({ isAuthenticated, setIsAuthenticated }: AppProps) {
           <Route path="/" element={<HomePage />} />
           <Route
             path="/login"
-            element={<ConnexionPage setIsAuthenticated={setIsAuthenticated} />}
+            element={
+              <ConnexionPage
+                setIsAuthenticated={setIsAuthenticated}
+                setUserToken={setUserToken}
+              />
+            }
           />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/events/:id" element={<EventPage />} />

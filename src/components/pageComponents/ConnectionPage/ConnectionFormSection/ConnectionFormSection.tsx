@@ -5,15 +5,15 @@ import { setTokenAndDataInLocalStorage } from '../../../../localStorage/localSto
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 import Logo from '/img/logo-text-seniorlove.webp';
 
-// interface ConnectionFormSectionProps {
-//   setToken: React.Dispatch<React.SetStateAction<string | null>>;
-// }
+interface ConnectionFormSectionProps {
+  setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export default function ConnectionFormSection({
   setIsAuthenticated,
-}: {
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+  setUserToken,
+}: ConnectionFormSectionProps) {
   // State for error message
   const [errorLog, setErrorLog] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -29,7 +29,8 @@ export default function ConnectionFormSection({
         response.data.name,
         response.data.picture
       );
-      setIsAuthenticated(true);
+      setUserToken(response.data.token);
+      // setIsAuthenticated(true);
       setErrorLog(false);
       navigate('/');
     } catch (error) {
