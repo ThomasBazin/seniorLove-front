@@ -7,7 +7,6 @@ import HomePageLogged from './pages/HomePageLogged';
 import SearchProfilPage from './pages/SearchProfilPage';
 import ConnexionPage from './pages/ConnectionPage';
 import EventPage from './pages/EventPage';
-import NotFound from './pages/NotFound';
 import Error404Page from './pages/Error404Page';
 
 interface AppProps {
@@ -39,7 +38,6 @@ export default function App({ isAuthenticated, setIsAuthenticated }: AppProps) {
           <Route path="/profils" element={<SearchProfilPage />} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/events/:id" element={<EventPage />} />
-          <Route path="*" element={<Error404Page />} />
         </>
       ) : (
         <>
@@ -50,9 +48,9 @@ export default function App({ isAuthenticated, setIsAuthenticated }: AppProps) {
           />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/events/:id" element={<EventPage />} />
-          <Route path="*" element={<Error404Page />} />
         </>
       )}
+      <Route path="*" element={<Error404Page />} />
     </Routes>
   );
 }
