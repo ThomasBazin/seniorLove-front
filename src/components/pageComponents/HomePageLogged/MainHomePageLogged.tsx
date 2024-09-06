@@ -3,10 +3,16 @@ import UserHeadband from '../../standaloneComponents/UserHeadband/UserHeadband';
 import EventSection from './EventSection';
 import UsersSection from './UsersSection';
 
-export default function MainHomePageLogged() {
+interface MainHomePageLoggedProps {
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function MainHomePageLogged({
+  setIsAuthenticated,
+}: MainHomePageLoggedProps) {
   return (
     <main className="w-full min-h-screen flex-grow flex flex-col justify-start items-center bg-backgroundPink pb-8">
-      <UserHeadband />
+      <UserHeadband setIsAuthenticated={setIsAuthenticated} />
       <UsersSection />
       <HeadbandV2 />
       <EventSection />

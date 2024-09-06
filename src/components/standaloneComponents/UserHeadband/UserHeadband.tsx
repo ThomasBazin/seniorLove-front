@@ -1,6 +1,13 @@
+import { Link } from 'react-router-dom';
 import { getTokenAndDataFromLocalStorage } from '../../../localStorage/localStorage';
 
-export default function UserHeadband() {
+interface UserHeadbandProps {
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function UserHeadband({
+  setIsAuthenticated,
+}: UserHeadbandProps) {
   const response = getTokenAndDataFromLocalStorage();
   const { name, picture } = response || { name: null, picture: null };
   return (
@@ -15,12 +22,13 @@ export default function UserHeadband() {
           <p className="italic text-base font-normal md:text-xl lg:text-2xl">
             Bienvenue {name} !
           </p>
-          <button
-            type="button"
+          <Link
+            to="/"
+            onClick={() => setIsAuthenticated(false)}
             className="text-sm md:hidden text-secondaryPink hover:text-primaryText font-semibold py-2 px-3"
           >
             Déconnexion
-          </button>
+          </Link>
         </div>
       </div>
     </div>
