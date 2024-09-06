@@ -11,13 +11,9 @@ export default function UsersSection() {
   const [users, setUsers] = useState<IUsers[]>([]);
 
   useEffect(() => {
-    const fetchUsers = async (authToken: string) => {
+    const fetchUsers = async () => {
       try {
-        const responseFetch = await axios.get('/private/users/me/suggestions', {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
+        const responseFetch = await axios.get('/private/users/me/suggestions');
         const shuffledUsers = responseFetch.data.sort(
           () => 0.5 - Math.random()
         );
@@ -27,7 +23,7 @@ export default function UsersSection() {
       }
     };
     if (token) {
-      fetchUsers(token);
+      fetchUsers();
     }
   }, [token]);
   const [numProfiles, setNumProfiles] = useState(3);
