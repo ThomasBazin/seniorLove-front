@@ -1,92 +1,92 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
+import axios from '../../../../../axios';
+import { IHobby } from '../../../../../@types/IHobby';
 
 interface SubscribeFormV2Props {
   setIsSecondFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
   onPreviousClick: () => void;
+  fillFormInfos: (incomingInfos: object) => void;
 }
 
 export default function SubscribeFormV2({
   setIsSecondFormValidated,
   onPreviousClick,
+  fillFormInfos,
 }: SubscribeFormV2Props) {
-  const [hobbies, setHobbies] = useState({
-    'Voyage et découvertes': false,
-    'Arts et culture': false,
-    'Sport et bien-être': false,
-    'Gastronomie et cuisine': false,
-    'Musique et danse': false,
-    'Bénévolat et engagement social': false,
-    'Jeux et divertissement': false,
-    'Technologie et innovation': false,
-    'Spiritualité et bien-être intérieur': false,
-    'Bricolage et loisirs créatifs': false,
-    'Animaux et nature': false,
-    'Histoire et patrimoine': false,
-  });
+  // STATE 1 : hobbies
+  const [hobbies, setHobbies] = useState<IHobby[]>([]);
 
-  const handleHobbyChange = (hobby: string) => {
-    setHobbies((prevHobbies) => ({
-      ...prevHobbies,
-      [hobby]: !prevHobbies[hobby],
-    }));
+  const handleValidateFormV2 = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const userHobbies = hobbies
+      .filter((hobby) => hobby.checked)
+      .map((hobby) => hobby.id);
+
+    fillFormInfos({ hobbies: userHobbies });
+    setIsSecondFormValidated(true);
   };
 
-  const hobbyArray = [
-    'Voyage et découvertes',
-    'Arts et culture',
-    'Sport et bien-être',
-    'Gastronomie et cuisine',
-    'Musique et danse',
-    'Bénévolat et engagement social',
-    'Jeux et divertissement',
-    'Technologie et innovation',
-    'Spiritualité et bien-être intérieur',
-    'Bricolage et loisirs créatifs',
-    'Animaux et nature',
-    'Histoire et patrimoine',
-  ];
+  const handleHobbyCheck = (id: number) => {
+    setHobbies((previousHobbies) =>
+      previousHobbies.map((hobby) =>
+        hobby.id === id ? { ...hobby, checked: !hobby.checked } : hobby
+      )
+    );
+  };
+
+  useEffect(() => {
+    const fetchAndSaveHobbies = async () => {
+      try {
+        const result = await axios.get('/public/hobbies');
+        const hobbiesData = result.data.map((hobby: IHobby) => {
+          return { ...hobby, checked: false };
+        });
+        setHobbies(hobbiesData);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchAndSaveHobbies();
+  }, []);
 
   return (
     <div className="bg-white opacity-90 p-10 rounded-xl shadow-md max-w-xl my-10 mx-4 md:mx-auto md:my-0">
-      <form>
+      <form onSubmit={(e) => handleValidateFormV2(e)}>
         <fieldset className="mb-4">
           <legend className="text-xl font-semibold leading-6 text-primaryText">
             Afin de mieux vous connaître, veuillez sélectionner vos centres
             d&apos;intérêt parmi ces options:
           </legend>
           <div className="mt-6 grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-8">
-            {hobbyArray.map((hobby, index) => (
-              <div key={hobby} className="flex items-center">
+            {hobbies.map((hobby) => (
+              <div key={hobby.id} className="flex items-center">
                 <input
-                  id={`hobby-${index}`}
+                  id={`hobby-${hobby.id}`}
                   type="checkbox"
-                  checked={hobbies[hobby]}
-                  onChange={() => handleHobbyChange(hobby)}
+                  checked={hobby.checked}
+                  onChange={() => handleHobbyCheck(hobby.id)}
                   className="h-4 w-4"
                 />
                 <label
-                  htmlFor={`hobby-${index}`}
+                  htmlFor={`hobby-${hobby.id}`}
                   className="ml-3 block text-md font-medium text-primaryText"
                 >
-                  {hobby}
+                  {hobby.name}
                 </label>
               </div>
             ))}
           </div>
         </fieldset>
         <div className="flex justify-center mt-6 mb-2">
-          <DefaultBtn
-            btnText="Valider"
-            onClick={() => setIsSecondFormValidated(true)}
-          />
+          <DefaultBtn btnType="submit" btnText="Valider" />
         </div>
         <div className="step_paragraph text-primaryText flex justify-center">
           <p>Etape 2/3: Centres d’intérêt</p>
         </div>
         <div className="flex justify-center text-secondaryPink mt-1">
           <button type="button" onClick={onPreviousClick}>
-            Revenir à l'étape précédente
+            Revenir à l&#39;étape précédente
           </button>
         </div>
       </form>

@@ -1,12 +1,18 @@
+import { useState, useEffect } from 'react';
+import axios from '../../../../axios';
+
 import SubscribeFormV1 from './SubscribeForms/SubscribeFormV1';
 import SubscribeFormV2 from './SubscribeForms/SubscribeFormV2';
 import SubscribeFormV3 from './SubscribeForms/SubscribeFormV3';
+import EndSection from './EndSection';
 
 interface FormSectionProps {
   setIsFirstFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
   isFirstFormValidated: boolean;
   setIsSecondFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
   isSecondFormValidated: boolean;
+  isThirdFormValidated: boolean;
+  setIsThirdFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function FormSection({
@@ -14,7 +20,28 @@ export default function FormSection({
   setIsFirstFormValidated,
   isSecondFormValidated,
   setIsSecondFormValidated,
+  isThirdFormValidated,
+  setIsThirdFormValidated,
 }: FormSectionProps) {
+  // STATE 1 :formData
+  const [formInfos, setFormInfos] = useState({});
+
+  const fillFormInfos = (incomingInfos: object) => {
+    setFormInfos((previousInfos) => {
+      return { ...previousInfos, ...incomingInfos };
+    });
+    console.log(formInfos);
+  };
+
+  const submitGlobalForm = async () => {
+    try {
+      const response = await axios.post('/public/register', formInfos);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const goToFirstForm = () => {
     setIsFirstFormValidated(false);
   };
@@ -22,6 +49,12 @@ export default function FormSection({
   const goToSecondForm = () => {
     setIsSecondFormValidated(false);
   };
+
+  useEffect(() => {
+    if (isThirdFormValidated) {
+      submitGlobalForm();
+    }
+  });
 
   const renderContent = () => {
     // if button never cliked show Form 1
@@ -35,7 +68,10 @@ export default function FormSection({
             </p>
             <p>Inscrivez-vous ici et commencez cette belle aventure !</p>
           </div>
-          <SubscribeFormV1 setIsFirstFormValidated={setIsFirstFormValidated} />
+          <SubscribeFormV1
+            setIsFirstFormValidated={setIsFirstFormValidated}
+            fillFormInfos={fillFormInfos}
+          />
         </section>
       );
     }
@@ -46,14 +82,31 @@ export default function FormSection({
           <SubscribeFormV2
             setIsSecondFormValidated={setIsSecondFormValidated}
             onPreviousClick={goToFirstForm}
+            fillFormInfos={fillFormInfos}
           />
         </section>
       );
     }
-    // Else show Form 3
+    // if button in Form 2 cliked show Form 3
+    if (!isThirdFormValidated) {
+      return (
+        <section className="bg-thirdForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
+          <SubscribeFormV3
+            onPreviousClick={goToSecondForm}
+            fillFormInfos={fillFormInfos}
+            setIsThirdFormValidated={setIsThirdFormValidated}
+          />
+        </section>
+      );
+    }
+
     return (
       <section className="bg-thirdForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
-        <SubscribeFormV3 onPreviousClick={goToSecondForm} />
+        <EndSection
+          onPreviousClick={goToSecondForm}
+          fillFormInfos={fillFormInfos}
+          setIsThirdFormValidated={setIsThirdFormValidated}
+        />
       </section>
     );
   };
