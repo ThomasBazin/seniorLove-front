@@ -72,9 +72,9 @@ export default function SubscribeFormV1({
 
   useEffect(() => {
     if (formInfos.name && formInfos.gender && formInfos.birth_date) {
-      setNameInputValue(formInfos?.name);
-      setGenderInputValue(formInfos?.gender);
-      setBirthDateInputValue(formInfos?.birth_date);
+      setNameInputValue(formInfos.name);
+      setGenderInputValue(formInfos.gender);
+      setBirthDateInputValue(formInfos.birth_date);
     }
   }, [formInfos]);
 
