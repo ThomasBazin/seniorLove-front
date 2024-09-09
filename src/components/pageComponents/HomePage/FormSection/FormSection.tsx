@@ -26,7 +26,7 @@ export default function FormSection({
   isThirdFormValidated,
   setIsThirdFormValidated,
 }: FormSectionProps) {
-  // STATE 1 :formData
+  // STATE 1 :formInfos
   const [formInfos, setFormInfos] = useState({} as IRegisterForm);
 
   // STATE 2 : hobbies

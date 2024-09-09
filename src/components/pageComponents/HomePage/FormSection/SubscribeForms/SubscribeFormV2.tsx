@@ -29,6 +29,7 @@ export default function SubscribeFormV2({
     if (!userHobbies.length) {
       setError("Veuillez indiquer au moins un centre d'intérêt");
     } else {
+      setError(null);
       fillFormInfos({ hobbies: userHobbies });
       setIsSecondFormValidated(true);
     }

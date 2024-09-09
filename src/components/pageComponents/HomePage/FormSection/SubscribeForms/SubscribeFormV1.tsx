@@ -28,10 +28,9 @@ export default function SubscribeFormV1({
   const [birthDateInputValue, setBirthDateInputValue] = useState<string>('');
 
   // STATE 4 : error
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [error, setError] = useState<string | null>(null);
 
   const handleNameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(formInfos);
     setNameInputValue(e.currentTarget.value);
   };
 
@@ -65,7 +64,7 @@ export default function SubscribeFormV1({
         gender,
         birth_date: rawFormData.birthDate,
       };
-
+      setError(null);
       fillFormInfos(formV1Infos);
       setIsFirstFormValidated(true);
     }

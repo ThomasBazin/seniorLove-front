@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
 
 interface SubscribeFormV3Props {
@@ -11,6 +12,9 @@ function SubscribeFormV3({
   fillFormInfos,
   setIsThirdFormValidated,
 }: SubscribeFormV3Props) {
+  // STATE 1 : error
+  const [error, setError] = useState<null | string>(null);
+
   const formInputs = [
     {
       label: 'Adresse e-mail',
@@ -32,22 +36,34 @@ function SubscribeFormV3({
       label: 'Confirmer mot de passe',
       inputType: 'password',
       placeholder: 'ex@mple2024!',
-      id: 'repeat_password',
+      id: 'repeatPassword',
       type: 'password',
-      name: 'repeat_password',
+      name: 'repeatPassword',
     },
   ];
 
   const handleValidateFormV3 = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
-    const formV3Infos = {
-      email: rawFormData.email,
-      password: rawFormData.password,
-      repeat_password: rawFormData.repeat_password,
-    };
-    fillFormInfos(formV3Infos);
-    setIsThirdFormValidated(true);
+    const { email, password, repeatPassword } = rawFormData;
+    if (!email) {
+      setError("L'email est obligatoire.");
+    } else if (!password || !repeatPassword) {
+      setError('Veuillez indiquer votre mot de passe et le confirmer.');
+    } else if (password.toString().length < 12) {
+      setError('Le mot de passe doit contenir au moins 12 caractères.');
+    } else if (password !== repeatPassword) {
+      setError('Le mot de passe et sa confirmation doivent être identiques.');
+    } else {
+      const formV3Infos = {
+        email,
+        password,
+        repeat_password: repeatPassword,
+      };
+      setError(null);
+      fillFormInfos(formV3Infos);
+      setIsThirdFormValidated(true);
+    }
   };
 
   return (
@@ -74,12 +90,20 @@ function SubscribeFormV3({
                     type={input.type}
                     placeholder={input.placeholder}
                     className="block w-full border-0 bg-transparent py-1.5 p-2 text-primaryText placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    required
                   />
                 </div>
               </div>
             </div>
           ))}
         </fieldset>
+
+        {error && (
+          <div className="text-secondaryPink text-center flex justify-center mt-6">
+            <p>{error}</p>
+          </div>
+        )}
+
         <div className="flex justify-center mt-6 mb-2">
           <DefaultBtn btnType="submit" btnText="Valider" />
         </div>
