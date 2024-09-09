@@ -34,7 +34,6 @@ export default function DisplayUsers() {
           <ProfileSticker user={user} key={user.picture} />
         ))}
       </div>
-      <DefaultBtn btnText="Voir plus de profil" />
     </div>
   );
 }
