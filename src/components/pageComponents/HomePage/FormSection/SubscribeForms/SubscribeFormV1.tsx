@@ -8,7 +8,7 @@ import { IRegisterForm } from '../../../../../@types/IRegisterForm';
 import computeAge from '../../../../../utils/computeAge';
 
 interface SubscribeFormV1Props {
-  formInfos: IRegisterForm | undefined;
+  formInfos: IRegisterForm;
   setIsFirstFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
   fillFormInfos: (incomingInfos: object) => void;
 }
@@ -19,25 +19,19 @@ export default function SubscribeFormV1({
   fillFormInfos,
 }: SubscribeFormV1Props) {
   // STATE 1 : name input value
-  const [nameInputValue, setNameInputValue] = useState<undefined | string>(
-    undefined
-  );
+  const [nameInputValue, setNameInputValue] = useState<string>('');
 
   // STATE 2 : gender input value
-  const [genderInputValue, setGenderInputValue] = useState<undefined | string>(
-    undefined
-  );
+  const [genderInputValue, setGenderInputValue] = useState<string>('male');
 
   // STATE 3 : birth_date input value
-  const [birthDateInputValue, setBirthDateInputValue] = useState<
-    undefined | string
-  >(undefined);
+  const [birthDateInputValue, setBirthDateInputValue] = useState<string>('');
 
   // STATE 4 : error
   const [error, setError] = useState<string | undefined>(undefined);
 
   const handleNameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNameInputValue(undefined);
+    console.log(formInfos);
     setNameInputValue(e.currentTarget.value);
   };
 
@@ -55,14 +49,11 @@ export default function SubscribeFormV1({
     e.preventDefault();
     const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
     const { name, gender, birthDate } = rawFormData;
-    console.log(rawFormData);
-
     const age = computeAge(birthDate as string);
-    console.log(age);
 
     if (!name) {
       setError('Le champs prénom est obligatoire !');
-    } else if (!gender) {
+    } else if (gender !== 'male' && gender !== 'female' && gender !== 'other') {
       setError('Merci de renseigner votre genre !');
     } else if (!birthDate) {
       setError('Merci de renseigner votre date de naissance !');
@@ -81,10 +72,10 @@ export default function SubscribeFormV1({
   };
 
   useEffect(() => {
-    if (formInfos) {
-      setNameInputValue(formInfos.name);
-      setGenderInputValue(formInfos.gender);
-      setBirthDateInputValue(formInfos.birth_date);
+    if (formInfos.name && formInfos.gender && formInfos.birth_date) {
+      setNameInputValue(formInfos?.name);
+      setGenderInputValue(formInfos?.gender);
+      setBirthDateInputValue(formInfos?.birth_date);
     }
   }, [formInfos]);
 
@@ -144,8 +135,8 @@ export default function SubscribeFormV1({
         </label>
 
         {error && (
-          <div className="text-secondaryPink flex justify-center mt-6">
-            <p>{error}</p>
+          <div className="text-secondaryPink text-center flex justify-center mt-6">
+            <p className="justify-self-center max-w-48">{error}</p>
           </div>
         )}
 

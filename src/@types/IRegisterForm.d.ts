@@ -1,9 +1,9 @@
 export interface IRegisterForm {
-  name?: undefined | string;
-  birth_date?: undefined | string;
-  gender?: undefined | string;
-  hobbies?: undefined | number[];
-  email?: undefined | string;
-  password?: undefined | string;
-  repeat_password?: undefined | string;
+  name: string;
+  birth_date: string;
+  gender: string;
+  hobbies: number[];
+  email: string;
+  password: string;
+  repeat_password: string;
 }
