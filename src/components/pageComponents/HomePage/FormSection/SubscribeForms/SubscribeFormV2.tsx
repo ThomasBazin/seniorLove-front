@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
-import axios from '../../../../../axios';
 import { IHobby } from '../../../../../@types/IHobby';
 
 interface SubscribeFormV2Props {
+  hobbies: IHobby[];
+  setHobbies: React.Dispatch<React.SetStateAction<IHobby[]>>;
   setIsSecondFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
   onPreviousClick: () => void;
   fillFormInfos: (incomingInfos: object) => void;
 }
 
 export default function SubscribeFormV2({
+  hobbies,
+  setHobbies,
   setIsSecondFormValidated,
   onPreviousClick,
   fillFormInfos,
 }: SubscribeFormV2Props) {
-  // STATE 1 : hobbies
-  const [hobbies, setHobbies] = useState<IHobby[]>([]);
-
-  // STATE 2 : error
+  // STATE 1 : error
   const [error, setError] = useState<null | string>(null);
 
   const handleValidateFormV2 = (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,21 +41,6 @@ export default function SubscribeFormV2({
       )
     );
   };
-
-  useEffect(() => {
-    const fetchAndSaveHobbies = async () => {
-      try {
-        const result = await axios.get('/public/hobbies');
-        const hobbiesData = result.data.map((hobby: IHobby) => {
-          return { ...hobby, checked: false };
-        });
-        setHobbies(hobbiesData);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    fetchAndSaveHobbies();
-  }, []);
 
   return (
     <div className="bg-white opacity-90 p-10 rounded-xl shadow-md max-w-xl my-10 mx-4 md:mx-auto md:my-0">

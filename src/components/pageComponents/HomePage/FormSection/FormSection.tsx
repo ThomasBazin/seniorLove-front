@@ -6,6 +6,9 @@ import SubscribeFormV2 from './SubscribeForms/SubscribeFormV2';
 import SubscribeFormV3 from './SubscribeForms/SubscribeFormV3';
 import EndSection from './EndSection';
 
+import { IHobby } from '../../../../@types/IHobby';
+import { IRegisterForm } from '../../../../@types/IRegisterForm';
+
 interface FormSectionProps {
   setIsFirstFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
   isFirstFormValidated: boolean;
@@ -24,7 +27,12 @@ export default function FormSection({
   setIsThirdFormValidated,
 }: FormSectionProps) {
   // STATE 1 :formData
-  const [formInfos, setFormInfos] = useState({});
+  const [formInfos, setFormInfos] = useState<IRegisterForm | undefined>(
+    undefined
+  );
+
+  // STATE 2 : hobbies
+  const [hobbies, setHobbies] = useState<IHobby[]>([]);
 
   const fillFormInfos = (incomingInfos: object) => {
     setFormInfos((previousInfos) => {
@@ -56,6 +64,21 @@ export default function FormSection({
     }
   });
 
+  useEffect(() => {
+    const fetchAndSaveHobbies = async () => {
+      try {
+        const result = await axios.get('/public/hobbies');
+        const hobbiesData = result.data.map((hobby: IHobby) => {
+          return { ...hobby, checked: false };
+        });
+        setHobbies(hobbiesData);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchAndSaveHobbies();
+  }, []);
+
   const renderContent = () => {
     // if button never cliked show Form 1
     if (!isFirstFormValidated) {
@@ -69,6 +92,7 @@ export default function FormSection({
             <p>Inscrivez-vous ici et commencez cette belle aventure !</p>
           </div>
           <SubscribeFormV1
+            formInfos={formInfos}
             setIsFirstFormValidated={setIsFirstFormValidated}
             fillFormInfos={fillFormInfos}
           />
@@ -80,6 +104,8 @@ export default function FormSection({
       return (
         <section className="bg-secondForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
           <SubscribeFormV2
+            hobbies={hobbies}
+            setHobbies={setHobbies}
             setIsSecondFormValidated={setIsSecondFormValidated}
             onPreviousClick={goToFirstForm}
             fillFormInfos={fillFormInfos}

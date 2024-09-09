@@ -1,16 +1,49 @@
+import { useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
 import Logo from '/img/logo-text-seniorlove.webp';
+import { IRegisterForm } from '../../../../../@types/IRegisterForm';
 
 interface SubscribeFormV1Props {
+  formInfos: IRegisterForm | undefined;
   setIsFirstFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
   fillFormInfos: (incomingInfos: object) => void;
 }
 
 export default function SubscribeFormV1({
+  formInfos,
   setIsFirstFormValidated,
   fillFormInfos,
 }: SubscribeFormV1Props) {
+  // STATE 1 : name input value
+  const [nameInputValue, setNameInputValue] = useState<undefined | string>(
+    undefined
+  );
+
+  // STATE 2 : gender input value
+  const [genderInputValue, setGenderInputValue] = useState('male');
+
+  // STATE 3 : birth_date input value
+  const [birthDateInputValue, setBirthDateInputValue] = useState<
+    undefined | string
+  >(undefined);
+
+  const handleNameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNameInputValue(undefined);
+    setNameInputValue(e.currentTarget.value);
+  };
+
+  const handleGenderInputChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setGenderInputValue(e.currentTarget.value);
+  };
+
+  const handleBirthDateInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setBirthDateInputValue(e.currentTarget.value);
+  };
+
   const handleValidateFormV1 = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
@@ -39,10 +72,12 @@ export default function SubscribeFormV1({
           Prénom
           <input
             type="text"
-            placeholder="Prénom"
+            placeholder={formInfos?.name || 'Prénom'}
             name="name"
             id="name"
             className="rounded-lg p-2 border border-primaryGrey"
+            value={nameInputValue}
+            onChange={(e) => handleNameInputChange(e)}
             required
           />
         </label>
@@ -53,6 +88,8 @@ export default function SubscribeFormV1({
             name="gender"
             id="gender"
             className="rounded-lg p-2 border border-primaryGrey"
+            value={formInfos?.gender || genderInputValue}
+            onChange={(e) => handleGenderInputChange(e)}
             required
           >
             <option value="male">Un homme</option>
@@ -68,6 +105,8 @@ export default function SubscribeFormV1({
             name="birth_date"
             id="birthDate"
             className="w-full text-center rounded-lg p-2 border border-primaryGrey"
+            value={formInfos?.birth_date || birthDateInputValue}
+            onChange={(e) => handleBirthDateInputChange(e)}
             required
           />
         </label>
