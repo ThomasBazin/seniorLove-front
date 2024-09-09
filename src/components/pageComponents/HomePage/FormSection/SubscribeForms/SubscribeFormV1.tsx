@@ -5,6 +5,8 @@ import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
 import Logo from '/img/logo-text-seniorlove.webp';
 import { IRegisterForm } from '../../../../../@types/IRegisterForm';
 
+import computeAge from '../../../../../utils/computeAge';
+
 interface SubscribeFormV1Props {
   formInfos: IRegisterForm | undefined;
   setIsFirstFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -52,28 +54,30 @@ export default function SubscribeFormV1({
   const handleValidateFormV1 = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
-    const { name, gender, birth_date } = rawFormData;
+    const { name, gender, birthDate } = rawFormData;
+    console.log(rawFormData);
+
+    const age = computeAge(birthDate as string);
+    console.log(age);
 
     if (!name) {
-      return setError('Le champs prénom est obligatoire !');
+      setError('Le champs prénom est obligatoire !');
+    } else if (!gender) {
+      setError('Merci de renseigner votre genre !');
+    } else if (!birthDate) {
+      setError('Merci de renseigner votre date de naissance !');
+    } else if (age < 60) {
+      setError('Vous devez avoir plus de 60 ans pour vous inscrire.');
+    } else {
+      const formV1Infos = {
+        name,
+        gender,
+        birth_date: rawFormData.birthDate,
+      };
+
+      fillFormInfos(formV1Infos);
+      setIsFirstFormValidated(true);
     }
-
-    if (!gender) {
-      return setError('Merci de renseigner votre genre !');
-    }
-
-    if (!birth_date) {
-      return setError('Merci de renseigner votre date de naissance !');
-    }
-
-    const formV1Infos = {
-      name: rawFormData.name,
-      gender: rawFormData.gender,
-      birth_date: rawFormData.birth_date,
-    };
-
-    fillFormInfos(formV1Infos);
-    setIsFirstFormValidated(true);
   };
 
   useEffect(() => {
@@ -130,7 +134,7 @@ export default function SubscribeFormV1({
           Date de naissance
           <input
             type="date"
-            name="birth_date"
+            name="birthDate"
             id="birthDate"
             className="w-full text-center rounded-lg p-2 border border-primaryGrey"
             value={birthDateInputValue}
