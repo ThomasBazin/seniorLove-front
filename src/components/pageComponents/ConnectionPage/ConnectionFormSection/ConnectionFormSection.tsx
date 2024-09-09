@@ -25,7 +25,8 @@ export default function ConnectionFormSection({
       setTokenAndDataInLocalStorage(
         response.data.token,
         response.data.name,
-        response.data.picture
+        response.data.picture,
+        response.data.id
       );
       setUserToken(response.data.token);
       // setIsAuthenticated(true);

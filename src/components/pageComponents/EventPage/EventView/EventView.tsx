@@ -1,9 +1,61 @@
+/* eslint-disable no-console */
 import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from '../../../../axios';
 import { IEvent } from '../../../../@types/IEvent';
 
 export default function EventView() {
+  const [userEvents, setUserEvents] = useState<object[]>([]);
+  const [buttonText, setButtonText] = useState<string>('Je participe');
+  const [isSubscribe, setIsSubscribe] = useState<boolean>(false);
+
   const location = useLocation();
   const event = location.state?.event as IEvent; // Retrieve the passed event
+
+  const checkSubscribe = userEvents.some((element) => element.id === event.id);
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const result = await axios.get('private/users/me');
+        setUserEvents(result.data.events);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUser();
+
+    if (checkSubscribe) {
+      setButtonText('Me désinscrire');
+    } else {
+      setButtonText('Je participe');
+    }
+  }, [checkSubscribe, buttonText]);
+
+  // s'inscrire à un évenement
+  async function subscribeEvent(eventId: number) {
+    try {
+      const result = await axios.put(`/private/events/${eventId}/register`);
+      console.log(result.status);
+      setButtonText('Me désinscrire');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // se désinscrire à un évenement
+  async function unsubscribeEvent(eventId: number) {
+    try {
+      const result = await axios.delete(
+        `/private/events/${eventId}/unregister`
+      );
+      console.log(result.status);
+      setButtonText('Je participe');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="w-full min-h-full flex-grow flex bg-primaryGrey">
       <div className="pt-8 px-8 max-w-7xl w-full justify-center mx-auto ">
@@ -49,14 +101,18 @@ export default function EventView() {
             </div>
           </div>
         </div>
-        {/* <div className="button_container flex justify-center">
-              <Link
-                to="#"
-                className="bg-buttonGreen text-primaryText text-center w-2/4 font-bold py-2 px-3  rounded-lg shadow-lg sm:text-base md:w-1/4 md:text-lg lg:block lg:text-xs xl:text-lg italic"
-              >
-                Je participe
-              </Link>
-            </div> */}
+        {/* get user info to know if user is register for the event */}
+        <button
+          type="button"
+          className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
+          onClick={() =>
+            checkSubscribe
+              ? unsubscribeEvent(event.id)
+              : subscribeEvent(event.id)
+          }
+        >
+          {buttonText}
+        </button>
       </div>
     </div>
   );
