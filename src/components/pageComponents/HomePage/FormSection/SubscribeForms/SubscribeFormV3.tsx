@@ -1,6 +1,10 @@
 import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
 
-function SubscribeFormV3() {
+interface SubscribeFormV3Props {
+  onPreviousClick: () => void;
+}
+
+function SubscribeFormV3({ onPreviousClick }: SubscribeFormV3Props) {
   const formInputs = [
     {
       label: 'Adresse e-mail',
@@ -59,6 +63,11 @@ function SubscribeFormV3() {
         </div>
         <div className="step_paragraph text-primaryText flex justify-center">
           <p>Etape 3/3: Validation inscription</p>
+        </div>
+        <div className="flex justify-center text-secondaryPink mt-1">
+          <button type="button" onClick={onPreviousClick}>
+            Revenir à l'étape précédente
+          </button>
         </div>
       </form>
     </div>

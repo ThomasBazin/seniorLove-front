@@ -15,6 +15,14 @@ export default function FormSection({
   isSecondFormValidated,
   setIsSecondFormValidated,
 }: FormSectionProps) {
+  const goToFirstForm = () => {
+    setIsFirstFormValidated(false);
+  };
+
+  const goToSecondForm = () => {
+    setIsSecondFormValidated(false);
+  };
+
   const renderContent = () => {
     // if button never cliked show Form 1
     if (!isFirstFormValidated) {
@@ -37,6 +45,7 @@ export default function FormSection({
         <section className="bg-secondForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
           <SubscribeFormV2
             setIsSecondFormValidated={setIsSecondFormValidated}
+            onPreviousClick={goToFirstForm}
           />
         </section>
       );
@@ -44,7 +53,7 @@ export default function FormSection({
     // Else show Form 3
     return (
       <section className="bg-thirdForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
-        <SubscribeFormV3 />
+        <SubscribeFormV3 onPreviousClick={goToSecondForm} />
       </section>
     );
   };

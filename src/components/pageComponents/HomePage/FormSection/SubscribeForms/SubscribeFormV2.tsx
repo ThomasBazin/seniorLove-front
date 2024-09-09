@@ -3,10 +3,12 @@ import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
 
 interface SubscribeFormV2Props {
   setIsSecondFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
+  onPreviousClick: () => void;
 }
 
 export default function SubscribeFormV2({
   setIsSecondFormValidated,
+  onPreviousClick,
 }: SubscribeFormV2Props) {
   const [hobbies, setHobbies] = useState({
     'Voyage et découvertes': false,
@@ -81,6 +83,11 @@ export default function SubscribeFormV2({
         </div>
         <div className="step_paragraph text-primaryText flex justify-center">
           <p>Etape 2/3: Centres d’intérêt</p>
+        </div>
+        <div className="flex justify-center text-secondaryPink mt-1">
+          <button type="button" onClick={onPreviousClick}>
+            Revenir à l'étape précédente
+          </button>
         </div>
       </form>
     </div>
