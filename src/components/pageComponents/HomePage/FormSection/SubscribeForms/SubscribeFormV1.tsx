@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
 import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
@@ -22,12 +22,17 @@ export default function SubscribeFormV1({
   );
 
   // STATE 2 : gender input value
-  const [genderInputValue, setGenderInputValue] = useState('male');
+  const [genderInputValue, setGenderInputValue] = useState<undefined | string>(
+    undefined
+  );
 
   // STATE 3 : birth_date input value
   const [birthDateInputValue, setBirthDateInputValue] = useState<
     undefined | string
   >(undefined);
+
+  // STATE 4 : error
+  const [error, setError] = useState<string | undefined>(undefined);
 
   const handleNameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNameInputValue(undefined);
@@ -47,14 +52,37 @@ export default function SubscribeFormV1({
   const handleValidateFormV1 = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
+    const { name, gender, birth_date } = rawFormData;
+
+    if (!name) {
+      return setError('Le champs prénom est obligatoire !');
+    }
+
+    if (!gender) {
+      return setError('Merci de renseigner votre genre !');
+    }
+
+    if (!birth_date) {
+      return setError('Merci de renseigner votre date de naissance !');
+    }
+
     const formV1Infos = {
       name: rawFormData.name,
       gender: rawFormData.gender,
       birth_date: rawFormData.birth_date,
     };
+
     fillFormInfos(formV1Infos);
     setIsFirstFormValidated(true);
   };
+
+  useEffect(() => {
+    if (formInfos) {
+      setNameInputValue(formInfos.name);
+      setGenderInputValue(formInfos.gender);
+      setBirthDateInputValue(formInfos.birth_date);
+    }
+  }, [formInfos]);
 
   return (
     <div className="bg-white opacity-90 px-10 pb-10 pt-4 rounded-xl shadow-md my-10 mx-4 md:mx-auto md:my-0">
@@ -72,7 +100,7 @@ export default function SubscribeFormV1({
           Prénom
           <input
             type="text"
-            placeholder={formInfos?.name || 'Prénom'}
+            placeholder="Prénom"
             name="name"
             id="name"
             className="rounded-lg p-2 border border-primaryGrey"
@@ -88,7 +116,7 @@ export default function SubscribeFormV1({
             name="gender"
             id="gender"
             className="rounded-lg p-2 border border-primaryGrey"
-            value={formInfos?.gender || genderInputValue}
+            value={genderInputValue}
             onChange={(e) => handleGenderInputChange(e)}
             required
           >
@@ -105,11 +133,18 @@ export default function SubscribeFormV1({
             name="birth_date"
             id="birthDate"
             className="w-full text-center rounded-lg p-2 border border-primaryGrey"
-            value={formInfos?.birth_date || birthDateInputValue}
+            value={birthDateInputValue}
             onChange={(e) => handleBirthDateInputChange(e)}
             required
           />
         </label>
+
+        {error && (
+          <div className="text-secondaryPink flex justify-center mt-6">
+            <p>{error}</p>
+          </div>
+        )}
+
         <div className="flex justify-center mt-6 mb-2">
           <DefaultBtn btnType="submit" btnText="Valider" />
         </div>

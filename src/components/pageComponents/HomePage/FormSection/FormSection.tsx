@@ -41,15 +41,6 @@ export default function FormSection({
     console.log(formInfos);
   };
 
-  const submitGlobalForm = async () => {
-    try {
-      const response = await axios.post('/public/register', formInfos);
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const goToFirstForm = () => {
     setIsFirstFormValidated(false);
   };
@@ -59,6 +50,14 @@ export default function FormSection({
   };
 
   useEffect(() => {
+    const submitGlobalForm = async () => {
+      try {
+        const response = await axios.post('/public/register', formInfos);
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     if (isThirdFormValidated) {
       submitGlobalForm();
     }
