@@ -53,8 +53,7 @@ export default function UsersSection() {
           <ProfileSticker user={user} key={user.id} />
         ))}
       </div>
-      {/* TODO redirect to discover */}
-      <DefaultBtn btnText="Voir plus de profil" />
+      <DefaultBtn btnText="Voir plus de profils" onClick={() => window.location.href = '/profils'} />
     </div>
   );
 }

@@ -19,7 +19,7 @@ export default function NavBarLogged({
   const NavBarButtons = [
     { text: 'Accueil', to: '/' },
     { text: 'Découvrir', to: '/profils' },
-    { text: 'Événements', to: '/events' },
+    { text: 'Evènements', to: '/events' },
     { text: 'Messages', to: '#' },
     { text: 'Mon profil', to: '#' },
     { text: 'Se déconnecter', to: '/', onclick: onClickDisconnect },
@@ -32,7 +32,7 @@ export default function NavBarLogged({
           <img
             src={Logo}
             alt="Retour a l'accueil"
-            className="max-w-44 lg:max-w-72"
+            className="max-w-36 lg:max-w-52"
           />
         </Link>
         <div className="flex gap-2 flex-wrap justify-end">
