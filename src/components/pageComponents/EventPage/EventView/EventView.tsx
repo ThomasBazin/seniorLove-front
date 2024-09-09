@@ -1,17 +1,31 @@
 /* eslint-disable no-console */
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from '../../../../axios';
 import { IEvent } from '../../../../@types/IEvent';
 
 export default function EventView() {
   const [userEvents, setUserEvents] = useState<object[]>([]);
+  const [isSubscribe, setIsSubscribe] = useState<boolean>();
   const [buttonText, setButtonText] = useState<string>('Je participe');
-  const [isSubscribe, setIsSubscribe] = useState<boolean>(false);
+
+  // toast de confirmation
+  const subNotify = () =>
+    toast.success('Vous êtes bien inscrit(e) à cet événement', {
+      autoClose: 3000,
+    });
+
+  const UnsubNotify = () =>
+    toast.info("Vous n'êtes plus inscrit(e) à cet événement", {
+      autoClose: 3000,
+    });
 
   const location = useLocation();
   const event = location.state?.event as IEvent; // Retrieve the passed event
 
+  // vérification des évenements possédés par l'user
   const checkSubscribe = userEvents.some((element) => element.id === event.id);
 
   useEffect(() => {
@@ -26,31 +40,35 @@ export default function EventView() {
     getUser();
 
     if (checkSubscribe) {
-      setButtonText('Me désinscrire');
+      setIsSubscribe(true);
     } else {
-      setButtonText('Je participe');
+      setIsSubscribe(false);
     }
-  }, [checkSubscribe, buttonText]);
+
+    setButtonText(isSubscribe ? 'Me désinscrire' : 'Je participe');
+  }, [checkSubscribe, isSubscribe]);
 
   // s'inscrire à un évenement
   async function subscribeEvent(eventId: number) {
     try {
       const result = await axios.put(`/private/events/${eventId}/register`);
       console.log(result.status);
-      setButtonText('Me désinscrire');
+      setIsSubscribe(!isSubscribe);
+      subNotify();
     } catch (error) {
       console.log(error);
     }
   }
 
-  // se désinscrire à un évenement
+  // se désinscrire d'un évenement
   async function unsubscribeEvent(eventId: number) {
     try {
       const result = await axios.delete(
         `/private/events/${eventId}/unregister`
       );
       console.log(result.status);
-      setButtonText('Je participe');
+      setIsSubscribe(!isSubscribe);
+      UnsubNotify();
     } catch (error) {
       console.log(error);
     }
@@ -101,18 +119,21 @@ export default function EventView() {
             </div>
           </div>
         </div>
-        {/* get user info to know if user is register for the event */}
+        {isSubscribe && (
+          <p className="text-center text-x0 text-secondaryPink">
+            Vous êtes déja inscrit(e) à cet évenement
+          </p>
+        )}
         <button
           type="button"
           className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
           onClick={() =>
-            checkSubscribe
-              ? unsubscribeEvent(event.id)
-              : subscribeEvent(event.id)
+            isSubscribe ? unsubscribeEvent(event.id) : subscribeEvent(event.id)
           }
         >
           {buttonText}
         </button>
+        <ToastContainer />
       </div>
     </div>
   );
