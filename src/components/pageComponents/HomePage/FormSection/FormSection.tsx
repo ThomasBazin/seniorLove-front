@@ -102,11 +102,7 @@ export default function FormSection({
 
     return (
       <section className="bg-thirdForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
-        <EndSection
-          onPreviousClick={goToSecondForm}
-          fillFormInfos={fillFormInfos}
-          setIsThirdFormValidated={setIsThirdFormValidated}
-        />
+        <EndSection />
       </section>
     );
   };

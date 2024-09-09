@@ -11,7 +11,7 @@ export default function EndSection() {
       <p className="mb-4 text-lg text-primaryText font-semibold text-center uppercase">
         Votre inscription est en cours de traitement.
       </p>
-      <p className="mb-4 text-lg text-primaryText font-semibold text-center uppercase">
+      <p className="mb-4 text-lg text-primaryText font-semibold text-center">
         Si votre profil est validé vous pourrez vous connecter d&#39;ici
         quelques heures.
       </p>
@@ -21,7 +21,9 @@ export default function EndSection() {
         </Link>
       </div>
       <div className="flex justify-center text-secondaryPink mt-1">
-        <Link to="/">Revenir à l&#39;accueil</Link>
+        <Link to="/" onClick={() => window.location.reload()}>
+          Revenir à l&#39;accueil
+        </Link>
       </div>
     </div>
   );

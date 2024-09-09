@@ -17,14 +17,21 @@ export default function SubscribeFormV2({
   // STATE 1 : hobbies
   const [hobbies, setHobbies] = useState<IHobby[]>([]);
 
+  // STATE 2 : error
+  const [error, setError] = useState<null | string>(null);
+
   const handleValidateFormV2 = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const userHobbies = hobbies
       .filter((hobby) => hobby.checked)
       .map((hobby) => hobby.id);
 
-    fillFormInfos({ hobbies: userHobbies });
-    setIsSecondFormValidated(true);
+    if (!userHobbies.length) {
+      setError("Veuillez indiquer au moins un centre d'intérêt");
+    } else {
+      fillFormInfos({ hobbies: userHobbies });
+      setIsSecondFormValidated(true);
+    }
   };
 
   const handleHobbyCheck = (id: number) => {
@@ -78,9 +85,15 @@ export default function SubscribeFormV2({
             ))}
           </div>
         </fieldset>
+        {error && (
+          <div className="text-secondaryPink flex justify-center mt-6">
+            <p>{error}</p>
+          </div>
+        )}
         <div className="flex justify-center mt-6 mb-2">
           <DefaultBtn btnType="submit" btnText="Valider" />
         </div>
+
         <div className="step_paragraph text-primaryText flex justify-center">
           <p>Etape 2/3: Centres d’intérêt</p>
         </div>
