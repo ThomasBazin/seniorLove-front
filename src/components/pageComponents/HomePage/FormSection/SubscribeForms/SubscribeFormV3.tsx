@@ -5,12 +5,14 @@ interface SubscribeFormV3Props {
   onPreviousClick: () => void;
   fillFormInfos: (incomingInfos: object) => void;
   setIsThirdFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsGlobalFormSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function SubscribeFormV3({
   onPreviousClick,
   fillFormInfos,
   setIsThirdFormValidated,
+  setIsGlobalFormSubmitted,
 }: SubscribeFormV3Props) {
   // STATE 1 : error
   const [error, setError] = useState<null | string>(null);
@@ -42,7 +44,7 @@ function SubscribeFormV3({
     },
   ];
 
-  const handleValidateFormV3 = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleValidateFormV3 = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
     const { email, password, repeatPassword } = rawFormData;
@@ -60,9 +62,9 @@ function SubscribeFormV3({
         password,
         repeat_password: repeatPassword,
       };
-      setError(null);
       fillFormInfos(formV3Infos);
       setIsThirdFormValidated(true);
+      setIsGlobalFormSubmitted(true);
     }
   };
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { AxiosError } from 'axios';
 import axios from '../../../../axios';
 
 import SubscribeFormV1 from './SubscribeForms/SubscribeFormV1';
@@ -32,6 +33,13 @@ export default function FormSection({
   // STATE 2 : hobbies
   const [hobbies, setHobbies] = useState<IHobby[]>([]);
 
+  // STATE 3 : error
+  const [registerError, setRegisterError] = useState<null | string>(null);
+
+  // STATE 4 : is global form submitted
+  const [isGlobalFormSubmitted, setIsGlobalFormSubmitted] =
+    useState<boolean>(false);
+
   const fillFormInfos = (incomingInfos: object) => {
     setFormInfos((previousInfos) => {
       return { ...previousInfos, ...incomingInfos };
@@ -47,19 +55,32 @@ export default function FormSection({
     setIsSecondFormValidated(false);
   };
 
+  const goToThirdForm = () => {
+    setIsThirdFormValidated(false);
+  };
+
   useEffect(() => {
     const submitGlobalForm = async () => {
       try {
+        console.log(formInfos);
         const response = await axios.post('/public/register', formInfos);
-        console.log(response);
-      } catch (error) {
-        console.error(error);
+        setRegisterError(null);
+        console.log(response.status);
+      } catch (e) {
+        if (e instanceof AxiosError && e.response?.status === 400) {
+          console.error(e);
+          setRegisterError(
+            "L'adresse e-mail que vous avez renseigné correspond à un compte déjà créé. Essayez de vous connecter"
+          );
+        } else {
+          console.error(e);
+        }
       }
     };
-    if (isThirdFormValidated) {
+    if (isGlobalFormSubmitted) {
       submitGlobalForm();
     }
-  });
+  }, [formInfos, isGlobalFormSubmitted]);
 
   useEffect(() => {
     const fetchAndSaveHobbies = async () => {
@@ -118,6 +139,7 @@ export default function FormSection({
             onPreviousClick={goToSecondForm}
             fillFormInfos={fillFormInfos}
             setIsThirdFormValidated={setIsThirdFormValidated}
+            setIsGlobalFormSubmitted={setIsGlobalFormSubmitted}
           />
         </section>
       );
@@ -125,7 +147,7 @@ export default function FormSection({
 
     return (
       <section className="bg-thirdForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
-        <EndSection />
+        <EndSection onPreviousClick={goToThirdForm} error={registerError} />
       </section>
     );
   };
