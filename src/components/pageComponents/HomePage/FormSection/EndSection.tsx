@@ -30,8 +30,7 @@ export default function EndSection({
             Votre inscription est en cours de traitement.
           </p>
           <p className="mb-4 text-lg text-primaryText font-semibold text-center">
-            Une fois votre profil validé vous pourrez vous connecter d&#39;ici
-            quelques heures.
+            Une fois votre profil validé, vous pourrez vous connecter.
           </p>
         </>
       )}

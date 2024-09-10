@@ -9,13 +9,13 @@ import computeAge from '../../../../../utils/computeAge';
 
 interface SubscribeFormV1Props {
   formInfos: IRegisterForm;
-  setIsFirstFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsForm1Validated: React.Dispatch<React.SetStateAction<boolean>>;
   fillFormInfos: (incomingInfos: object) => void;
 }
 
 export default function SubscribeFormV1({
   formInfos,
-  setIsFirstFormValidated,
+  setIsForm1Validated,
   fillFormInfos,
 }: SubscribeFormV1Props) {
   // STATE 1 : name input value
@@ -66,7 +66,7 @@ export default function SubscribeFormV1({
       };
       setError(null);
       fillFormInfos(formV1Infos);
-      setIsFirstFormValidated(true);
+      setIsForm1Validated(true);
     }
   };
 
@@ -152,7 +152,7 @@ export default function SubscribeFormV1({
           </p>
         </div>
         <div className="step_paragraph text-primaryText text-center text-sm">
-          <p>Etape 1/3: Informations personelles</p>
+          <p>Étape 1/4: Informations personnelles</p>
         </div>
       </form>
     </div>

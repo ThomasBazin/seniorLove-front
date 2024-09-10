@@ -5,7 +5,7 @@ import { IHobby } from '../../../../../@types/IHobby';
 interface SubscribeFormV2Props {
   hobbies: IHobby[];
   setHobbies: React.Dispatch<React.SetStateAction<IHobby[]>>;
-  setIsSecondFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsForm2Validated: React.Dispatch<React.SetStateAction<boolean>>;
   onPreviousClick: () => void;
   fillFormInfos: (incomingInfos: object) => void;
 }
@@ -13,7 +13,7 @@ interface SubscribeFormV2Props {
 export default function SubscribeFormV2({
   hobbies,
   setHobbies,
-  setIsSecondFormValidated,
+  setIsForm2Validated,
   onPreviousClick,
   fillFormInfos,
 }: SubscribeFormV2Props) {
@@ -31,7 +31,7 @@ export default function SubscribeFormV2({
     } else {
       setError(null);
       fillFormInfos({ hobbies: userHobbies });
-      setIsSecondFormValidated(true);
+      setIsForm2Validated(true);
     }
   };
 
@@ -81,7 +81,7 @@ export default function SubscribeFormV2({
         </div>
 
         <div className="step_paragraph text-primaryText flex justify-center">
-          <p>Etape 2/3: Centres d’intérêt</p>
+          <p>Étape 2/4: Centres d’intérêt</p>
         </div>
         <div className="flex justify-center text-secondaryPink mt-1">
           <button type="button" onClick={onPreviousClick}>

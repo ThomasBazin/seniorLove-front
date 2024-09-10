@@ -1,11 +1,11 @@
 interface ArticleRowProps {
-  isFirstFormValidated: boolean;
-  isSecondFormValidated: boolean;
+  isForm1Validated: boolean;
+  isForm2Validated: boolean;
 }
 
 export default function ArticleRow({
-  isFirstFormValidated,
-  isSecondFormValidated,
+  isForm1Validated,
+  isForm2Validated,
 }: ArticleRowProps) {
   return (
     <article className="bg-primaryGrey px-3 pt-12 md:px-12 xl:px-24 md:py-12 flex flex-col">
@@ -13,24 +13,24 @@ export default function ArticleRow({
         <div className="flex flex-col gap-3 md:w-2/3">
           {/* Title */}
           <h3 className="font-semibold">
-            {!isFirstFormValidated && !isSecondFormValidated && (
+            {!isForm1Validated && !isForm2Validated && (
               <>
                 Bienvenue sur Senior Love, votre plateforme de rencontres et
                 d&apos;événements dédiée aux seniors dynamiques !
               </>
             )}
-            {isFirstFormValidated && !isSecondFormValidated && (
+            {isForm1Validated && !isForm2Validated && (
               <>
                 Senior Love, un espace conçu pour vous offrir bien plus
                 qu&apos;une simple rencontre !
               </>
             )}
-            {isFirstFormValidated && isSecondFormValidated && (
+            {isForm1Validated && isForm2Validated && (
               <>Rejoignez Senior Love et épanouissez-vous !</>
             )}
           </h3>
           {/* Paragraph */}
-          {!isFirstFormValidated && !isSecondFormValidated && (
+          {!isForm1Validated && !isForm2Validated && (
             <>
               <p>
                 Chez SeniorLove, nous croyons que la passion et la connexion
@@ -55,7 +55,7 @@ export default function ArticleRow({
               </ul>
             </>
           )}
-          {isFirstFormValidated && !isSecondFormValidated && (
+          {isForm1Validated && !isForm2Validated && (
             <p>
               Nous savons qu&apos;il peut être intimidant de franchir le pas,
               mais soyez assuré que SeniorLove met tout en œuvre pour que votre
@@ -65,7 +65,7 @@ export default function ArticleRow({
               des personnes, vous créerez des liens autour de passions communes.
             </p>
           )}
-          {isFirstFormValidated && isSecondFormValidated && (
+          {isForm1Validated && isForm2Validated && (
             <p>
               Chez Senior Love, nous croyons que chaque étape de la vie est une
               opportunité d&apos;explorer, de découvrir et de se reconnecter.
@@ -80,21 +80,21 @@ export default function ArticleRow({
         </div>
 
         {/* Photo */}
-        {!isFirstFormValidated && !isSecondFormValidated && (
+        {!isForm1Validated && !isForm2Validated && (
           <img
             src="/img/senior-forest.webp"
             alt="Un homme enlaçant une femme."
             className="w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg mx-auto"
           />
         )}
-        {isFirstFormValidated && !isSecondFormValidated && (
+        {isForm1Validated && !isForm2Validated && (
           <img
             src="/img/senior-friends-activities.webp"
             alt="Deux couples au théatre tenant des accessoires"
             className="w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg mx-auto"
           />
         )}
-        {isFirstFormValidated && isSecondFormValidated && (
+        {isForm1Validated && isForm2Validated && (
           <img
             src="/img/senior-chess.webp"
             alt="Deux couple qui joue aux échecs "

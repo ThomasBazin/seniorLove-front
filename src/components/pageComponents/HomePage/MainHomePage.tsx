@@ -6,29 +6,34 @@ import HeadbandV2 from '../../standaloneComponents/Headband/HeadbandV2';
 
 export default function Main() {
   // STATE 1 : isFirstFormValidated
-  const [isFirstFormValidated, setIsFirstFormValidated] = useState(false);
+  const [isForm1Validated, setIsForm1Validated] = useState(false);
 
   // STATE 2 : isSecondFormValidated
-  const [isSecondFormValidated, setIsSecondFormValidated] = useState(false);
+  const [isForm2Validated, setIsForm2Validated] = useState(false);
 
   // STATE 3 : isThirdFormValidated
-  const [isThirdFormValidated, setisThirdFormValidated] = useState(false);
+  const [isForm3Validated, setIsForm3Validated] = useState(false);
+
+  // STATE 4 : isFourthFormValidated
+  const [isForm4Validated, setisForm4Validated] = useState(false);
 
   return (
     <main className="w-full">
       <FormSection
-        isFirstFormValidated={isFirstFormValidated}
-        setIsFirstFormValidated={setIsFirstFormValidated}
-        isSecondFormValidated={isSecondFormValidated}
-        setIsSecondFormValidated={setIsSecondFormValidated}
-        isThirdFormValidated={isThirdFormValidated}
-        setIsThirdFormValidated={setisThirdFormValidated}
+        isForm1Validated={isForm1Validated}
+        setIsForm1Validated={setIsForm1Validated}
+        isForm2Validated={isForm2Validated}
+        setIsForm2Validated={setIsForm2Validated}
+        isForm3Validated={isForm3Validated}
+        setIsForm3Validated={setIsForm3Validated}
+        isForm4Validated={isForm4Validated}
+        setIsForm4Validated={setisForm4Validated}
       />
 
-      {!isFirstFormValidated ? <HeadbandV1 /> : <HeadbandV2 />}
+      {!isForm1Validated ? <HeadbandV1 /> : <HeadbandV2 />}
       <DescriptionSection
-        isFirstFormValidated={isFirstFormValidated}
-        isSecondFormValidated={isSecondFormValidated}
+        isForm1Validated={isForm1Validated}
+        isForm2Validated={isForm2Validated}
       />
     </main>
   );

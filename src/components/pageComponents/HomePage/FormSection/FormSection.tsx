@@ -5,27 +5,32 @@ import axios from '../../../../axios';
 import SubscribeFormV1 from './SubscribeForms/SubscribeFormV1';
 import SubscribeFormV2 from './SubscribeForms/SubscribeFormV2';
 import SubscribeFormV3 from './SubscribeForms/SubscribeFormV3';
+import SubscribeFormV4 from './SubscribeForms/SubscribeFormV4';
 import EndSection from './EndSection';
 
 import { IHobby } from '../../../../@types/IHobby';
 import { IRegisterForm } from '../../../../@types/IRegisterForm';
 
 interface FormSectionProps {
-  setIsFirstFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
-  isFirstFormValidated: boolean;
-  setIsSecondFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
-  isSecondFormValidated: boolean;
-  isThirdFormValidated: boolean;
-  setIsThirdFormValidated: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsForm1Validated: React.Dispatch<React.SetStateAction<boolean>>;
+  isForm1Validated: boolean;
+  isForm2Validated: boolean;
+  setIsForm2Validated: React.Dispatch<React.SetStateAction<boolean>>;
+  isForm3Validated: boolean;
+  setIsForm3Validated: React.Dispatch<React.SetStateAction<boolean>>;
+  isForm4Validated: boolean;
+  setIsForm4Validated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function FormSection({
-  isFirstFormValidated,
-  setIsFirstFormValidated,
-  isSecondFormValidated,
-  setIsSecondFormValidated,
-  isThirdFormValidated,
-  setIsThirdFormValidated,
+  isForm1Validated,
+  setIsForm1Validated,
+  isForm2Validated,
+  setIsForm2Validated,
+  isForm3Validated,
+  setIsForm3Validated,
+  isForm4Validated,
+  setIsForm4Validated,
 }: FormSectionProps) {
   // STATE 1 :formInfos
   const [formInfos, setFormInfos] = useState({} as IRegisterForm);
@@ -44,25 +49,27 @@ export default function FormSection({
     setFormInfos((previousInfos) => {
       return { ...previousInfos, ...incomingInfos };
     });
-    console.log(formInfos);
   };
 
-  const goToFirstForm = () => {
-    setIsFirstFormValidated(false);
+  const goToForm1 = () => {
+    setIsForm1Validated(false);
   };
 
-  const goToSecondForm = () => {
-    setIsSecondFormValidated(false);
+  const goToForm2 = () => {
+    setIsForm2Validated(false);
   };
 
-  const goToThirdForm = () => {
-    setIsThirdFormValidated(false);
+  const goToForm3 = () => {
+    setIsForm3Validated(false);
+  };
+
+  const goToForm4 = () => {
+    setIsForm4Validated(false);
   };
 
   useEffect(() => {
     const submitGlobalForm = async () => {
       try {
-        console.log(formInfos);
         const response = await axios.post('/public/register', formInfos);
         setRegisterError(null);
         console.log(response.status);
@@ -98,8 +105,8 @@ export default function FormSection({
   }, []);
 
   const renderContent = () => {
-    // if button never cliked show Form 1
-    if (!isFirstFormValidated) {
+    // if form 1 not yet validated, show form 1
+    if (!isForm1Validated) {
       return (
         <section className="bg-firstForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
           <div className="hidden md:block font-semibold text-2xl xl:text-4xl md:w-1/2 lg:2/3">
@@ -111,34 +118,47 @@ export default function FormSection({
           </div>
           <SubscribeFormV1
             formInfos={formInfos}
-            setIsFirstFormValidated={setIsFirstFormValidated}
+            setIsForm1Validated={setIsForm1Validated}
             fillFormInfos={fillFormInfos}
           />
         </section>
       );
     }
-    // if button in Form 1 cliked show Form 2
-    if (!isSecondFormValidated) {
+    // if form 2 not yet validated, show form 2
+    if (!isForm2Validated) {
       return (
         <section className="bg-secondForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
           <SubscribeFormV2
             hobbies={hobbies}
             setHobbies={setHobbies}
-            setIsSecondFormValidated={setIsSecondFormValidated}
-            onPreviousClick={goToFirstForm}
+            setIsForm2Validated={setIsForm2Validated}
+            onPreviousClick={goToForm1}
             fillFormInfos={fillFormInfos}
           />
         </section>
       );
     }
-    // if button in Form 2 cliked show Form 3
-    if (!isThirdFormValidated) {
+    // if form 3 not yet validated, show form 3
+    if (!isForm3Validated) {
       return (
         <section className="bg-thirdForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
           <SubscribeFormV3
-            onPreviousClick={goToSecondForm}
+            formInfos={formInfos}
+            setIsForm3Validated={setIsForm3Validated}
             fillFormInfos={fillFormInfos}
-            setIsThirdFormValidated={setIsThirdFormValidated}
+            onPreviousClick={goToForm2}
+          />
+        </section>
+      );
+    }
+    // // if form 4 not yet validated, show form 4
+    if (!isForm4Validated) {
+      return (
+        <section className="bg-fourthForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
+          <SubscribeFormV4
+            onPreviousClick={goToForm3}
+            fillFormInfos={fillFormInfos}
+            setIsForm4Validated={setIsForm4Validated}
             setIsGlobalFormSubmitted={setIsGlobalFormSubmitted}
           />
         </section>
@@ -146,8 +166,8 @@ export default function FormSection({
     }
 
     return (
-      <section className="bg-thirdForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
-        <EndSection onPreviousClick={goToThirdForm} error={registerError} />
+      <section className="bg-endForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
+        <EndSection onPreviousClick={goToForm4} error={registerError} />
       </section>
     );
   };
