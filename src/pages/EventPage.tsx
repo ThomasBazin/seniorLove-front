@@ -1,5 +1,18 @@
 import MainEventPage from '../components/pageComponents/EventPage/MainEventPage';
 
-export default function EventPage() {
-  return <MainEventPage />;
+interface EventPageProps {
+  isAuthenticated: boolean;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function EventPage({
+  isAuthenticated,
+  setIsAuthenticated,
+}: EventPageProps) {
+  return (
+    <MainEventPage
+      isAuthenticated={isAuthenticated}
+      setIsAuthenticated={setIsAuthenticated}
+    />
+  );
 }

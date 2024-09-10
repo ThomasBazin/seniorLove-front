@@ -38,7 +38,15 @@ export default function App({
               />
             }
           />
-          <Route path="/events/:id" element={<EventPage />} />
+          <Route
+            path="/events/:id"
+            element={
+              <EventPage
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
         </>
       ) : (
         <>
@@ -56,7 +64,15 @@ export default function App({
               />
             }
           />
-          <Route path="/events/:id" element={<EventPage />} />
+          <Route
+            path="/events/:id"
+            element={
+              <EventPage
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
         </>
       )}
       <Route path="*" element={<Error404Page />} />

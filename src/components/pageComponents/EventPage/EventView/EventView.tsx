@@ -8,7 +8,12 @@ import axios from '../../../../axios';
 import { IEvent } from '../../../../@types/IEvent';
 import { IUsersFull } from '../../../../@types/IUsersFull';
 
-export default function EventView() {
+import displayFullDate from '../../../../utils/displayFullDate';
+
+interface EventViewProps {
+  isAuthenticated: boolean;
+}
+export default function EventView({ isAuthenticated }: EventViewProps) {
   const [userEvents, setUserEvents] = useState<IUsersFull[]>([]);
   const [isSubscribe, setIsSubscribe] = useState<boolean>();
   const [buttonText, setButtonText] = useState<string>('Je participe');
@@ -95,7 +100,8 @@ export default function EventView() {
           <div className="flex flex-col md:flex-row-reverse md:justify-between">
             <div className="flex md:flex-col md:pl-20 gap-4 flex-wrap justify-center">
               <p className="text-primaryText italic">
-                <span className="font-semibold">Date</span> : {event.date}
+                <span className="font-semibold">Date</span> :{' '}
+                {displayFullDate(event.date)}
               </p>
               <p className="text-primaryText italic">
                 <span className="font-semibold">Lieu</span> {event.location},
@@ -114,7 +120,7 @@ export default function EventView() {
               </div>
             </div>
             {/* Description */}
-            <div className="md:w-4/5 ">
+            <div className="md:w-4/5 pb-8">
               <p className="text-primaryText py-6 md:py-0 italic">
                 {event.description}
               </p>
@@ -126,15 +132,21 @@ export default function EventView() {
             Vous êtes déja inscrit(e) à cet évenement
           </p>
         )}
-        <button
-          type="button"
-          className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
-          onClick={() =>
-            isSubscribe ? unsubscribeEvent(event.id) : subscribeEvent(event.id)
-          }
-        >
-          {buttonText}
-        </button>
+
+        {isAuthenticated && (
+          <button
+            type="button"
+            className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
+            onClick={() =>
+              isSubscribe
+                ? unsubscribeEvent(event.id)
+                : subscribeEvent(event.id)
+            }
+          >
+            {buttonText}
+          </button>
+        )}
+
         <ToastContainer />
       </div>
     </div>
