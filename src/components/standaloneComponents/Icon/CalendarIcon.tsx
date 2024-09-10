@@ -1,4 +1,8 @@
-export default function CalendarIcon() {
+interface CalendarIconProps {
+  extractedDate: { day: number; month: string };
+}
+
+export default function CalendarIcon({ extractedDate }: CalendarIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +43,7 @@ export default function CalendarIcon() {
         fill="white"
         textAnchor="middle"
       >
-        SEP
+        {extractedDate.month}
       </text>
 
       {/* <!-- Day text --> */}
@@ -51,7 +55,7 @@ export default function CalendarIcon() {
         fill="#333"
         textAnchor="middle"
       >
-        10
+        {extractedDate.day}
       </text>
     </svg>
   );

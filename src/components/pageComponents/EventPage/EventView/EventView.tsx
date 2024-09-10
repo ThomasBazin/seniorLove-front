@@ -8,7 +8,10 @@ import axios from '../../../../axios';
 import { IEvent } from '../../../../@types/IEvent';
 import { IUsersFull } from '../../../../@types/IUsersFull';
 
-import displayFullDate from '../../../../utils/displayFullDate';
+import {
+  displayFullDate,
+  formatTime,
+} from '../../../../utils/dateAndTimeUtils';
 
 interface EventViewProps {
   isAuthenticated: boolean;
@@ -100,11 +103,15 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
           <div className="flex flex-col md:flex-row-reverse md:justify-between">
             <div className="flex md:flex-col md:pl-20 gap-4 flex-wrap justify-center">
               <p className="text-primaryText italic">
-                <span className="font-semibold">Date</span> :{' '}
+                <span className="font-semibold">Date : </span>
                 {displayFullDate(event.date)}
               </p>
               <p className="text-primaryText italic">
-                <span className="font-semibold">Lieu</span> {event.location},
+                <span className="font-semibold">Heure : </span>
+                {formatTime(event.time)}
+              </p>
+              <p className="text-primaryText italic">
+                <span className="font-semibold">Lieu : </span> {event.location},
                 France
               </p>
               <div>
