@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-console */
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -88,6 +88,9 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
     }
   }
 
+  if (!event) {
+    return <Navigate to="/error" replace />;
+  }
   return (
     <div className="w-full min-h-full flex-grow flex bg-primaryGrey">
       <div className="pt-8 px-8 max-w-7xl w-full justify-center mx-auto ">

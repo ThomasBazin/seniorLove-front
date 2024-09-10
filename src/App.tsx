@@ -1,5 +1,5 @@
 // Importing components
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
 import EventsPage from './pages/EventsPage';
@@ -75,7 +75,11 @@ export default function App({
           />
         </>
       )}
-      <Route path="*" element={<Error404Page />} />
+      <Route path="*" element={<Navigate to="/error" replace />} />
+      <Route
+        path="/error"
+        element={<Error404Page isAuthenticated={isAuthenticated} />}
+      />
     </Routes>
   );
 }
