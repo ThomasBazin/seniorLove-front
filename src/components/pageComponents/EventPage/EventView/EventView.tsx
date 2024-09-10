@@ -39,6 +39,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
   // vérification des évenements possédés par l'user
   const checkSubscribe = userEvents.some((element) => element.id === event.id);
 
+  // Fetch me to check subscriptions to events
   useEffect(() => {
     const getUser = async () => {
       try {
