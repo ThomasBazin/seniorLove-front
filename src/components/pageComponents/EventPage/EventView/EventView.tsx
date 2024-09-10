@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-console */
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -5,9 +6,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from '../../../../axios';
 import { IEvent } from '../../../../@types/IEvent';
+import { IUsersFull } from '../../../../@types/IUsersFull';
 
 export default function EventView() {
-  const [userEvents, setUserEvents] = useState<object[]>([]);
+  const [userEvents, setUserEvents] = useState<IUsersFull[]>([]);
   const [isSubscribe, setIsSubscribe] = useState<boolean>();
   const [buttonText, setButtonText] = useState<string>('Je participe');
 
