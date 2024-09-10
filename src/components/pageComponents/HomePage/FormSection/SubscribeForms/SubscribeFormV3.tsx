@@ -58,7 +58,7 @@ function SubscribeFormV3() {
           <DefaultBtn btnText="Valider" />
         </div>
         <div className="step_paragraph text-primaryText flex justify-center">
-          <p>Etape 3/3: Validation inscription</p>
+          <p>Etape 3/3: Validation de votre inscription</p>
         </div>
       </form>
     </div>

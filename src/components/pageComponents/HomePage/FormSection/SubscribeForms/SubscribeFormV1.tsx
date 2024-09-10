@@ -38,7 +38,7 @@ export default function SubscribeFormV1({
           >
             <option value="male">Un homme</option>
             <option value="female">Une femme</option>
-            <option value="other">Autres</option>
+            <option value="other">Autre</option>
           </select>
         </label>
 
@@ -59,7 +59,7 @@ export default function SubscribeFormV1({
         </div>
         <div className="connexion_paragraph text-primaryText text-center text-base mb-4">
           <p>
-            Deja membre? Connectez-vous{' '}
+            Déjà membre? Connectez-vous{' '}
             <Link to="/login" className="text-secondaryPink">
               ici
             </Link>
@@ -67,7 +67,7 @@ export default function SubscribeFormV1({
           </p>
         </div>
         <div className="step_paragraph text-primaryText text-center text-sm">
-          <p>Etape 1/3: Informations personelles</p>
+          <p>Etape 1/3: Informations personnelles</p>
         </div>
       </form>
     </div>

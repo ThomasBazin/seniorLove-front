@@ -12,7 +12,7 @@ export default function FilterPanel() {
         btnText={
           isFilterVisible
             ? 'Masquer les filtres de recherche'
-            : 'Afficher les filtres de recherche'
+            : 'Affiner votre recherche'
         }
         onClick={toggleFilterVisibility}
       />
@@ -29,7 +29,7 @@ export default function FilterPanel() {
             <option value="">Choisir..</option>
             <option value="female">Femme</option>
             <option value="male">Homme</option>
-            <option value="other">Autres</option>
+            <option value="other">Autre</option>
             <option value="allGender">Tous</option>
           </select>
         </label>

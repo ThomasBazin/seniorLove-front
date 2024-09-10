@@ -10,9 +10,8 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-white p-6 flex-column lg:justify-between items-center rounded-lg w-full mx-auto text-primaryText text-sm md:text-base pb-20 md:pb-6 static bottom-0">
+    <footer className="bg-white p-4 flex flex-col lg:justify-between items-center rounded-lg w-full mx-auto text-primaryText text-xs md:text-sm lg:text-base pb-12 md:pb-4 static bottom-0">
       <div className="footer-assistance_container text-center mb-2">
-        <p>Assistance</p>
         <p>
           Pour toute question ou assistance, veuillez nous contacter à
           l&apos;adresse suivante :{' '}

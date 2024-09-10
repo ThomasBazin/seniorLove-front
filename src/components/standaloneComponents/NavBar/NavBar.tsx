@@ -6,7 +6,7 @@ import Logo from '/img/logo-text-seniorlove.webp';
 
 export default function NavBarV1() {
   const NavBarButtons = [
-    { text: 'Évènements', to: '/events' },
+    { text: 'Evènements', to: '/events' },
     { text: 'Se connecter', to: '/login' },
   ];
 
@@ -16,8 +16,8 @@ export default function NavBarV1() {
         <Link to="/">
           <img
             src={Logo}
-            alt="Retour a l'accueil"
-            className="max-w-44 lg:max-w-72"
+            alt="Retour à l'accueil"
+            className="max-w-36 lg:max-w-52"
           />
         </Link>
         <div className="flex gap-6">

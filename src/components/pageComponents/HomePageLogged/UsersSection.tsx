@@ -53,7 +53,7 @@ export default function UsersSection() {
           <ProfileSticker user={user} key={user.id} />
         ))}
       </div>
-      <DefaultBtn btnText="Voir plus de profils" onClick={() => window.location.href = '/profils'} />
+      <DefaultBtn btnText="Voir plus de profils" onClick={() => window.location.href = '/profiles'} />
     </div>
   );
 }

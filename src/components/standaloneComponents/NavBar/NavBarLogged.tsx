@@ -18,10 +18,10 @@ export default function NavBarLogged({
   };
   const NavBarButtons = [
     { text: 'Accueil', to: '/' },
-    { text: 'Découvrir', to: '/profils' },
+    { text: 'Découvrir', to: '/profiles' },
     { text: 'Evènements', to: '/events' },
     { text: 'Messages', to: '#' },
-    { text: 'Mon profil', to: '#' },
+    { text: 'Mon profil', to: 'myprofile' },
     { text: 'Se déconnecter', to: '/', onclick: onClickDisconnect },
   ];
 
@@ -31,7 +31,7 @@ export default function NavBarLogged({
         <Link to="/">
           <img
             src={Logo}
-            alt="Retour a l'accueil"
+            alt="Retour à l'accueil"
             className="max-w-36 lg:max-w-52"
           />
         </Link>
