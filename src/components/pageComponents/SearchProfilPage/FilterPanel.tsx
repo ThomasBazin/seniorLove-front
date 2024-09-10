@@ -1,11 +1,26 @@
 import { useState } from 'react';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
 
-export default function FilterPanel() {
+export default function FilterPanel({
+  setFilter,
+}: {
+  setFilter: (eventData) => void;
+}) {
   const [isFilterVisible, setIsFilterVisible] = useState(false);
+  // afficher/cacher le formulaire de recherche
   const toggleFilterVisibility = () => {
     setIsFilterVisible((prevState) => !prevState);
   };
+
+  function changeFilter(name: string, value: any) {
+    setFilter((prevFilter) =>
+      prevFilter.map((filterValue) => ({
+        ...filterValue,
+        [name]: value,
+      }))
+    );
+  }
+
   return (
     <div className="flex flex-col items-center gap-4">
       <DefaultBtn
@@ -25,6 +40,7 @@ export default function FilterPanel() {
             name="gender"
             id="gender"
             className="rounded-lg p-2 border border-primaryGrey min-w-[150px]"
+            onChange={(e) => changeFilter('gender', e.currentTarget.value)}
           >
             <option value="">Choisir..</option>
             <option value="female">Femme</option>
@@ -39,6 +55,7 @@ export default function FilterPanel() {
             name="hobbiesFilter"
             id="hobbiesFilter"
             defaultChecked
+            onChange={(e) => changeFilter('byHobbies', e.currentTarget.checked)}
           />
           Centre d&apos;intérêt en commun
         </label>
@@ -48,6 +65,7 @@ export default function FilterPanel() {
             name="age"
             id="age"
             className="rounded-lg p-2 border border-primaryGrey min-w-[150px]"
+            onChange={(e) => changeFilter('age', e.currentTarget.value)}
           >
             <option value="">Choisir..</option>
             <option value="sixty">De 60 à 69 ans</option>

@@ -5,7 +5,7 @@ import axios from '../../../axios';
 import { getTokenAndDataFromLocalStorage } from '../../../localStorage/localStorage';
 import { IUsers } from '../../../@types/IUsers';
 
-export default function DisplayUsers() {
+export default function DisplayUsers({ filter }) {
   const response = getTokenAndDataFromLocalStorage();
   const token = response?.token;
   const [users, setUsers] = useState<IUsers[]>([]);
