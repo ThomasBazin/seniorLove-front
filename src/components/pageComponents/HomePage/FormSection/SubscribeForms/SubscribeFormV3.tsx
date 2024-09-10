@@ -91,10 +91,11 @@ export default function SubscribeFormV3({
         </label>
 
         <label htmlFor="birthDate" className="mb-4">
-          Présentez-vous en quelques lignes
+          Présentez-vous en quelques lignes (max 1000 caractères)
           <textarea
             name="description"
             id="description"
+            maxLength={1000}
             placeholder="Écrivez votre description ici"
             className="w-full rounded-lg p-2 border border-primaryGrey"
             value={descriptionInputValue}
