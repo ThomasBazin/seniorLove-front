@@ -49,16 +49,7 @@ export default function FilterPanel({
             <option value="allGender">Tous</option>
           </select>
         </label>
-        <label htmlFor="hobbiesFilter" className="flex gap-4">
-          <input
-            type="checkbox"
-            name="hobbiesFilter"
-            id="hobbiesFilter"
-            defaultChecked
-            onChange={(e) => changeFilter('byHobbies', e.currentTarget.checked)}
-          />
-          Centre d&apos;intérêt en commun
-        </label>
+
         <label htmlFor="age" className="flex items-center gap-2">
           Age :
           <select
@@ -68,10 +59,10 @@ export default function FilterPanel({
             onChange={(e) => changeFilter('age', e.currentTarget.value)}
           >
             <option value="">Choisir..</option>
-            <option value="sixty">De 60 à 69 ans</option>
-            <option value="seventy">De 70 à 79 ans</option>
-            <option value="eighty">80 ans et plus</option>
-            <option value="allAge">Tous les ages</option>
+            <option value="60">De 60 à 69 ans</option>
+            <option value="70">De 70 à 79 ans</option>
+            <option value="80">80 ans et plus</option>
+            <option value="0">Tous les ages</option>
           </select>
         </label>
       </div>

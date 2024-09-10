@@ -7,13 +7,12 @@ export default function MainSearchProfilPage() {
   const [filter, setFilter] = useState<FilterUser[]>([
     {
       gender: 'allGender',
-      byHobbies: true,
-      age: 'allAge',
+      age: '60',
     },
   ]);
   return (
     <main className="w-full min-h-screen flex-grow flex flex-col justify-start items-center bg-backgroundPink">
-      <FilterPanel setFilter={setFilter} filter={filter} />
+      <FilterPanel setFilter={setFilter} />
       <DisplayUsers filter={filter} />
     </main>
   );
