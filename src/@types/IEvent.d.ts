@@ -7,5 +7,6 @@ export interface IEvent {
   picture: string;
   description: string;
   date: string;
+  time: string;
   hobbies: IHobby[];
 }

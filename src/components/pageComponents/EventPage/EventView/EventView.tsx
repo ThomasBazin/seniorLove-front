@@ -1,14 +1,23 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-console */
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from '../../../../axios';
 import { IEvent } from '../../../../@types/IEvent';
 import { IUsersFull } from '../../../../@types/IUsersFull';
+import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 
-export default function EventView() {
+import {
+  displayFullDate,
+  formatTime,
+} from '../../../../utils/dateAndTimeUtils';
+
+interface EventViewProps {
+  isAuthenticated: boolean;
+}
+export default function EventView({ isAuthenticated }: EventViewProps) {
   const [userEvents, setUserEvents] = useState<IUsersFull[]>([]);
   const [isSubscribe, setIsSubscribe] = useState<boolean>();
   const [buttonText, setButtonText] = useState<string>('Je participe');
@@ -30,6 +39,7 @@ export default function EventView() {
   // vérification des évenements possédés par l'user
   const checkSubscribe = userEvents.some((element) => element.id === event.id);
 
+  // Fetch me to check subscriptions to events
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -39,7 +49,9 @@ export default function EventView() {
         console.log(error);
       }
     };
-    getUser();
+    if (isAuthenticated) {
+      getUser();
+    }
 
     if (checkSubscribe) {
       setIsSubscribe(true);
@@ -48,7 +60,7 @@ export default function EventView() {
     }
 
     setButtonText(isSubscribe ? 'Me désinscrire' : 'Je participe');
-  }, [checkSubscribe, isSubscribe]);
+  }, [checkSubscribe, isAuthenticated, isSubscribe]);
 
   // s'inscrire à un évenement
   async function subscribeEvent(eventId: number) {
@@ -95,10 +107,15 @@ export default function EventView() {
           <div className="flex flex-col md:flex-row-reverse md:justify-between">
             <div className="flex md:flex-col md:pl-20 gap-4 flex-wrap justify-center">
               <p className="text-primaryText italic">
-                <span className="font-semibold">Date</span> : {event.date}
+                <span className="font-semibold">Date : </span>
+                {displayFullDate(event.date)}
               </p>
               <p className="text-primaryText italic">
-                <span className="font-semibold">Lieu</span> {event.location},
+                <span className="font-semibold">Heure : </span>
+                {formatTime(event.time)}
+              </p>
+              <p className="text-primaryText italic">
+                <span className="font-semibold">Lieu : </span> {event.location},
                 France
               </p>
               <div>
@@ -114,7 +131,7 @@ export default function EventView() {
               </div>
             </div>
             {/* Description */}
-            <div className="md:w-4/5 ">
+            <div className="md:w-4/5 pb-8">
               <p className="text-primaryText py-6 md:py-0 italic">
                 {event.description}
               </p>
@@ -126,15 +143,36 @@ export default function EventView() {
             Vous êtes déja inscrit(e) à cet évenement
           </p>
         )}
-        <button
-          type="button"
-          className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
-          onClick={() =>
-            isSubscribe ? unsubscribeEvent(event.id) : subscribeEvent(event.id)
-          }
-        >
-          {buttonText}
-        </button>
+
+        {isAuthenticated ? (
+          <button
+            type="button"
+            className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
+            onClick={() =>
+              isSubscribe
+                ? unsubscribeEvent(event.id)
+                : subscribeEvent(event.id)
+            }
+          >
+            {buttonText}
+          </button>
+        ) : (
+          <>
+            <Link to="/">
+              <DefaultBtn btnText="Inscrivez-vous" btnType="button" />
+            </Link>
+            <div className="connexion_paragraph text-primaryText text-center text-base mb-4">
+              <p>
+                Deja membre? Connectez-vous{' '}
+                <Link to="/login" className="text-secondaryPink">
+                  ici
+                </Link>
+                .
+              </p>
+            </div>
+          </>
+        )}
+
         <ToastContainer />
       </div>
     </div>

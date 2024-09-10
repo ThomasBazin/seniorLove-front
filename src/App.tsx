@@ -1,7 +1,6 @@
 // Importing components
 import { Route, Routes } from 'react-router-dom';
 
-import { createContext, useEffect, useState } from 'react';
 import HomePage from './pages/HomePage';
 import EventsPage from './pages/EventsPage';
 import HomePageLogged from './pages/HomePageLogged';
@@ -23,7 +22,6 @@ export default function App({
 }: AppProps) {
   return (
     <Routes>
-      {/* TODO isAuthenticated */}
       {isAuthenticated ? (
         <>
           <Route
@@ -31,8 +29,24 @@ export default function App({
             element={<HomePageLogged setIsAuthenticated={setIsAuthenticated} />}
           />
           <Route path="/profils" element={<SearchProfilPage />} />
-          <Route path="/events" element={<EventsPage />} />
-          <Route path="/events/:id" element={<EventPage />} />
+          <Route
+            path="/events"
+            element={
+              <EventsPage
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
+          <Route
+            path="/events/:id"
+            element={
+              <EventPage
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
         </>
       ) : (
         <>
@@ -41,8 +55,24 @@ export default function App({
             path="/login"
             element={<ConnexionPage setUserToken={setUserToken} />}
           />
-          <Route path="/events" element={<EventsPage />} />
-          <Route path="/events/:id" element={<EventPage />} />
+          <Route
+            path="/events"
+            element={
+              <EventsPage
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
+          <Route
+            path="/events/:id"
+            element={
+              <EventPage
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
         </>
       )}
       <Route path="*" element={<Error404Page />} />
