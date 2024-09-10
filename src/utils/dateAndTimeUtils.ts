@@ -26,7 +26,7 @@ export function formatTime(time: string) {
 /**
  * Returns an object with abbreviated month in french and day
  * @param {string} date // string date YYYY-MM-DD
- * @returns {object} // formatted time 17h30
+ * @returns {object} // an object {day: number, month: string}
  */
 
 export function extractDayMonth(date: string) {

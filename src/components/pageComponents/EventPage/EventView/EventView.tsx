@@ -1,12 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-console */
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from '../../../../axios';
 import { IEvent } from '../../../../@types/IEvent';
 import { IUsersFull } from '../../../../@types/IUsersFull';
+import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 
 import {
   displayFullDate,
@@ -47,7 +48,9 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
         console.log(error);
       }
     };
-    getUser();
+    if (isAuthenticated) {
+      getUser();
+    }
 
     if (checkSubscribe) {
       setIsSubscribe(true);
@@ -56,7 +59,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
     }
 
     setButtonText(isSubscribe ? 'Me désinscrire' : 'Je participe');
-  }, [checkSubscribe, isSubscribe]);
+  }, [checkSubscribe, isAuthenticated, isSubscribe]);
 
   // s'inscrire à un évenement
   async function subscribeEvent(eventId: number) {
@@ -140,7 +143,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
           </p>
         )}
 
-        {isAuthenticated && (
+        {isAuthenticated ? (
           <button
             type="button"
             className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
@@ -152,6 +155,21 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
           >
             {buttonText}
           </button>
+        ) : (
+          <>
+            <Link to="/">
+              <DefaultBtn btnText="Inscrivez-vous" btnType="button" />
+            </Link>
+            <div className="connexion_paragraph text-primaryText text-center text-base mb-4">
+              <p>
+                Deja membre? Connectez-vous{' '}
+                <Link to="/login" className="text-secondaryPink">
+                  ici
+                </Link>
+                .
+              </p>
+            </div>
+          </>
         )}
 
         <ToastContainer />

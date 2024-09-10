@@ -10,7 +10,7 @@ export default function CalendarIcon({ extractedDate }: CalendarIconProps) {
       height="100"
       viewBox="0 0 100 100"
     >
-      {/* <!-- Calendar body --> */}
+      {/* Calendar body */}
       <rect
         x="10"
         y="20"
@@ -23,7 +23,7 @@ export default function CalendarIcon({ extractedDate }: CalendarIconProps) {
         strokeWidth="2"
       />
 
-      {/* <!-- Calendar header --> */}
+      {/* Calendar header */}
       <rect
         x="10"
         y="20"
@@ -34,7 +34,7 @@ export default function CalendarIcon({ extractedDate }: CalendarIconProps) {
         fill="#D85071"
       />
 
-      {/* <!-- Month text --> */}
+      {/* Month text */}
       <text
         x="50"
         y="35"
@@ -46,7 +46,7 @@ export default function CalendarIcon({ extractedDate }: CalendarIconProps) {
         {extractedDate.month}
       </text>
 
-      {/* <!-- Day text --> */}
+      {/* Day text */}
       <text
         x="50"
         y="70"
