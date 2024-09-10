@@ -4,14 +4,12 @@ export default function ConnectionArticleReverse() {
       <div className="flex flex-col gap-3 md:flex-row-reverse md:px-16 md:items-center md:justify-between md:gap-12 lg:gap-24">
         <div className="flex flex-col gap-3 md:w-2/3">
           <p>
-            <>
-              Que vous soyez en quête d’une relation amoureuse, de nouvelles
-              amitiés ou simplement de moments de partage autour de vos
-              passions, Senior Love est là pour répondre à vos désirs. Notre
-              plateforme est conçue pour vous connecter avec des personnes qui
-              partagent vos intérêts, tout en vous proposant des événements
-              captivants et des activités enrichissantes.
-            </>
+            Que vous soyez en quête d’une relation amoureuse, de nouvelles
+            amitiés ou simplement de moments de partage autour de vos passions,
+            Senior Love est là pour répondre à vos désirs. Notre plateforme est
+            conçue pour vous connecter avec des personnes qui partagent vos
+            intérêts, tout en vous proposant des événements captivants et des
+            activités enrichissantes.
           </p>
           <h3 className="font-semibold">
             Rejoignez-nous dès aujourd'hui sur Senior Love et lancez-vous dans
