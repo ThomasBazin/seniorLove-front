@@ -21,7 +21,9 @@ module.exports = {
       backgroundImage: {
         firstForm: "url('/img/first-form.webp')",
         secondForm: "url('/img/second-form.webp')",
-        thirdForm: "url('/img/third-form.webp')",
+        thirdForm: "url('/img/senior-laugh.webp')",
+        fourthForm: "url('/img/fourth-form.webp')",
+        endForm: "url('/img/senior-yoga.webp')",
         connectionForm: "url('/img/connection-form.webp')",
       },
       boxShadow: {

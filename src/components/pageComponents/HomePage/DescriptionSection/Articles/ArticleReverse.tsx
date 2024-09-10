@@ -1,18 +1,18 @@
 interface ArticleReverseProps {
-  isFirstFormValidated: boolean;
-  isSecondFormValidated: boolean;
+  isForm1Validated: boolean;
+  isForm2Validated: boolean;
 }
 
 export default function ArticleReverse({
-  isFirstFormValidated,
-  isSecondFormValidated,
+  isForm1Validated,
+  isForm2Validated,
 }: ArticleReverseProps) {
   return (
     <article className="bg-primaryGrey px-3 md:px-12 xl:px-24 py-12 flex flex-col">
       <div className="flex flex-col gap-3 md:flex-row-reverse md:px-16 md:items-center md:justify-between md:gap-12 lg:gap-24">
         <div className="flex flex-col gap-3 md:w-2/3">
           <p>
-            {!isFirstFormValidated && !isSecondFormValidated && (
+            {!isForm1Validated && !isForm2Validated && (
               <>
                 Imaginez-vous discuter de vos lectures préférées lors d&apos;un
                 café littéraire, explorer une nouvelle exposition avec un
@@ -25,7 +25,7 @@ export default function ArticleReverse({
                 à vos attentes.
               </>
             )}
-            {isFirstFormValidated && !isSecondFormValidated && (
+            {isForm1Validated && !isForm2Validated && (
               <>
                 Que vous soyez à la recherche d&apos;une belle histoire
                 d&apos;amour, d&apos;une nouvelle amitié, ou d&apos;activités à
@@ -36,7 +36,7 @@ export default function ArticleReverse({
                 vous pouvez vous épanouir en toute sérénité.
               </>
             )}
-            {isFirstFormValidated && isSecondFormValidated && (
+            {isForm1Validated && isForm2Validated && (
               <>
                 Chaque jour est une chance de découvrir quelque chose de nouveau
                 et de créer des souvenirs mémorables. Avec Senior Love, vous
@@ -51,39 +51,39 @@ export default function ArticleReverse({
             )}
           </p>
           <h3 className="font-semibold">
-            {!isFirstFormValidated && !isSecondFormValidated && (
+            {!isForm1Validated && !isForm2Validated && (
               <>
                 Rejoignez Senior Love aujourd&apos;hui et commencez une nouvelle
                 aventure riche en découvertes et en rencontres !
               </>
             )}
-            {isFirstFormValidated && !isSecondFormValidated && (
+            {isForm1Validated && !isForm2Validated && (
               <>
                 Rejoignez-nous et découvrez un nouveau monde de possibilités.
                 Chez Senior Love, chaque rencontre est une chance de créer des
                 souvenirs mémorables !
               </>
             )}
-            {isFirstFormValidated && isSecondFormValidated && (
+            {isForm1Validated && isForm2Validated && (
               <>Un Voyage Vers de Nouvelles Connexions !</>
             )}
           </h3>
         </div>
-        {!isFirstFormValidated && !isSecondFormValidated && (
+        {!isForm1Validated && !isForm2Validated && (
           <img
             src="/img/senior-love-guitar.webp"
             alt="Un homme jouant de la guitare avec une femme à ses côtés."
             className="hidden md:block w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
           />
         )}
-        {isFirstFormValidated && !isSecondFormValidated && (
+        {isForm1Validated && !isForm2Validated && (
           <img
             src="/img/senior-dancer.webp"
             alt="Un couple qui danse"
             className="hidden md:block w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
           />
         )}
-        {isFirstFormValidated && isSecondFormValidated && (
+        {isForm1Validated && isForm2Validated && (
           <img
             src="/img/senior-field.webp"
             alt="Un couple qui fait du trekking"

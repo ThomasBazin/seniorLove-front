@@ -1,68 +1,127 @@
-import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
+import { useState, useEffect } from 'react';
 
-function SubscribeFormV3() {
-  const formInputs = [
-    {
-      label: 'Adresse e-mail',
-      inputType: 'e-mail',
-      placeholder: 'exemple@domaine.com',
-      id: 'email',
-      type: 'email',
-    },
-    {
-      label: 'Mot de passe',
-      inputType: 'password',
-      placeholder: 'ex@mple2024!',
-      id: 'password',
-      type: 'password',
-    },
-    {
-      label: 'Confirmer mot de passe',
-      inputType: 'password',
-      placeholder: 'ex@mple2024!',
-      id: 'password-confirmation',
-      type: 'password',
-    },
-  ];
+import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
+import Logo from '/img/logo-text-seniorlove.webp';
+import { IRegisterForm } from '../../../../../@types/IRegisterForm';
+
+interface SubscribeFormV3Props {
+  formInfos: IRegisterForm;
+  setIsForm3Validated: React.Dispatch<React.SetStateAction<boolean>>;
+  fillFormInfos: (incomingInfos: object) => void;
+  onPreviousClick: () => void;
+}
+
+export default function SubscribeFormV3({
+  formInfos,
+  setIsForm3Validated,
+  fillFormInfos,
+  onPreviousClick,
+}: SubscribeFormV3Props) {
+  // STATE 1 : picture input value
+  const [pictureInputValue, setPictureInputValue] = useState<string>('');
+
+  // STATE 2 : description input value
+  const [descriptionInputValue, setDescriptionInputValue] =
+    useState<string>('');
+
+  // STATE 3 : error
+  const [error, setError] = useState<string | null>(null);
+
+  const handlePictureInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPictureInputValue(e.currentTarget.value);
+  };
+
+  const handleDescriptionInputChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setDescriptionInputValue(e.currentTarget.value);
+  };
+
+  const handleValidateFormV1 = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
+    const { picture, description } = rawFormData;
+
+    if (!picture) {
+      setError("Veuillez indiquer l'URL de votre photo !");
+    } else if (!description) {
+      setError('Merci de renseigner votre description !');
+    } else {
+      const formV3Infos = {
+        picture,
+        description,
+      };
+      setError(null);
+      fillFormInfos(formV3Infos);
+      setIsForm3Validated(true);
+    }
+  };
+
+  useEffect(() => {
+    if (formInfos.picture && formInfos.description) {
+      setPictureInputValue(formInfos.picture);
+      setDescriptionInputValue(formInfos.description);
+    }
+  }, [formInfos]);
+
   return (
-    <div className="bg-white opacity-90 p-10 rounded-xl shadow-md max-w-xl my-10 mx-4 md:mx-auto md:my-0">
-      <form>
-        <fieldset className="mb-4">
-          <legend className="text-xl text-center font-semibold leading-6 text-primaryText mb-8">
-            Il ne vous reste plus qu&apos;une étape pour finaliser votre
-            inscription !
-          </legend>
-          {formInputs.map((input) => (
-            <div className="mb-4" key={input.id}>
-              <label
-                htmlFor={input.id}
-                className="block text-lg font-medium leading-6 text-primaryText"
-              >
-                {input.label}
-              </label>
-              <div className="mt-2">
-                <div className="flex bg-white rounded-md shadow-sm border">
-                  <input
-                    id={input.id}
-                    name={input.id}
-                    type={input.type}
-                    placeholder={input.placeholder}
-                    className="block w-full border-0 bg-transparent py-1.5 p-2 text-primaryText placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
-        </fieldset>
+    <div className="bg-white opacity-90 px-10 pb-10 pt-4 rounded-xl shadow-md my-10 mx-4 md:mx-auto md:my-0">
+      <div className="flex flex-col items-center justify-center mb-4">
+        <img src={Logo} alt="" className="max-w-44 mb-4" />
+      </div>
+      <p className="mb-4 text-lg text-primaryText font-semibold text-center">
+        Commencez à remplir votre profil
+      </p>
+      <form
+        className="text-primaryText"
+        onSubmit={(e) => handleValidateFormV1(e)}
+      >
+        <label htmlFor="name" className="flex flex-col mb-4">
+          Votre photo
+          <input
+            type="url"
+            placeholder="Url de votre photo"
+            name="picture"
+            id="picture"
+            className="rounded-lg p-2 border border-primaryGrey"
+            value={pictureInputValue}
+            onChange={(e) => handlePictureInputChange(e)}
+            required
+          />
+        </label>
+
+        <label htmlFor="birthDate" className="mb-4">
+          Présentez-vous en quelques lignes (max 1000 caractères)
+          <textarea
+            name="description"
+            id="description"
+            maxLength={1000}
+            placeholder="Écrivez votre description ici"
+            className="w-full rounded-lg p-2 border border-primaryGrey"
+            value={descriptionInputValue}
+            onChange={(e) => handleDescriptionInputChange(e)}
+            required
+          />
+        </label>
+
+        {error && (
+          <div className="text-secondaryPink text-center flex justify-center mt-6">
+            <p className="justify-self-center max-w-48">{error}</p>
+          </div>
+        )}
+
         <div className="flex justify-center mt-6 mb-2">
-          <DefaultBtn btnText="Valider" />
+          <DefaultBtn btnType="submit" btnText="Valider" />
         </div>
-        <div className="step_paragraph text-primaryText flex justify-center">
-          <p>Etape 3/3: Validation inscription</p>
+        <div className="step_paragraph text-primaryText text-center text-sm">
+          <p>Étape 3/4: Photo de profil et description</p>
+        </div>
+        <div className="flex justify-center text-secondaryPink mt-1">
+          <button type="button" onClick={onPreviousClick}>
+            Revenir à l&#39;étape précédente
+          </button>
         </div>
       </form>
     </div>
   );
 }
-
-export default SubscribeFormV3;
