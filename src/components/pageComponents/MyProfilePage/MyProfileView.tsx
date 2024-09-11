@@ -1,21 +1,22 @@
-import axios from '../../../axios';
 import { useParams, Link } from 'react-router-dom';
-import { IUsers } from '../../../@types/IUsers';
 import { useEffect, useState } from 'react';
+import axios from '../../../axios';
+import { IUsers } from '../../../@types/IUsers';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn'; // Assurez-vous que DefaultBtn est importé correctement
 
 export default function MyProfileView() {
-  const { myId } = useParams<{ myId: string }>(); 
-  const [me, setMe] = useState<IUsers | null>(null); 
-  const [error, setError] = useState<string | null>(null); 
+  const { myId } = useParams<{ myId: string }>();
+  const [me, setMe] = useState<IUsers | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchConnectedUser = async () => {
       try {
         const response = await axios.get(`/private/users/me`);
         setMe(response.data); // Stocke les données de l'utilisateur dans le state
-      } catch (error) {
+      } catch (e) {
+        console.error(e);
         setError('Error fetching your profile');
       }
     };
@@ -64,9 +65,7 @@ export default function MyProfileView() {
                   <p className="text-primaryText italic mb-1">
                     <span className="font-semibold">Description:</span>
                   </p>
-                  <p className="text-primaryText italic">
-                    {me.description}
-                  </p>
+                  <p className="text-primaryText italic">{me.description}</p>
 
                   {/* Hobbies */}
                   <div className="mt-6">
@@ -91,9 +90,9 @@ export default function MyProfileView() {
                       <div className="flex flex-wrap gap-4">
                         {me.events.map((event) => (
                           <EventSticker
-                            key={event.id}
                             event={event}
                             size="small"
+                            key={event.id}
                           />
                         ))}
                       </div>
@@ -106,7 +105,7 @@ export default function MyProfileView() {
 
                   {/* Bouton pour envoyer un message */}
                   <div className="button_container flex justify-center mt-6 gap-6">
-                  <Link
+                    <Link
                       to="#"
                       className="min-w-44 bg-buttonGreen hover:bg-white rounded-lg text-primaryText font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
                     >

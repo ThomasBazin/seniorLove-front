@@ -1,8 +1,5 @@
-import MyProfileView from "./MyProfileView"
+import MyProfileView from './MyProfileView';
+
 export default function MainMyProfilePage() {
-    return (
-        <>
-        <MyProfileView />
-        </>
-    );
+  return <MyProfileView />;
 }
