@@ -15,10 +15,10 @@ export default function UsersSection() {
     const fetchUsers = async () => {
       try {
         const responseFetch = await axios.get('/private/users/me/suggestions');
-        const shuffledUsers = responseFetch.data.sort(
-          () => 0.5 - Math.random()
-        );
-        setUsers(shuffledUsers);
+        // const shuffledUsers = responseFetch.data.sort(
+        //   () => 0.5 - Math.random()
+        // );
+        setUsers(responseFetch.data);
       } catch (error) {
         console.error('Error fetching users:', error);
       }
