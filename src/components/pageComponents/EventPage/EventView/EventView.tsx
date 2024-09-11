@@ -36,9 +36,6 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
   const location = useLocation();
   const event = location.state?.event as IEvent; // Retrieve the passed event
 
-  // vérification des évenements possédés par l'user
-  const checkSubscribe = userEvents.some((element) => element.id === event.id);
-
   // Fetch me to check subscriptions to events
   useEffect(() => {
     const getUser = async () => {
@@ -52,7 +49,13 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
     if (isAuthenticated) {
       getUser();
     }
+  }, [isAuthenticated]);
 
+  useEffect(() => {
+    // vérification des évenements possédés par l'user
+    const checkSubscribe = userEvents.some(
+      (element) => element.id === event.id
+    );
     if (checkSubscribe) {
       setIsSubscribe(true);
     } else {
@@ -60,7 +63,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
     }
 
     setButtonText(isSubscribe ? 'Me désinscrire' : 'Je participe');
-  }, [checkSubscribe, isAuthenticated, isSubscribe]);
+  }, [event.id, isSubscribe, userEvents]);
 
   // s'inscrire à un évenement
   async function subscribeEvent(eventId: number) {
