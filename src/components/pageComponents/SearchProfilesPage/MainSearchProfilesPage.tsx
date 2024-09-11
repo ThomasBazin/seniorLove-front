@@ -3,7 +3,7 @@ import DisplayUsers from './DisplayUsers';
 import FilterPanel from './FilterPanel';
 import { FilterUser } from '../../../@types/IFilterUser';
 
-export default function MainSearchProfilesPage() {
+export default function MainProfilesPage() {
   const [filter, setFilter] = useState<FilterUser[]>([
     {
       gender: 'allGender',

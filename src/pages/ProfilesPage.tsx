@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import MainSearchProfilesPage from '../components/pageComponents/SearchProfilesPage/MainSearchProfilesPage';
+import MainProfilesPage from '../components/pageComponents/SearchProfilesPage/MainSearchProfilesPage';
 import UserHeadband from '../components/standaloneComponents/UserHeadband/UserHeadband';
 
 export default function ProfilesPage() {
@@ -12,7 +12,7 @@ export default function ProfilesPage() {
   return isAuthenticated ? (
     <>
       <UserHeadband setIsAuthenticated={setIsAuthenticated} />
-      <MainSearchProfilesPage />
+      <MainProfilesPage />
     </>
   ) : (
     <p>Veuillez vous connecter pour accéder à cette page.</p>

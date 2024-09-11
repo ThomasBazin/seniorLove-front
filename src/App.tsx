@@ -1,10 +1,10 @@
 // Importing components
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
 import EventsPage from './pages/EventsPage';
 import HomePageLogged from './pages/HomePageLogged';
-import SearchProfilesPage from './pages/ProfilesPage';
+import ProfilesPage from './pages/ProfilesPage';
 import ProfilePage from './pages/ProfilePage';
 import MyProfilePage from './pages/MyProfilePage';
 import ConnexionPage from './pages/ConnectionPage';
@@ -30,7 +30,7 @@ export default function App({
             path="/"
             element={<HomePageLogged setIsAuthenticated={setIsAuthenticated} />}
           />
-          <Route path="/profiles" element={<SearchProfilesPage />} />
+          <Route path="/profiles" element={<ProfilesPage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
           <Route path="/myprofile" element={<MyProfilePage />} />
           <Route
@@ -79,7 +79,12 @@ export default function App({
           />
         </>
       )}
-      <Route path="*" element={<Navigate to="/error" replace />} />
+
+      <Route
+        path="*"
+        element={<Error404Page isAuthenticated={isAuthenticated} />}
+      />
+
       <Route
         path="/error"
         element={<Error404Page isAuthenticated={isAuthenticated} />}
