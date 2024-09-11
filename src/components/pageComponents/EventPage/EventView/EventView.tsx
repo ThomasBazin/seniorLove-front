@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-console */
-import { useLocation, Link, Navigate } from 'react-router-dom';
+import { Link, useParams, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,9 +18,23 @@ interface EventViewProps {
   isAuthenticated: boolean;
 }
 export default function EventView({ isAuthenticated }: EventViewProps) {
+  // STATE 1 : event infos
+  const [event, setEvent] = useState<IEvent | null>(null);
+
+  // STATE 2 : user events infos
   const [userEvents, setUserEvents] = useState<IUsersFull[]>([]);
+
+  // STATE 3 : subscription to event state
   const [isSubscribe, setIsSubscribe] = useState<boolean>();
-  const [buttonText, setButtonText] = useState<string>('Je participe');
+
+  // STATE 4 : subscribe button text
+  const [buttonText, setButtonText] = useState<string>('');
+
+  // STATE 4 : loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // STATE 5 : error
+  const [isError, setIsError] = useState<boolean>(false);
 
   // toast de confirmation
   const subNotify = () =>
@@ -33,44 +47,61 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       autoClose: 3000,
     });
 
-  const location = useLocation();
-  const event = location.state?.event as IEvent; // Retrieve the passed event
+  const { id } = useParams();
 
-  // Fetch me to check subscriptions to events
+  // Fetch event infos and set state
   useEffect(() => {
+    const getEvent = async () => {
+      try {
+        const result = await axios.get(`public/events/${id}`);
+        setEvent(result.data);
+      } catch (error) {
+        setIsError(true);
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getEvent();
+  }, [id]);
+
+  // If authenticated fetch me to check subscriptions to events and set state
+  useEffect(() => {
+    // vérification des évenements possédés par l'user
+    const checkSubscribe = userEvents.some(
+      (element) => element.id === Number(id)
+    );
     const getUser = async () => {
       try {
         const result = await axios.get('private/users/me');
         setUserEvents(result.data.events);
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        setIsError(true);
+        console.log(e);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (isAuthenticated) {
       getUser();
     }
-  }, [isAuthenticated]);
 
-  useEffect(() => {
-    // vérification des évenements possédés par l'user
-    const checkSubscribe = userEvents.some(
-      (element) => element.id === event.id
-    );
-    if (checkSubscribe) {
-      setIsSubscribe(true);
-    } else {
-      setIsSubscribe(false);
+    if (event) {
+      if (checkSubscribe) {
+        setIsSubscribe(true);
+      } else {
+        setIsSubscribe(false);
+      }
+      setButtonText(isSubscribe ? 'Me désinscrire' : 'Je participe');
     }
-
-    setButtonText(isSubscribe ? 'Me désinscrire' : 'Je participe');
-  }, [event.id, isSubscribe, userEvents]);
+  }, [event, id, isAuthenticated, isSubscribe, userEvents]);
 
   // s'inscrire à un évenement
   async function subscribeEvent(eventId: number) {
     try {
       const result = await axios.put(`/private/events/${eventId}/register`);
       console.log(result.status);
-      setIsSubscribe(!isSubscribe);
+      setIsSubscribe(true);
       subNotify();
     } catch (error) {
       console.log(error);
@@ -84,45 +115,49 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
         `/private/events/${eventId}/unregister`
       );
       console.log(result.status);
-      setIsSubscribe(!isSubscribe);
+      setIsSubscribe(false);
       UnsubNotify();
     } catch (error) {
       console.log(error);
     }
   }
-
-  if (!event) {
-    return <Navigate to="/error" replace />;
+  if (isError) {
+    return <Navigate to="/error" />;
   }
+
+  if (isLoading) {
+    return <p className="text-center">Chargement...</p>;
+  }
+
   return (
     <div className="w-full min-h-full flex-grow flex bg-primaryGrey">
       <div className="pt-8 px-8 max-w-7xl w-full justify-center mx-auto ">
         <div className="h-72 rounded-xl relative mb-4">
           <img
-            src={event.picture}
-            alt={event.name}
+            src={event?.picture}
+            alt={event?.name}
             className="h-full object-cover rounded-md shadow-xl w-full"
           />
         </div>
 
         <div className="flex flex-col justify-between">
           <div className="p-2 w-full text-primaryText text-xl text-center mb-4">
-            <p>{event.name}</p>
+            <p>{event?.name}</p>
           </div>{' '}
           {/* Aside */}
           <div className="flex flex-col md:flex-row-reverse md:justify-between">
             <div className="flex md:flex-col md:pl-20 gap-4 flex-wrap justify-center">
               <p className="text-primaryText italic">
                 <span className="font-semibold">Date : </span>
-                {displayFullDate(event.date)}
+                {displayFullDate(event?.date as string)}
               </p>
               <p className="text-primaryText italic">
                 <span className="font-semibold">Heure : </span>
-                {formatTime(event.time)}
+                {formatTime(event?.time as string)}
               </p>
               <p className="text-primaryText italic">
-                <span className="font-semibold">Lieu : </span> {event.location},
-                France
+                <span className="font-semibold">Lieu : </span> {event?.location}
+                , France
               </p>
               <div>
                 <p className="text-primaryText italic mb-1">
@@ -130,7 +165,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
                   :
                 </p>
                 <div className="text-primaryText">
-                  {event.hobbies.map((hobby) => (
+                  {event?.hobbies.map((hobby) => (
                     <p key={hobby.name}>{hobby.name}</p>
                   ))}
                 </div>
@@ -139,7 +174,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
             {/* Description */}
             <div className="md:w-4/5 pb-8">
               <p className="text-primaryText py-6 md:py-0 italic">
-                {event.description}
+                {event?.description}
               </p>
             </div>
           </div>
@@ -156,8 +191,8 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
             className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
             onClick={() =>
               isSubscribe
-                ? unsubscribeEvent(event.id)
-                : subscribeEvent(event.id)
+                ? unsubscribeEvent(event?.id as number)
+                : subscribeEvent(event?.id as number)
             }
           >
             {buttonText}

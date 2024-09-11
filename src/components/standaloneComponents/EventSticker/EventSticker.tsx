@@ -26,7 +26,7 @@ export default function EventSticker({
 
   return (
     <div>
-      <Link to={`/events/${event.id}`} state={{ event }}>
+      <Link to={`/events/${event.id}`}>
         <div className={`${sizeClass} rounded-xl mx-auto shadow-lg relative`}>
           <div className="absolute -right-5 -top-8">
             <CalendarIcon extractedDate={extractedDate} />

@@ -1,7 +1,7 @@
-import axios from '../../../../axios';
 import { useParams, Link } from 'react-router-dom';
-import { IUsers } from '../../../../@types/IUsers';
 import { useEffect, useState } from 'react';
+import axios from '../../../../axios';
+import { IUsers } from '../../../../@types/IUsers';
 import EventSticker from '../../../standaloneComponents/EventSticker/EventSticker';
 
 export default function ProfileView() {
@@ -14,7 +14,7 @@ export default function ProfileView() {
       try {
         const response = await axios.get(`/private/users/${userId}`);
         setProfile(response.data); // Stocke les données de l'utilisateur dans le state
-      } catch (error) {
+      } catch (e) {
         setError('Error fetching profile');
       }
     };
