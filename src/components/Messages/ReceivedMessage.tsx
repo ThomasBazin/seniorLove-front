@@ -1,7 +1,7 @@
-function SentMessage() {
+export default function ReceivedMessage() {
   return (
-    <div className="m-4 flex gap-2 justify-center w-full mx-auto ">
-      <div className="p-4 border rounded-3xl shadow-around">
+    <div className="m-4 flex gap-2 justify-center w-2/3 mr-2 self-end">
+      <div className="p-4 bg-white border rounded-3xl shadow-around">
         <p className="text-sm text-primaryText">
           Bonjour Jean,
           <br />
@@ -25,5 +25,3 @@ function SentMessage() {
     </div>
   );
 }
-
-export default SentMessage;

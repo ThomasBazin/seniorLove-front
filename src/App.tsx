@@ -10,6 +10,7 @@ import MyProfilePage from './pages/MyProfilePage';
 import ConnexionPage from './pages/ConnectionPage';
 import EventPage from './pages/EventPage';
 import Error404Page from './pages/Error404Page';
+import MessagePage from './pages/MessagePage';
 
 interface AppProps {
   isAuthenticated: boolean;
@@ -32,7 +33,11 @@ export default function App({
           />
           <Route path="/profiles" element={<SearchProfilesPage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
-          <Route path="/myprofile" element={<MyProfilePage />} /> 
+          <Route path="/myprofile" element={<MyProfilePage />} />
+          <Route
+            path="/messages"
+            element={<MessagePage setIsAuthenticated={setIsAuthenticated} />}
+          />
           <Route
             path="/events"
             element={

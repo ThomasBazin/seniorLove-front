@@ -4,7 +4,7 @@ import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
 export default function FilterPanel({
   setFilter,
 }: {
-  setFilter: (eventData) => void;
+  setFilter: (eventData: any) => void;
 }) {
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   // afficher/cacher le formulaire de recherche
@@ -13,8 +13,8 @@ export default function FilterPanel({
   };
 
   function changeFilter(name: string, value: any) {
-    setFilter((prevFilter) =>
-      prevFilter.map((filterValue) => ({
+    setFilter((prevFilter:any) =>
+      prevFilter.map((filterValue: any) => ({
         ...filterValue,
         [name]: value,
       }))

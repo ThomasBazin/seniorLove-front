@@ -3,13 +3,13 @@ import MainSearchProfilePage from '../components/pageComponents/SearchProfilesPa
 import UserHeadband from '../components/standaloneComponents/UserHeadband/UserHeadband';
 
 export default function ProfilesPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true); 
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   return (
     <>
       {isAuthenticated ? (
         <>
-          <UserHeadband setIsAuthenticated={setIsAuthenticated}/>
+          <UserHeadband setIsAuthenticated={setIsAuthenticated} />
           <MainSearchProfilePage />
         </>
       ) : (

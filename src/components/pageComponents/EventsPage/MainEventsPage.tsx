@@ -18,7 +18,6 @@ export default function MainEventsPage({
     const fetchAndSaveEvents = async () => {
       try {
         const result = await axios.get('/public/events');
-        console.log(result);
         setEvents(result.data);
       } catch (e) {
         console.log(e);
