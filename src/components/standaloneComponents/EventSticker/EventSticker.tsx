@@ -16,17 +16,17 @@ const sizeClasses = {
   large: 'h-80 w-80',
 };
 
-export default function EventSticker({ event, size = 'medium' }: EventStickerProps) {
+export default function EventSticker({
+  event,
+  size = 'medium',
+}: EventStickerProps) {
   const extractedDate = extractDayMonth(event.date);
- // Define size classes for different sticker sizes 
-  const sizeClass = sizeClasses[size] || sizeClasses['medium'];
+  // Define size classes for different sticker sizes
+  const sizeClass = sizeClasses[size] || sizeClasses.medium;
 
   return (
     <div>
-      <Link
-        to={`/events/${event.id}`}
-        state={{ event }} 
-      >
+      <Link to={`/events/${event.id}`}>
         <div className={`${sizeClass} rounded-xl mx-auto shadow-lg relative`}>
           <div className="absolute -right-5 -top-8">
             <CalendarIcon extractedDate={extractedDate} />
