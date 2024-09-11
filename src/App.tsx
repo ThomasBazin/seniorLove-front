@@ -32,7 +32,7 @@ export default function App({
           />
           <Route path="/profiles" element={<SearchProfilesPage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
-          <Route path="/myprofile" element={<MyProfilePage />} /> 
+          <Route path="/myprofile" element={<MyProfilePage />} />
           <Route
             path="/events"
             element={
