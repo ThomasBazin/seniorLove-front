@@ -2,24 +2,24 @@ import ArticleReverse from './Articles/ArticleReverse';
 import ArticleRow from './Articles/ArticleRow';
 
 interface DescriptionSectionProps {
-  isFirstFormValidated: boolean;
-  isSecondFormValidated: boolean;
+  isForm1Validated: boolean;
+  isForm2Validated: boolean;
 }
 
 export default function DescriptionSection({
-  isFirstFormValidated,
-  isSecondFormValidated,
+  isForm1Validated,
+  isForm2Validated,
 }: DescriptionSectionProps) {
   return (
     <section className="text-primaryText flex flex-col gap-3">
       <div className="text-sm md:text-lg">
         <ArticleRow
-          isFirstFormValidated={isFirstFormValidated}
-          isSecondFormValidated={isSecondFormValidated}
+          isForm1Validated={isForm1Validated}
+          isForm2Validated={isForm2Validated}
         />
         <ArticleReverse
-          isFirstFormValidated={isFirstFormValidated}
-          isSecondFormValidated={isSecondFormValidated}
+          isForm1Validated={isForm1Validated}
+          isForm2Validated={isForm2Validated}
         />
       </div>
     </section>

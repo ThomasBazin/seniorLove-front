@@ -1,5 +1,5 @@
 // Importing components
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
 import EventsPage from './pages/EventsPage';
@@ -33,8 +33,24 @@ export default function App({
           <Route path="/profiles" element={<SearchProfilesPage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
           <Route path="/myprofile" element={<MyProfilePage />} /> 
-          <Route path="/events" element={<EventsPage />} />
-          <Route path="/events/:id" element={<EventPage />} />
+          <Route
+            path="/events"
+            element={
+              <EventsPage
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
+          <Route
+            path="/events/:id"
+            element={
+              <EventPage
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
         </>
       ) : (
         <>
@@ -43,11 +59,31 @@ export default function App({
             path="/login"
             element={<ConnexionPage setUserToken={setUserToken} />}
           />
-          <Route path="/events" element={<EventsPage />} />
-          <Route path="/events/:id" element={<EventPage />} />
+          <Route
+            path="/events"
+            element={
+              <EventsPage
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
+          <Route
+            path="/events/:id"
+            element={
+              <EventPage
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
         </>
       )}
-      <Route path="*" element={<Error404Page />} />
+      <Route path="*" element={<Navigate to="/error" replace />} />
+      <Route
+        path="/error"
+        element={<Error404Page isAuthenticated={isAuthenticated} />}
+      />
     </Routes>
   );
 }

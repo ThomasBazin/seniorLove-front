@@ -47,5 +47,14 @@ module.exports = {
     'linebreak-style': 0,
     'no-restricted-imports': 0,
     'react/require-default-props': 0,
+    "no-console": "off",
+    "no-restricted-syntax": [
+      "error",
+      {
+          "selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
+          "message": "Unexpected property on console object was called"
+      }
+  ]
+
   },
 };

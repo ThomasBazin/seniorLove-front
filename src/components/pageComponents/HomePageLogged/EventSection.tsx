@@ -47,7 +47,12 @@ export default function EventSection() {
           <EventSticker event={event} key={event.name} />
         ))}
       </div>
-      <DefaultBtn btnText="Voir plus d'évènements" onClick={() => window.location.href = '/events'} />
+      <DefaultBtn
+        btnText="Voir plus d'évènements"
+        onClick={() => {
+          window.location.href = '/events';
+        }}
+      />
     </div>
   );
 }
