@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ProfileSticker from '../../standaloneComponents/ProfileSticker/ProfileSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
 import { getTokenAndDataFromLocalStorage } from '../../../localStorage/localStorage';
@@ -53,12 +54,9 @@ export default function UsersSection() {
           <ProfileSticker user={user} key={user.id} />
         ))}
       </div>
-      <DefaultBtn
-        btnText="Voir plus de profils"
-        onClick={() => {
-          window.location.href = '/profiles';
-        }}
-      />
+      <Link to="/profiles">
+        <DefaultBtn btnText="Voir plus de profils" />
+      </Link>
     </div>
   );
 }
