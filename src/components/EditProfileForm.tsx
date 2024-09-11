@@ -1,11 +1,15 @@
-// V2 but with TypeScript errors
-import React, { useState } from 'react';
+import { useState } from 'react';
+
+type HobbiesType = {
+  [key: string]: boolean;
+};
 
 function EditProfileComponent() {
-  const [description, setDescription] = useState('');
+  // Déclare l'état pour la description, typé comme une chaîne de caractères
+  const [description, setDescription] = useState<string>('');
 
-  // UseState to define hobbies
-  const [hobbies, setHobbies] = useState({
+  // Déclare l'état pour les hobbies, avec un type explicite pour l'objet
+  const [hobbies, setHobbies] = useState<HobbiesType>({
     'Voyage et découvertes': false,
     'Arts et culture': false,
     'Sport et bien-être': false,
@@ -20,19 +24,16 @@ function EditProfileComponent() {
     'Histoire et patrimoine': false,
   });
 
-  // Function to handle hobby change
+  // Fonction pour gérer le changement de l'état d'un hobby
   const handleHobbyChange = (hobby: string) => {
     setHobbies((prevHobbies) => ({
       ...prevHobbies,
-      // This line updates the state for the specific hobby that was passed to handleHobbyChange.
-      // It does this by using computed property names (square brackets []) to dynamically set the property name in the new state object.
       [hobby]: !prevHobbies[hobby],
-      // prevHobbies[hobby] accesses the current state of the hobby.
-      //! prevHobbies[hobby] toggles the boolean value of prevHobbies[hobby]. If it was true, it becomes false, and if it was false, it becomes true.
     }));
   };
 
-  const hobbyArray = [
+  // Liste des hobbies affichés dans le formulaire
+  const hobbyArray: string[] = [
     'Voyage et découvertes',
     'Arts et culture',
     'Sport et bien-être',
@@ -42,7 +43,7 @@ function EditProfileComponent() {
     'Jeux et divertissement',
     'Technologie et innovation',
     'Spiritualité et bien-être intérieur',
-    'Bricolage et loisirs creatifs',
+    'Bricolage et loisirs créatifs',
     'Animaux et nature',
     'Histoire et patrimoine',
   ];

@@ -31,14 +31,14 @@ export default function MainEventsPage({
       {isAuthenticated && (
         <UserHeadband setIsAuthenticated={setIsAuthenticated} />
       )}
-      <p className="text-sm text-center font-semibold md:text-xl my-4 text-primaryText w-9/12 pt-8">
-        Bienvenue sur notre page dédiée aux{' '}
-        <span className="text-secondaryPink">événements</span> que nous
+      <p className="text-sm text-center font-medium md:text-xl my-4 text-primaryText w-9/12 pt-8">
+        Bienvenue sur la page dédiée aux{' '}
+        <span className="text-secondaryPink">évènements</span> que nous
         organisons ! Découvrez une sélection d&apos;activités et
         d&apos;événements qui se dérouleront prochainement dans notre
         communauté. Que vous soyez amateur de culture, passionné de sport, ou
         simplement à la recherche d&apos;une sortie en plein air, il y en a pour
-        tous les goûts.
+        tous les goûts!
       </p>
       <div className="flex flex-wrap gap-10 justify-center content-around w-10/12">
         {events.map((event) => (

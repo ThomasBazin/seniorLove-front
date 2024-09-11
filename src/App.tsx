@@ -4,7 +4,9 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import EventsPage from './pages/EventsPage';
 import HomePageLogged from './pages/HomePageLogged';
-import SearchProfilPage from './pages/SearchProfilPage';
+import SearchProfilesPage from './pages/ProfilesPage';
+import ProfilePage from './pages/ProfilePage';
+import MyProfilePage from './pages/MyProfilePage';
 import ConnexionPage from './pages/ConnectionPage';
 import EventPage from './pages/EventPage';
 import Error404Page from './pages/Error404Page';
@@ -28,7 +30,9 @@ export default function App({
             path="/"
             element={<HomePageLogged setIsAuthenticated={setIsAuthenticated} />}
           />
-          <Route path="/profils" element={<SearchProfilPage />} />
+          <Route path="/profiles" element={<SearchProfilesPage />} />
+          <Route path="/profiles/:userId" element={<ProfilePage />} />
+          <Route path="/myprofile" element={<MyProfilePage />} /> 
           <Route
             path="/events"
             element={
