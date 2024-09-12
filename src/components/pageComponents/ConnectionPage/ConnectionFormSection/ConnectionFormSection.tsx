@@ -1,9 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { AxiosError } from 'axios';
 import axios from '../../../../axios';
 import { setTokenAndDataInLocalStorage } from '../../../../localStorage/localStorage';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 import Logo from '/img/logo-text-seniorlove.webp';
+import Error500Page from '../../../../pages/Error500Page';
 
 interface ConnectionFormSectionProps {
   setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
@@ -12,12 +14,17 @@ interface ConnectionFormSectionProps {
 export default function ConnectionFormSection({
   setUserToken,
 }: ConnectionFormSectionProps) {
-  // State for error message
+  // STATE 1:  error login
   const [errorLog, setErrorLog] = useState<boolean>(false);
+
+  // STATE 2 : error server
+  const [serverError, setServerError] = useState(false);
   const navigate = useNavigate();
 
   const checkCredentials = async (email: string, password: string) => {
     try {
+      setErrorLog(false);
+
       const response = await axios.post('/public/login', {
         email,
         password,
@@ -31,13 +38,23 @@ export default function ConnectionFormSection({
       setUserToken(response.data.token);
       // setIsAuthenticated(true);
       setErrorLog(false);
-      navigate('/');
-    } catch (error) {
-      // si par contre on a catch une erreur et qu'on reçoit une 401 on renregistre une erreur dans le state
-      setErrorLog(true);
-      console.error(401);
+      navigate('/home');
+    } catch (e) {
+      // if error is from axios and respons status is 401 unauthorized, it means credentials error
+      if (e instanceof AxiosError && e.response?.status === 401) {
+        console.error(e);
+        setErrorLog(true);
+      } else {
+        // other status means server is down
+        console.error(e);
+        setServerError(true);
+      }
     }
   };
+
+  if (serverError) {
+    return <Error500Page />;
+  }
 
   return (
     <section className="bg-connectionForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">

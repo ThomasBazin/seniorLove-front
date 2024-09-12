@@ -1,19 +1,24 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-console */
-import { Link, useParams, Navigate } from 'react-router-dom';
+import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AxiosError } from 'axios';
 import axios from '../../../../axios';
+
 import { IEvent } from '../../../../@types/IEvent';
 import { IUsersFull } from '../../../../@types/IUsersFull';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
+
+import { removeTokenFromLocalStorage } from '../../../../localStorage/localStorage';
 
 import {
   displayFullDate,
   formatTime,
 } from '../../../../utils/dateAndTimeUtils';
 import Loader from '../../../standaloneComponents/Loader/Loader';
+import Error500Page from '../../../../pages/Error500Page';
 
 interface EventViewProps {
   isAuthenticated: boolean;
@@ -35,7 +40,9 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // STATE 5 : error
-  const [isError, setIsError] = useState<boolean>(false);
+  const [isError, setIsError] = useState<number | null>(null);
+
+  const navigate = useNavigate();
 
   // toast de confirmation
   const subNotify = () =>
@@ -56,9 +63,14 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       try {
         const result = await axios.get(`public/events/${id}`);
         setEvent(result.data);
-      } catch (error) {
-        setIsError(true);
-        console.log(error);
+      } catch (e) {
+        if (e instanceof AxiosError && e.response?.status === 404) {
+          console.error(e);
+          setIsError(404);
+        } else {
+          setIsError(500);
+          console.error(e);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -77,8 +89,8 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
         const result = await axios.get('private/users/me');
         setUserEvents(result.data.events);
       } catch (e) {
-        setIsError(true);
-        console.log(e);
+        setIsError(500);
+        console.error(e);
       } finally {
         setIsLoading(false);
       }
@@ -103,9 +115,19 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       const result = await axios.put(`/private/events/${eventId}/register`);
       console.log(result.status);
       setIsSubscribe(true);
+      console.log('ATTEMPT');
       subNotify();
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.error(e);
+      if (
+        e instanceof AxiosError &&
+        (e.response?.data.blocked || e.response?.status === 401)
+      ) {
+        removeTokenFromLocalStorage();
+        navigate('/loggedout');
+      } else {
+        setIsError(500);
+      }
     }
   }
 
@@ -118,12 +140,25 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       console.log(result.status);
       setIsSubscribe(false);
       UnsubNotify();
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.error(e);
+      if (
+        e instanceof AxiosError &&
+        (e.response?.data.blocked || e.response?.status === 401)
+      ) {
+        removeTokenFromLocalStorage();
+        navigate('/loggedout');
+      } else {
+        setIsError(500);
+      }
     }
   }
-  if (isError) {
+  if (isError === 404) {
     return <Navigate to="/error" />;
+  }
+
+  if (isError === 500) {
+    return <Error500Page />;
   }
 
   if (isLoading) {

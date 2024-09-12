@@ -4,11 +4,20 @@ import axios from '../../../axios';
 import { IUsers } from '../../../@types/IUsers';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn'; // Assurez-vous que DefaultBtn est importé correctement
+import Error500Page from '../../../pages/Error500Page';
+import Loader from '../../standaloneComponents/Loader/Loader';
 
 export default function MyProfileView() {
   const { myId } = useParams<{ myId: string }>();
+
+  // STATE 1 : my profile
   const [me, setMe] = useState<IUsers | null>(null);
-  const [error, setError] = useState<string | null>(null);
+
+  // STATE 2 : loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // STATE 3 : error server
+  const [serverError, setServerError] = useState(false);
 
   useEffect(() => {
     const fetchConnectedUser = async () => {
@@ -17,14 +26,24 @@ export default function MyProfileView() {
         setMe(response.data); // Stocke les données de l'utilisateur dans le state
       } catch (e) {
         console.error(e);
-        setError('Error fetching your profile');
+        setServerError(true);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchConnectedUser();
   }, [myId]); // L'ID de l'utilisateur est utilisé comme dépendance pour relancer le fetch si nécessaire
 
-  if (error) {
-    return <p className="text-red-500 text-center">{error}</p>;
+  if (serverError) {
+    return <Error500Page />;
+  }
+
+  if (isLoading) {
+    return (
+      <section className=" justify-center md:items-center flex md:px-16 md:h-screen">
+        <Loader />
+      </section>
+    );
   }
 
   // message de chargement tant que les données ne sont pas disponibles

@@ -5,6 +5,7 @@ import { getTokenAndDataFromLocalStorage } from '../../../localStorage/localStor
 import { IUsers } from '../../../@types/IUsers';
 import { FilterUser } from '../../../@types/IFilterUser';
 import Loader from '../../standaloneComponents/Loader/Loader';
+import Error500Page from '../../../pages/Error500Page';
 
 interface DisplayUsersProps {
   filter: FilterUser[];
@@ -19,13 +20,17 @@ export default function DisplayUsers({ filter }: DisplayUsersProps) {
   // STATE 2 : loading
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  // STATE 3 : error server
+  const [serverError, setServerError] = useState(false);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const responseFetch = await axios.get('/private/users/me/suggestions');
         setUsers(responseFetch.data);
-      } catch (error) {
-        console.error('Error fetching users:', error);
+      } catch (e) {
+        console.error(e);
+        setServerError(true);
       } finally {
         setIsLoading(false);
       }
@@ -50,6 +55,10 @@ export default function DisplayUsers({ filter }: DisplayUsersProps) {
 
     return genderSort && ageSort;
   });
+
+  if (serverError) {
+    return <Error500Page />;
+  }
 
   if (isLoading) {
     return <Loader />;

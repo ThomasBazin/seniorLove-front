@@ -3,6 +3,7 @@ import axios from '../../../axios';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import { IEvent } from '../../../@types/IEvent';
 import Loader from '../../standaloneComponents/Loader/Loader';
+import Error500Page from '../../../pages/Error500Page';
 
 export default function MainEventsPage() {
   // STATE 1 : events
@@ -11,20 +12,27 @@ export default function MainEventsPage() {
   // STATE 2 : loading
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  // STATE 3 : error server
+  const [serverError, setServerError] = useState(false);
+
   useEffect(() => {
     const fetchAndSaveEvents = async () => {
       try {
         const result = await axios.get('/public/events');
-        console.log(result);
         setEvents(result.data);
       } catch (e) {
-        console.log(e);
+        console.error(e);
+        setServerError(true);
       } finally {
         setIsLoading(false);
       }
     };
     fetchAndSaveEvents();
   }, []);
+
+  if (serverError) {
+    return <Error500Page />;
+  }
 
   return (
     <main className="w-full min-h-screen flex-grow flex flex-col justify-start items-center bg-primaryGrey pb-8 gap-8">

@@ -16,7 +16,7 @@ export default function MobileNavBarLogged() {
       href: '/profiles',
     },
     { logo: MessageLogo, alt: 'bouton messages', text: 'Messages', href: '#' },
-    { logo: Logo, alt: 'bouton accueil', text: 'Accueil', href: '/' },
+    { logo: Logo, alt: 'bouton accueil', text: 'Accueil', href: '/home' },
     {
       logo: EventLogo,
       alt: 'bouton connexion',
