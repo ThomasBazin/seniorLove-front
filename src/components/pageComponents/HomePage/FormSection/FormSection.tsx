@@ -114,7 +114,11 @@ export default function FormSection({
   }, []);
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <section className=" justify-center md:items-center flex md:px-16 md:h-screen">
+        <Loader />
+      </section>
+    );
   }
 
   // if form 1 not yet validated, show form 1
