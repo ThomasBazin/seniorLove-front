@@ -32,11 +32,8 @@ export default function App({
           <Route path="/home" element={<HomePageLogged />} />
           <Route path="/profiles" element={<ProfilesPage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
-        
-          <Route
-            path="/messages"
-            element={<MessagePage setIsAuthenticated={setIsAuthenticated} />}
-          />
+
+          <Route path="/messages" element={<MessagePage />} />
           <Route
             path="/myprofile"
             element={<MyProfilePage setIsAuthenticated={setIsAuthenticated} />}
