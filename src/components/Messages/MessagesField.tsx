@@ -17,23 +17,24 @@ export default function MessagesField() {
         // eslint-disable-next-line no-restricted-syntax
         // console.table(result.data[0]);
         setMessagesData(result.data);
-        setDisplayMessages(result.data[0])
+        setDisplayMessages(result.data[0]);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchMessages();
-  }, []);
+  }, [sendMessage]);
 
   const handleUpdateMessages = (newMessages: object) => {
     setDisplayMessages(newMessages);
   };
 
   const handleSendMessages = () => {
-    setSendMessage(true);
+    setSendMessage(!sendMessage);
   };
 
+  const idSent = Number(displayMessages?.id);
   return (
     <div
       className="flex w-5/6
@@ -45,7 +46,7 @@ export default function MessagesField() {
       />
       <div className="bg-white border rounded-r-3xl flex flex-col w-full">
         {displayMessages?.messages.map((message) => {
-          console.log(displayMessages);
+          // console.log(displayMessages);
 
           if (displayMessages.id === message.sender_id) {
             return (
@@ -64,7 +65,7 @@ export default function MessagesField() {
             />
           );
         })}
-        <EditMessagesForm send={undefined} />
+        <EditMessagesForm send={handleSendMessages} receiverId={idSent} />
       </div>
     </div>
   );
