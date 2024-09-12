@@ -15,9 +15,14 @@ import ErrorAuthPage from './pages/ErrorAuthPage';
 interface AppProps {
   isAuthenticated: boolean;
   setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function App({ isAuthenticated, setUserToken }: AppProps) {
+export default function App({
+  isAuthenticated,
+  setUserToken,
+  setIsAuthenticated,
+}: AppProps) {
   return (
     <Routes>
       {isAuthenticated ? (
@@ -26,7 +31,10 @@ export default function App({ isAuthenticated, setUserToken }: AppProps) {
           <Route path="/home" element={<HomePageLogged />} />
           <Route path="/profiles" element={<ProfilesPage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
-          <Route path="/myprofile" element={<MyProfilePage />} />
+          <Route
+            path="/myprofile"
+            element={<MyProfilePage setIsAuthenticated={setIsAuthenticated} />}
+          />
           <Route path="/events" element={<EventsPage />} />
           <Route
             path="/events/:id"

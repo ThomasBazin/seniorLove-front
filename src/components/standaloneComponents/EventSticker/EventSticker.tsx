@@ -7,29 +7,22 @@ import CalendarIcon from '../Icon/CalendarIcon';
 
 interface EventStickerProps {
   event: IEvent;
-  size?: 'small' | 'medium' | 'large'; // Add a prop to customize the size
+  page?: string;
 }
 
-const sizeClasses = {
-  small: 'h-60 w-60',
-  medium: 'h-72 w-72',
-  large: 'h-80 w-80',
-};
-
-export default function EventSticker({
-  event,
-  size = 'medium',
-}: EventStickerProps) {
+export default function EventSticker({ event, page }: EventStickerProps) {
   const extractedDate = extractDayMonth(event.date);
-  // Define size classes for different sticker sizes
-  const sizeClass = sizeClasses[size] || sizeClasses.medium;
 
   return (
     <div>
       <Link to={`/events/${event.id}`}>
-        <div className={`${sizeClass} rounded-xl mx-auto shadow-lg relative`}>
-          <div className="absolute -right-5 -top-8">
-            <CalendarIcon extractedDate={extractedDate} />
+        <div
+          className={`rounded-xl mx-auto shadow-lg relative ${page === 'profile' ? 'h-36 w-36' : 'h-72 w-72'}`}
+        >
+          <div
+            className={`absolute -right-5 -top-8 ${page === 'profile' ? '-right-4 -top-4' : ''}`}
+          >
+            <CalendarIcon extractedDate={extractedDate} page={page} />
           </div>
           <div className="m-2 w-fit absolute top-0 left-1 text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-2xl font-medium">
             {event.location}
@@ -37,9 +30,11 @@ export default function EventSticker({
           <img
             src={event.picture}
             alt={event.name}
-            className={`object-cover rounded-xl ${sizeClass}`}
+            className={`object-cover rounded-xl ${page === 'profile' ? 'h-36 w-36' : 'h-72 w-72'}`}
           />
-          <div className="m-2 w-fit absolute bottom-0 left-1 text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-2xl font-medium">
+          <div
+            className={`m-2 w-fit absolute bottom-0 left-1 text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] font-medium ${page === 'profile' ? 'text-md' : 'text-2xl'}`}
+          >
             {event.name}
           </div>
         </div>

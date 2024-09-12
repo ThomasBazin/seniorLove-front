@@ -1,5 +1,10 @@
-import MainMyProfilePage from '../components/pageComponents/MyProfilePage/MainMyProfilePage';
+import MyProfileViewRefactor from '../components/pageComponents/MyProfilePage/MyProfileViewRefactor';
 
-export default function MyProfilePage() {
-  return <MainMyProfilePage />;
+interface MyProfilePageProps {
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export default function MyProfilePage({
+  setIsAuthenticated,
+}: MyProfilePageProps) {
+  return <MyProfileViewRefactor setIsAuthenticated={setIsAuthenticated} />;
 }

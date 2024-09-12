@@ -66,7 +66,11 @@ export default function Root() {
         <NavBarV1 />
       )}
 
-      <App isAuthenticated={isAuthenticated} setUserToken={setUserToken} />
+      <App
+        isAuthenticated={isAuthenticated}
+        setIsAuthenticated={setIsAuthenticated}
+        setUserToken={setUserToken}
+      />
       <Footer />
     </BrowserRouter>
   );
