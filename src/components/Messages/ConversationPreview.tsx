@@ -1,13 +1,25 @@
-export default function ConversationPreview({ contact }: object) {
-  const last = contact.messages.pop();
-  const lastMessage = last.message;
-  console.log(lastMessage);
-  const lastMessageCut = `${lastMessage.slice(0, 50)}...`;
+interface ContactInterface {
+  selectedContact: (messages: object) => void;
+  contact: {
+    id: number;
+    name: string;
+    picture: string;
+    messages: []
+  };
+}
+
+export default function ConversationPreview({
+  contact,
+  selectedContact,
+}: ContactInterface) {
+  const lastMessage = contact.messages[contact.messages.length - 1];
+  const { message }: { message: string } = lastMessage;
 
   return (
     <button
       type="button"
       className="p-2 rounded-3xl hover:shadow-around w-full"
+      onClick={() => selectedContact(contact)}
     >
       <div className="flex justify-around">
         <img
@@ -23,7 +35,7 @@ export default function ConversationPreview({ contact }: object) {
             className=" font-semibold
  text-xs text-primaryText block"
           >
-            {lastMessageCut}
+            {`${message.substring(0, 50)}...`}
           </p>
         </div>
       </div>

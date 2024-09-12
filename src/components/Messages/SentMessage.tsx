@@ -1,26 +1,14 @@
-function SentMessage() {
+function SentMessage({ sentMessage , myPicture}) {
   return (
-    <div className="m-4 flex gap-2 justify-center w-2/3 ml-2 self-start">
+    <div className="m-4 flex gap-2 justify-center w-2/3 ml-2 self-end">
+      <div className="p-4 bg-white border rounded-3xl shadow-around">
+        <p className="text-sm text-primaryText">{sentMessage}</p>
+      </div>
       <img
-        src="/src/assets/pexels-olly-3831645.jpg"
+        src={myPicture}
         alt="Moi"
         className="aspect-square rounded-full w-20 h-20 object-cover shadow-xl"
       />
-      <div className="p-4 bg-white border rounded-3xl shadow-around">
-        <p className="text-sm text-primaryText">
-          Bonjour Helena,
-          <br />
-          <br />
-          Je m'appelle Jean. J'ai vu sur SeniorLove que vous aimez le jazz, tout
-          comme moi ! J'ai remarqué qu'il y a un événement de jazz organisé ce
-          week-end. Je serais ravi de savoir si vous seriez intéressée à y
-          participer. Ce serait une belle occasion de partager notre passion
-          pour cette musique. <br />
-          <br />
-          Bien cordialement, <br />
-          Jean
-        </p>
-      </div>
     </div>
   );
 }
