@@ -24,8 +24,19 @@ export default function App({ isAuthenticated, setUserToken }: AppProps) {
           <Route path="/" element={<HomePageLogged />} />
           <Route path="/profiles" element={<ProfilesPage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
-          <Route path="/myprofile" element={<MyProfilePage />} />
-          <Route path="/events" element={<EventsPage />} />
+          <Route
+            path="/myprofile"
+            element={<MyProfilePage setIsAuthenticated={setIsAuthenticated} />}
+          />
+          <Route
+            path="/events"
+            element={
+              <EventsPage
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
           <Route
             path="/events/:id"
             element={<EventPage isAuthenticated={isAuthenticated} />}
