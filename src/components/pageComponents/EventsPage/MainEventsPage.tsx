@@ -2,10 +2,15 @@ import { useEffect, useState } from 'react';
 import axios from '../../../axios';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import { IEvent } from '../../../@types/IEvent';
+import Loader from '../../standaloneComponents/Loader/Loader';
 
 export default function MainEventsPage() {
   // STATE 1 : events
   const [events, setEvents] = useState<IEvent[]>([]);
+
+  // STATE 2 : loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
     const fetchAndSaveEvents = async () => {
       try {
@@ -14,10 +19,13 @@ export default function MainEventsPage() {
         setEvents(result.data);
       } catch (e) {
         console.log(e);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchAndSaveEvents();
   }, []);
+
   return (
     <main className="w-full min-h-screen flex-grow flex flex-col justify-start items-center bg-primaryGrey pb-8 gap-8">
       <p className="text-sm text-center font-medium md:text-xl my-4 text-primaryText w-9/12 pt-8">
@@ -29,11 +37,15 @@ export default function MainEventsPage() {
         simplement à la recherche d&apos;une sortie en plein air, il y en a pour
         tous les goûts!
       </p>
-      <div className="flex flex-wrap gap-10 justify-center content-around w-10/12">
-        {events.map((event) => (
-          <EventSticker event={event} key={event.name} />
-        ))}
-      </div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="flex flex-wrap gap-10 justify-center content-around w-10/12">
+          {events.map((event) => (
+            <EventSticker event={event} key={event.name} />
+          ))}
+        </div>
+      )}
     </main>
   );
 }
