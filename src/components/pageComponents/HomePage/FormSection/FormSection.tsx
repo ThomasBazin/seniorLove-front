@@ -74,19 +74,6 @@ export default function FormSection({
 
   useEffect(() => {
     const submitGlobalForm = async () => {
-      // Create FormData object if necessary
-      // const formData = new FormData();
-      // Object.keys(formInfos).forEach((key) => {
-      //   // Append all form data to FormData object
-      //   formData.append(key, formInfos[key as keyof IRegisterForm]);
-      // });
-
-      // Log the FormData object content (for debugging purposes)
-      // console.log('Submitting form data:');
-      // formData.forEach((value, key) => {
-      //   console.log(`${key}: ${typeof value}`);
-      // });
-
       try {
         // Attempt to post the formInfos object to the server
         // The 'Content-Type' header is set to 'multipart/form-data' to indicate that the request is sending form data
