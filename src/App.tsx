@@ -10,6 +10,7 @@ import MyProfilePage from './pages/MyProfilePage';
 import ConnexionPage from './pages/ConnectionPage';
 import EventPage from './pages/EventPage';
 import Error404Page from './pages/Error404Page';
+import ErrorAuthPage from './pages/ErrorAuthPage';
 
 interface AppProps {
   isAuthenticated: boolean;
@@ -56,6 +57,7 @@ export default function App({ isAuthenticated, setUserToken }: AppProps) {
         path="/error"
         element={<Error404Page isAuthenticated={isAuthenticated} />}
       />
+      <Route path="/loggedout" element={<ErrorAuthPage />} />
     </Routes>
   );
 }

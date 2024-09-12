@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-console */
-import { Link, useParams, Navigate } from 'react-router-dom';
+import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,6 +10,8 @@ import axios from '../../../../axios';
 import { IEvent } from '../../../../@types/IEvent';
 import { IUsersFull } from '../../../../@types/IUsersFull';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
+
+import { removeTokenFromLocalStorage } from '../../../../localStorage/localStorage';
 
 import {
   displayFullDate,
@@ -40,6 +42,8 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
   // STATE 5 : error
   const [isError, setIsError] = useState<number | null>(null);
 
+  const navigate = useNavigate();
+
   // toast de confirmation
   const subNotify = () =>
     toast.success('Vous êtes bien inscrit(e) à cet événement', {
@@ -65,7 +69,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
           setIsError(404);
         } else {
           setIsError(500);
-          console.log(e);
+          console.error(e);
         }
       } finally {
         setIsLoading(false);
@@ -111,10 +115,19 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       const result = await axios.put(`/private/events/${eventId}/register`);
       console.log(result.status);
       setIsSubscribe(true);
+      console.log('ATTEMPT');
       subNotify();
     } catch (e) {
       console.error(e);
-      setIsError(500);
+      if (
+        e instanceof AxiosError &&
+        (e.response?.data.blocked || e.response?.status === 401)
+      ) {
+        removeTokenFromLocalStorage();
+        navigate('/loggedout');
+      } else {
+        setIsError(500);
+      }
     }
   }
 
@@ -129,7 +142,15 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       UnsubNotify();
     } catch (e) {
       console.error(e);
-      setIsError(500);
+      if (
+        e instanceof AxiosError &&
+        (e.response?.data.blocked || e.response?.status === 401)
+      ) {
+        removeTokenFromLocalStorage();
+        navigate('/loggedout');
+      } else {
+        setIsError(500);
+      }
     }
   }
   if (isError === 404) {
