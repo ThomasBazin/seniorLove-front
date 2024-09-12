@@ -93,7 +93,8 @@ export default function ProfileView() {
                           Prochaines sorties:
                         </span>
                       </p>
-                      {profile.events.length > 0 ? (
+
+                      {profile.events && profile.events.length > 0 ? (
                         <div className="flex flex-wrap gap-4">
                           {profile.events.map((event) => (
                             <EventSticker
@@ -117,12 +118,6 @@ export default function ProfileView() {
                         className="bg-buttonGreen text-primaryText text-center w-[60%] max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl font-medium py-1 px-4 rounded-lg shadow-lg text-sm sm:text-base md:text-lg lg:text-base xl:text-lg italic"
                       >
                         Envoyer un message
-                      </Link>
-                      <Link
-                        to="#"
-                        className="text-primaryText text-center w-[15%] max-w-xs sm:max-w-xs md:max-w-xs lg:max-w-xs xl:max-w-xs font-medium py-3 px-3 rounded-lg shadow-md text-xs sm:text-xs md:text-xs lg:text-xs xl:text-xs italic"
-                      >
-                        Signaler ce profil
                       </Link>
                     </div>
                   </div>
