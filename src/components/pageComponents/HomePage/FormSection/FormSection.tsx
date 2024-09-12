@@ -107,7 +107,7 @@ export default function FormSection({
       } catch (e) {
         console.error(e);
       } finally {
-        setIsLoading(true);
+        setIsLoading(false);
       }
     };
     fetchAndSaveHobbies();
