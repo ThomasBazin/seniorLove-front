@@ -12,6 +12,7 @@ import { IHobby } from '../../../../@types/IHobby';
 import { IRegisterForm } from '../../../../@types/IRegisterForm';
 
 import Loader from '../../../standaloneComponents/Loader/Loader';
+import Error500Page from '../../../../pages/Error500Page';
 
 interface FormSectionProps {
   setIsForm1Validated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -49,6 +50,9 @@ export default function FormSection({
 
   // STATE 5 : loading
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // STATE 6 : error server
+  const [serverError, setErrorServer] = useState(false);
 
   const fillFormInfos = (incomingInfos: object) => {
     setFormInfos((previousInfos) => {
@@ -106,12 +110,17 @@ export default function FormSection({
         setHobbies(hobbiesData);
       } catch (e) {
         console.error(e);
+        setErrorServer(true);
       } finally {
         setIsLoading(false);
       }
     };
     fetchAndSaveHobbies();
   }, []);
+
+  if (serverError) {
+    return <Error500Page />;
+  }
 
   if (isLoading) {
     return (

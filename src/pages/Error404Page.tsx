@@ -57,8 +57,8 @@ export default function NotFoundPage({ isAuthenticated }: NotFoundPageProps) {
   return (
     <div className="flex flex-col items-center justify-center min-h-full flex-grow text-center text-primaryText my-20">
       <h1 className="text-3xl font-semibold mb-20">
-        🐔 Oups ! Cette page a pris la poudre d&apos;escampette... comme une
-        poule effrayée ! 🐔
+        🐔 Oups ! Erreur 404. Cette page a pris la poudre d&apos;escampette...
+        comme une poule effrayée ! 🐔
       </h1>
       <div className="mx-20">
         {' '}
