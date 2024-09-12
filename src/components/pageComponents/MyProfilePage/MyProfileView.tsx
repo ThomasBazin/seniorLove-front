@@ -5,6 +5,7 @@ import { IUsers } from '../../../@types/IUsers';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn'; // Assurez-vous que DefaultBtn est importé correctement
 import Error500Page from '../../../pages/Error500Page';
+import Loader from '../../standaloneComponents/Loader/Loader';
 
 export default function MyProfileView() {
   const { myId } = useParams<{ myId: string }>();
@@ -12,7 +13,10 @@ export default function MyProfileView() {
   // STATE 1 : my profile
   const [me, setMe] = useState<IUsers | null>(null);
 
-  // STATE 2 : error server
+  // STATE 2 : loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // STATE 3 : error server
   const [serverError, setServerError] = useState(false);
 
   useEffect(() => {
@@ -23,6 +27,8 @@ export default function MyProfileView() {
       } catch (e) {
         console.error(e);
         setServerError(true);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchConnectedUser();
@@ -30,6 +36,14 @@ export default function MyProfileView() {
 
   if (serverError) {
     return <Error500Page />;
+  }
+
+  if (isLoading) {
+    return (
+      <section className=" justify-center md:items-center flex md:px-16 md:h-screen">
+        <Loader />
+      </section>
+    );
   }
 
   // message de chargement tant que les données ne sont pas disponibles
