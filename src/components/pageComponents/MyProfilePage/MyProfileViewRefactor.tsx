@@ -7,6 +7,8 @@ import { IUsers } from '../../../@types/IUsers';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
 import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
+import Error500Page from '../../../pages/Error500Page';
+import Loader from '../../standaloneComponents/Loader/Loader';
 
 interface MyProfileViewRefactorProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,8 +18,16 @@ export default function MyProfileViewRefactor({
   setIsAuthenticated,
 }: MyProfileViewRefactorProps) {
   const { myId } = useParams<{ myId: string }>();
+
+  // STATE 1 : my profile
   const [me, setMe] = useState<IUsers | null>(null);
-  const [error, setError] = useState<string | null>(null);
+
+  // STATE 2 : loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // STATE 3 : error server
+  const [serverError, setServerError] = useState(false);
+
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState<Partial<IUsers>>({});
@@ -30,7 +40,9 @@ export default function MyProfileViewRefactor({
         setEditedProfile(response.data);
       } catch (e) {
         console.error(e);
-        setError('Error fetching your profile');
+        setServerError(true);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchConnectedUser();
@@ -44,7 +56,7 @@ export default function MyProfileViewRefactor({
       navigate('/');
     } catch (e) {
       console.error(e);
-      setError('Error deleting your account');
+      setServerError(true);
     }
   };
 
@@ -67,7 +79,7 @@ export default function MyProfileViewRefactor({
       setIsEditing(false);
     } catch (e) {
       console.error(e);
-      setError('Error updating your profile');
+      setServerError(true);
     }
   };
 
@@ -87,14 +99,20 @@ export default function MyProfileViewRefactor({
     setEditedProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-  if (error) {
-    return <p className="text-red-500 text-center">{error}</p>;
+  if (serverError) {
+    return <Error500Page />;
   }
 
+  if (isLoading) {
+    return (
+      <section className=" justify-center md:items-center flex md:px-16 md:h-screen">
+        <Loader />
+      </section>
+    );
+  }
   if (!me) {
-    return <p className="text-center">Chargement du profil...</p>;
+    return <Error500Page />;
   }
-
   return (
     <div className="w-full min-h-full flex-grow flex flex-col items-center justify-between bg-primaryGrey">
       <div className="flex flex-col pt-8 px-8 max-w-7xl w-full gap-10 md:flex-row">
