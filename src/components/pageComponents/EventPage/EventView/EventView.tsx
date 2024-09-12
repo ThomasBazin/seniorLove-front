@@ -112,8 +112,9 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       console.log(result.status);
       setIsSubscribe(true);
       subNotify();
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.error(e);
+      setIsError(500);
     }
   }
 
@@ -126,8 +127,9 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       console.log(result.status);
       setIsSubscribe(false);
       UnsubNotify();
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.error(e);
+      setIsError(500);
     }
   }
   if (isError === 404) {
