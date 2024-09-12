@@ -4,6 +4,7 @@ import axios from '../../../axios';
 import { getTokenAndDataFromLocalStorage } from '../../../localStorage/localStorage';
 import { IUsers } from '../../../@types/IUsers';
 import { FilterUser } from '../../../@types/IFilterUser';
+import Loader from '../../standaloneComponents/Loader/Loader';
 
 interface DisplayUsersProps {
   filter: FilterUser[];
@@ -12,8 +13,11 @@ interface DisplayUsersProps {
 export default function DisplayUsers({ filter }: DisplayUsersProps) {
   const response = getTokenAndDataFromLocalStorage();
   const token = response?.token;
+  // STATE 1 : users
   const [users, setUsers] = useState<IUsers[]>([]);
-  // const navigate = useNavigate();
+
+  // STATE 2 : loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -22,12 +26,14 @@ export default function DisplayUsers({ filter }: DisplayUsersProps) {
         setUsers(responseFetch.data);
       } catch (error) {
         console.error('Error fetching users:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (token) {
       fetchUsers();
     }
-  }, [token, filter]);
+  }, [token]);
 
   const filterUser = users.filter((user) => {
     // Filtrer par genre
@@ -45,10 +51,9 @@ export default function DisplayUsers({ filter }: DisplayUsersProps) {
     return genderSort && ageSort;
   });
 
-  // Function to handle user click and navigate to user detail page
-  // const handleUserClick = (user: IUsers) => {
-  //   navigate(`/profiles/${user.id}`, { state: { user } }); // Passing the user id in the URL
-  // };
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="w-full py-10">

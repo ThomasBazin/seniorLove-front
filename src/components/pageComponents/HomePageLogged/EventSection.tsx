@@ -3,9 +3,17 @@ import axios from '../../../axios';
 import { IEvent } from '../../../@types/IEvent';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
+import Loader from '../../standaloneComponents/Loader/Loader';
 
 export default function EventSection() {
+  // STATE 1 : events
+  const [events, setEvents] = useState<IEvent[]>([]);
+
+  // STATE 2 : events number
   const [numEvents, setnumEvents] = useState(3);
+
+  // STATE 3 : loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const updatenumEvents = () => {
@@ -27,7 +35,7 @@ export default function EventSection() {
   }, []);
 
   // Fetch events from API
-  const [events, setEvents] = useState<IEvent[]>([]);
+
   useEffect(() => {
     const fetchAndSaveEvents = async () => {
       try {
@@ -35,10 +43,16 @@ export default function EventSection() {
         setEvents(result.data);
       } catch (e) {
         console.log(e);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchAndSaveEvents();
   }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="w-full py-10">

@@ -13,6 +13,7 @@ import {
   displayFullDate,
   formatTime,
 } from '../../../../utils/dateAndTimeUtils';
+import Loader from '../../../standaloneComponents/Loader/Loader';
 
 interface EventViewProps {
   isAuthenticated: boolean;
@@ -65,12 +66,12 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
     getEvent();
   }, [id]);
 
+  // vérification des évenements possédés par l'user
+  const checkSubscribe = userEvents.some(
+    (element) => element.id === Number(id)
+  );
   // If authenticated fetch me to check subscriptions to events and set state
   useEffect(() => {
-    // vérification des évenements possédés par l'user
-    const checkSubscribe = userEvents.some(
-      (element) => element.id === Number(id)
-    );
     const getUser = async () => {
       try {
         const result = await axios.get('private/users/me');
@@ -94,7 +95,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       }
       setButtonText(isSubscribe ? 'Me désinscrire' : 'Je participe');
     }
-  }, [event, id, isAuthenticated, isSubscribe, userEvents]);
+  }, [checkSubscribe, event, isAuthenticated, isSubscribe]);
 
   // s'inscrire à un évenement
   async function subscribeEvent(eventId: number) {
@@ -126,96 +127,100 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
   }
 
   if (isLoading) {
-    return <p className="text-center">Chargement...</p>;
+    return <Loader />;
   }
 
-  return (
-    <div className="w-full min-h-full flex-grow flex bg-primaryGrey">
-      <div className="pt-8 px-8 max-w-7xl w-full justify-center mx-auto ">
-        <div className="h-72 rounded-xl relative mb-4">
-          <img
-            src={event?.picture}
-            alt={event?.name}
-            className="h-full object-cover rounded-md shadow-xl w-full"
-          />
-        </div>
+  if (event) {
+    return (
+      <div className="w-full min-h-full flex-grow flex bg-primaryGrey">
+        <div className="pt-8 px-8 max-w-7xl w-full justify-center mx-auto ">
+          <div className="h-72 rounded-xl relative mb-4">
+            <img
+              src={event.picture}
+              alt={event.name}
+              className="h-full object-cover rounded-md shadow-xl w-full"
+            />
+          </div>
 
-        <div className="flex flex-col justify-between">
-          <div className="p-2 w-full text-primaryText text-xl text-center mb-4">
-            <p>{event?.name}</p>
-          </div>{' '}
-          {/* Aside */}
-          <div className="flex flex-col md:flex-row-reverse md:justify-between">
-            <div className="flex md:flex-col md:pl-20 gap-4 flex-wrap justify-center">
-              <p className="text-primaryText italic">
-                <span className="font-semibold">Date : </span>
-                {displayFullDate(event?.date as string)}
-              </p>
-              <p className="text-primaryText italic">
-                <span className="font-semibold">Heure : </span>
-                {formatTime(event?.time as string)}
-              </p>
-              <p className="text-primaryText italic">
-                <span className="font-semibold">Lieu : </span> {event?.location}
-                , France
-              </p>
-              <div>
-                <p className="text-primaryText italic mb-1">
-                  <span className="font-semibold">Centres d&apos;intérêt</span>{' '}
-                  :
+          <div className="flex flex-col justify-between">
+            <div className="p-2 w-full text-primaryText text-xl text-center mb-4">
+              <p>{event.name}</p>
+            </div>{' '}
+            {/* Aside */}
+            <div className="flex flex-col md:flex-row-reverse md:justify-between">
+              <div className="flex md:flex-col md:pl-20 gap-4 flex-wrap justify-center">
+                <p className="text-primaryText italic">
+                  <span className="font-semibold">Date : </span>
+                  {displayFullDate(event.date as string)}
                 </p>
-                <div className="text-primaryText">
-                  {event?.hobbies.map((hobby) => (
-                    <p key={hobby.name}>{hobby.name}</p>
-                  ))}
+                <p className="text-primaryText italic">
+                  <span className="font-semibold">Heure : </span>
+                  {formatTime(event.time as string)}
+                </p>
+                <p className="text-primaryText italic">
+                  <span className="font-semibold">Lieu : </span>{' '}
+                  {event.location}, France
+                </p>
+                <div>
+                  <p className="text-primaryText italic mb-1">
+                    <span className="font-semibold">
+                      Centres d&apos;intérêt
+                    </span>{' '}
+                    :
+                  </p>
+                  <div className="text-primaryText">
+                    {event.hobbies.map((hobby) => (
+                      <p key={hobby.name}>{hobby.name}</p>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Description */}
-            <div className="md:w-4/5 pb-8">
-              <p className="text-primaryText py-6 md:py-0 italic">
-                {event?.description}
-              </p>
+              {/* Description */}
+              <div className="md:w-4/5 pb-8">
+                <p className="text-primaryText py-6 md:py-0 italic">
+                  {event.description}
+                </p>
+              </div>
             </div>
           </div>
+          {isSubscribe && (
+            <p className="text-center text-x0 text-secondaryPink">
+              Vous êtes déja inscrit(e) à cet évenement
+            </p>
+          )}
+
+          {isAuthenticated ? (
+            <button
+              type="button"
+              className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
+              onClick={() =>
+                isSubscribe
+                  ? unsubscribeEvent(event.id as number)
+                  : subscribeEvent(event.id as number)
+              }
+            >
+              {buttonText}
+            </button>
+          ) : (
+            <>
+              <Link to="/">
+                <DefaultBtn btnText="Inscrivez-vous" btnType="button" />
+              </Link>
+              <div className="connexion_paragraph text-primaryText text-center text-base mb-4">
+                <p>
+                  Deja membre? Connectez-vous{' '}
+                  <Link to="/login" className="text-secondaryPink">
+                    ici
+                  </Link>
+                  .
+                </p>
+              </div>
+            </>
+          )}
+
+          <ToastContainer />
         </div>
-        {isSubscribe && (
-          <p className="text-center text-x0 text-secondaryPink">
-            Vous êtes déja inscrit(e) à cet évenement
-          </p>
-        )}
-
-        {isAuthenticated ? (
-          <button
-            type="button"
-            className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
-            onClick={() =>
-              isSubscribe
-                ? unsubscribeEvent(event?.id as number)
-                : subscribeEvent(event?.id as number)
-            }
-          >
-            {buttonText}
-          </button>
-        ) : (
-          <>
-            <Link to="/">
-              <DefaultBtn btnText="Inscrivez-vous" btnType="button" />
-            </Link>
-            <div className="connexion_paragraph text-primaryText text-center text-base mb-4">
-              <p>
-                Deja membre? Connectez-vous{' '}
-                <Link to="/login" className="text-secondaryPink">
-                  ici
-                </Link>
-                .
-              </p>
-            </div>
-          </>
-        )}
-
-        <ToastContainer />
       </div>
-    </div>
-  );
+    );
+  }
 }

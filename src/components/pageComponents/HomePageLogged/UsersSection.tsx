@@ -5,22 +5,26 @@ import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
 import { getTokenAndDataFromLocalStorage } from '../../../localStorage/localStorage';
 import axios from '../../../axios';
 import { IUsers } from '../../../@types/IUsers';
+import Loader from '../../standaloneComponents/Loader/Loader';
 
 export default function UsersSection() {
   const response = getTokenAndDataFromLocalStorage();
   const token = response?.token;
+  // STATE 1 : users
   const [users, setUsers] = useState<IUsers[]>([]);
+
+  // STATE 2 : loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const responseFetch = await axios.get('/private/users/me/suggestions');
-        // const shuffledUsers = responseFetch.data.sort(
-        //   () => 0.5 - Math.random()
-        // );
         setUsers(responseFetch.data);
       } catch (error) {
         console.error('Error fetching users:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (token) {
@@ -47,6 +51,11 @@ export default function UsersSection() {
 
     return () => window.removeEventListener('resize', updateNumProfiles);
   }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <div className="w-full py-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-center mx-auto w-11/12 pb-8">
