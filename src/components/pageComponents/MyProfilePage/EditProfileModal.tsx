@@ -16,12 +16,6 @@ interface IUsers {
   repeat_new_password?: string;
 }
 
-interface Hobby {
-  id: number;
-  name: string;
-  checked: boolean;
-}
-
 // Interface pour les propriétés du modal d'édition de profil
 interface EditProfileModalProps {
   isOpen: boolean;

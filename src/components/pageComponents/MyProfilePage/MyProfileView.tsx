@@ -20,6 +20,7 @@ interface IUsers {
   repeat_new_password?: string;
 }
 
+
 export default function MyProfileView() {
   const { myId } = useParams<{ myId: string }>(); 
   const [me, setMe] = useState<IUsers | null>(null); 
@@ -89,7 +90,7 @@ export default function MyProfileView() {
                     </p>
                     <div className="flex flex-wrap gap-2">
                       <ul className="text-primaryText font-semibold list-disc list-inside">
-                        {me.hobbies.map((hobby: any) => (
+                        {me.hobbies && me.hobbies.map((hobby: any) => (
                           <li key={hobby.id}>{hobby.name}</li>
                         ))}
                       </ul>
@@ -101,7 +102,7 @@ export default function MyProfileView() {
                     <p className="text-primaryText italic mb-1">
                       <span className="font-semibold">Prochaines sorties:</span>
                     </p>
-                    {me.events.length > 0 ? (
+                    {me.events && me.events.length > 0 ? (
                       <div className="flex flex-wrap gap-4">
                         {me.events.map((event) => (
                           <EventSticker
