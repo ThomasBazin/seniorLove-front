@@ -4,7 +4,7 @@ export interface IUsers {
   alt: string;
   age: number;
   picture: string;
-  birth_date: string;
+  birth_date: Date;
   gender: string;
   description: string;
   hobbies: IHobby[];

@@ -14,9 +14,14 @@ import Error404Page from './pages/Error404Page';
 interface AppProps {
   isAuthenticated: boolean;
   setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function App({ isAuthenticated, setUserToken }: AppProps) {
+export default function App({
+  isAuthenticated,
+  setUserToken,
+  setIsAuthenticated,
+}: AppProps) {
   return (
     <Routes>
       {isAuthenticated ? (
@@ -28,15 +33,7 @@ export default function App({ isAuthenticated, setUserToken }: AppProps) {
             path="/myprofile"
             element={<MyProfilePage setIsAuthenticated={setIsAuthenticated} />}
           />
-          <Route
-            path="/events"
-            element={
-              <EventsPage
-                isAuthenticated={isAuthenticated}
-                setIsAuthenticated={setIsAuthenticated}
-              />
-            }
-          />
+          <Route path="/events" element={<EventsPage />} />
           <Route
             path="/events/:id"
             element={<EventPage isAuthenticated={isAuthenticated} />}

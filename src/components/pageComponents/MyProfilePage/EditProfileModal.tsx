@@ -1,20 +1,7 @@
 import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import axios from '../../../axios';
-
-interface IUsers {
-  name: string;
-  alt: string;
-  age: number;
-  picture?: string;
-  birth_date?: string;
-  gender?: string;
-  description?: string;
-  hobbies?: string[];
-  new_password?: string;
-  old_password?: string;
-  repeat_new_password?: string;
-}
+import { IUsers } from '../../../@types/IUsers';
 
 // Interface pour les propriétés du modal d'édition de profil
 interface EditProfileModalProps {
