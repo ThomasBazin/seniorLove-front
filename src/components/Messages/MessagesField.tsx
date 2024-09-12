@@ -8,7 +8,10 @@ import SentMessage from './SentMessage';
 export default function MessagesField() {
   const [messagesData, setMessagesData] = useState<[]>([]);
   const [displayMessages, setDisplayMessages] = useState();
-  const [sendMessage, setSendMessage] = useState<boolean>(false);
+  const [sendMessage, setSendMessage] = useState({
+    sendStatus: false,
+    lastReceiverId: displayMessages?.id,
+  });
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -30,42 +33,42 @@ export default function MessagesField() {
     setDisplayMessages(newMessages);
   };
 
-  const handleSendMessages = () => {
-    setSendMessage(!sendMessage);
+  const handleSendMessages = (id) => {
+    setSendMessage({ sendStatus: !sendMessage.sendStatus, lastReceiverId: id });
   };
 
   const idSent = Number(displayMessages?.id);
   return (
-    <div
-      className="flex w-5/6
- mt-6"
-    >
+    <div className="flex mt-6">
       <ContactsListField
         listContacts={messagesData}
         selectedContact={handleUpdateMessages}
       />
-      <div className="bg-white border rounded-r-3xl flex flex-col w-full">
-        {displayMessages?.messages.map((message) => {
-          // console.log(displayMessages);
 
-          if (displayMessages.id === message.sender_id) {
+      <div className="hidden md:block">
+        <div className="bg-white border rounded-r-3xl flex flex-col w-full">
+          {displayMessages?.messages.map((message) => {
+            // console.log(displayMessages);
+
+            if (displayMessages.id === message.sender_id) {
+              return (
+                <ReceivedMessage
+                  receiveMessage={message.message}
+                  key={message.id}
+                  picture={displayMessages.picture}
+                />
+              );
+            }
             return (
-              <ReceivedMessage
-                receiveMessage={message.message}
+              <SentMessage
+                sentMessage={message.message}
                 key={message.id}
-                picture={displayMessages.picture}
+                myPicture={message.sender.picture}
               />
             );
-          }
-          return (
-            <SentMessage
-              sentMessage={message.message}
-              key={message.id}
-              myPicture={message.sender.picture}
-            />
-          );
-        })}
-        <EditMessagesForm send={handleSendMessages} receiverId={idSent} />
+          })}
+          <EditMessagesForm send={handleSendMessages} receiverId={idSent} />
+        </div>
       </div>
     </div>
   );

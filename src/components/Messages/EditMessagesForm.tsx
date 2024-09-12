@@ -3,7 +3,7 @@ import axios from '../../axios';
 
 export default function EditMessagesForm({ send, receiverId }) {
   const [message, setMessage] = useState('');
-  
+
   return (
     <form action="post" className="bg-transparent" id="formMessage">
       <input
@@ -27,8 +27,8 @@ export default function EditMessagesForm({ send, receiverId }) {
               message: formData.sendMessage,
               receiver_id: receiverId,
             });
-            send();
-            setMessage('')
+            send(receiverId);
+            setMessage('');
           } catch (error) {
             console.log(error);
           }

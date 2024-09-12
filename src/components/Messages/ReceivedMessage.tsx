@@ -2,7 +2,7 @@
 
 export default function ReceivedMessage({ receiveMessage, picture }) {
   return (
-    <div className="m-4 flex gap-2 justify-center w-2/3 mr-2 self-start">
+    <div className="m-4 flex gap-2 justify-start w-2/3 mr-2 self-start">
       <img
         src={picture}
         alt="Moi"
