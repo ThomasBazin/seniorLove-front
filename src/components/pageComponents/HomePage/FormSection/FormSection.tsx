@@ -11,6 +11,9 @@ import EndSection from './EndSection';
 import { IHobby } from '../../../../@types/IHobby';
 import { IRegisterForm } from '../../../../@types/IRegisterForm';
 
+import Loader from '../../../standaloneComponents/Loader/Loader';
+import Error500Page from '../../../../pages/Error500Page';
+
 interface FormSectionProps {
   setIsForm1Validated: React.Dispatch<React.SetStateAction<boolean>>;
   isForm1Validated: boolean;
@@ -38,12 +41,18 @@ export default function FormSection({
   // STATE 2 : hobbies
   const [hobbies, setHobbies] = useState<IHobby[]>([]);
 
-  // STATE 3 : error
+  // STATE 3 : register error
   const [registerError, setRegisterError] = useState<null | string>(null);
 
   // STATE 4 : is global form submitted
   const [isGlobalFormSubmitted, setIsGlobalFormSubmitted] =
     useState<boolean>(false);
+
+  // STATE 5 : loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // STATE 6 : error server
+  const [serverError, setServerError] = useState(false);
 
   const fillFormInfos = (incomingInfos: object) => {
     setFormInfos((previousInfos) => {
@@ -81,7 +90,10 @@ export default function FormSection({
           );
         } else {
           console.error(e);
+          setServerError(true);
         }
+      } finally {
+        setIsLoading(false);
       }
     };
     if (isGlobalFormSubmitted) {
@@ -99,78 +111,91 @@ export default function FormSection({
         setHobbies(hobbiesData);
       } catch (e) {
         console.error(e);
+        setServerError(true);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchAndSaveHobbies();
   }, []);
 
-  const renderContent = () => {
-    // if form 1 not yet validated, show form 1
-    if (!isForm1Validated) {
-      return (
-        <section className="bg-firstForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
-          <div className="hidden md:block font-semibold text-2xl xl:text-4xl md:w-1/2 lg:2/3">
-            <p>
-              Rejoignez notre communauté dédiée aux seniors en quête de belles
-              rencontres.
-            </p>
-            <p>Inscrivez-vous ici et commencez cette belle aventure !</p>
-          </div>
-          <SubscribeFormV1
-            formInfos={formInfos}
-            setIsForm1Validated={setIsForm1Validated}
-            fillFormInfos={fillFormInfos}
-          />
-        </section>
-      );
-    }
-    // if form 2 not yet validated, show form 2
-    if (!isForm2Validated) {
-      return (
-        <section className="bg-secondForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
-          <SubscribeFormV2
-            hobbies={hobbies}
-            setHobbies={setHobbies}
-            setIsForm2Validated={setIsForm2Validated}
-            onPreviousClick={goToForm1}
-            fillFormInfos={fillFormInfos}
-          />
-        </section>
-      );
-    }
-    // if form 3 not yet validated, show form 3
-    if (!isForm3Validated) {
-      return (
-        <section className="bg-thirdForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
-          <SubscribeFormV3
-            formInfos={formInfos}
-            setIsForm3Validated={setIsForm3Validated}
-            fillFormInfos={fillFormInfos}
-            onPreviousClick={goToForm2}
-          />
-        </section>
-      );
-    }
-    // // if form 4 not yet validated, show form 4
-    if (!isForm4Validated) {
-      return (
-        <section className="bg-fourthForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
-          <SubscribeFormV4
-            onPreviousClick={goToForm3}
-            fillFormInfos={fillFormInfos}
-            setIsForm4Validated={setIsForm4Validated}
-            setIsGlobalFormSubmitted={setIsGlobalFormSubmitted}
-          />
-        </section>
-      );
-    }
+  if (serverError) {
+    return <Error500Page />;
+  }
 
+  if (isLoading) {
     return (
-      <section className="bg-endForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
-        <EndSection onPreviousClick={goToForm4} error={registerError} />
+      <section className=" justify-center md:items-center flex md:px-16 md:h-screen">
+        <Loader />
       </section>
     );
-  };
+  }
 
-  return <>{renderContent()}</>;
+  // if form 1 not yet validated, show form 1
+  if (!isForm1Validated) {
+    return (
+      <section className="bg-firstForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
+        <div className="hidden md:block font-semibold text-2xl xl:text-4xl md:w-1/2 lg:2/3">
+          <p>
+            Rejoignez notre communauté dédiée aux seniors en quête de belles
+            rencontres.
+          </p>
+          <p>Inscrivez-vous ici et commencez cette belle aventure !</p>
+        </div>
+        <SubscribeFormV1
+          formInfos={formInfos}
+          setIsForm1Validated={setIsForm1Validated}
+          fillFormInfos={fillFormInfos}
+        />
+      </section>
+    );
+  }
+
+  // if form 2 not yet validated, show form 2
+  if (!isForm2Validated) {
+    return (
+      <section className="bg-secondForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
+        <SubscribeFormV2
+          hobbies={hobbies}
+          setHobbies={setHobbies}
+          setIsForm2Validated={setIsForm2Validated}
+          onPreviousClick={goToForm1}
+          fillFormInfos={fillFormInfos}
+        />
+      </section>
+    );
+  }
+
+  // if form 3 not yet validated, show form 3
+  if (!isForm3Validated) {
+    return (
+      <section className="bg-thirdForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
+        <SubscribeFormV3
+          formInfos={formInfos}
+          setIsForm3Validated={setIsForm3Validated}
+          fillFormInfos={fillFormInfos}
+          onPreviousClick={goToForm2}
+        />
+      </section>
+    );
+  }
+  // // if form 4 not yet validated, show form 4
+  if (!isForm4Validated) {
+    return (
+      <section className="bg-fourthForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
+        <SubscribeFormV4
+          onPreviousClick={goToForm3}
+          fillFormInfos={fillFormInfos}
+          setIsForm4Validated={setIsForm4Validated}
+          setIsGlobalFormSubmitted={setIsGlobalFormSubmitted}
+        />
+      </section>
+    );
+  }
+
+  return (
+    <section className="bg-endForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
+      <EndSection onPreviousClick={goToForm4} error={registerError} />
+    </section>
+  );
 }

@@ -1,15 +1,16 @@
 export interface IUsers {
   id: number;
-  name: string; 
-  gender: string;
-  picture: string; 
+  name: string;
   alt: string;
+  age: number;
+  picture: string;
   birth_date: Date;
-  age: number; 
-  description: string; 
-  gender: string; 
-  email: string; 
-  password: string;
+  gender: string;
+  description: string;
   hobbies: IHobby[];
-  events: IEvent[];
+  email: string;
+  old_password: string;
+  new_password?: string;
+  repeat_new_password?: string;
+  events?: IEvent[];
 }

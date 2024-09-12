@@ -1,25 +1,35 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ProfileSticker from '../../standaloneComponents/ProfileSticker/ProfileSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
 import { getTokenAndDataFromLocalStorage } from '../../../localStorage/localStorage';
 import axios from '../../../axios';
 import { IUsers } from '../../../@types/IUsers';
+import Loader from '../../standaloneComponents/Loader/Loader';
+import Error500Page from '../../../pages/Error500Page';
 
 export default function UsersSection() {
   const response = getTokenAndDataFromLocalStorage();
   const token = response?.token;
+  // STATE 1 : users
   const [users, setUsers] = useState<IUsers[]>([]);
+
+  // STATE 2 : loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // STATE 3 : error server
+  const [serverError, setServerError] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const responseFetch = await axios.get('/private/users/me/suggestions');
-        const shuffledUsers = responseFetch.data.sort(
-          () => 0.5 - Math.random()
-        );
-        setUsers(shuffledUsers);
-      } catch (error) {
-        console.error('Error fetching users:', error);
+        setUsers(responseFetch.data);
+      } catch (e) {
+        console.error(e);
+        setServerError(true);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (token) {
@@ -46,6 +56,15 @@ export default function UsersSection() {
 
     return () => window.removeEventListener('resize', updateNumProfiles);
   }, []);
+
+  if (serverError) {
+    return <Error500Page />;
+  }
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <div className="w-full py-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-center mx-auto w-11/12 pb-8">
@@ -53,7 +72,9 @@ export default function UsersSection() {
           <ProfileSticker user={user} key={user.id} />
         ))}
       </div>
-      <DefaultBtn btnText="Voir plus de profils" onClick={() => window.location.href = '/profiles'} />
+      <Link to="/profiles">
+        <DefaultBtn btnText="Voir plus de profils" />
+      </Link>
     </div>
   );
 }

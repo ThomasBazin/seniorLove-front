@@ -3,9 +3,21 @@ import axios from '../../../axios';
 import { IEvent } from '../../../@types/IEvent';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
+import Loader from '../../standaloneComponents/Loader/Loader';
+import Error500Page from '../../../pages/Error500Page';
 
 export default function EventSection() {
+  // STATE 1 : events
+  const [events, setEvents] = useState<IEvent[]>([]);
+
+  // STATE 2 : events number
   const [numEvents, setnumEvents] = useState(3);
+
+  // STATE 3 : loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // STATE 4 : error server
+  const [serverError, setServerError] = useState(false);
 
   useEffect(() => {
     const updatenumEvents = () => {
@@ -27,7 +39,7 @@ export default function EventSection() {
   }, []);
 
   // Fetch events from API
-  const [events, setEvents] = useState<IEvent[]>([]);
+
   useEffect(() => {
     const fetchAndSaveEvents = async () => {
       try {
@@ -35,10 +47,21 @@ export default function EventSection() {
         setEvents(result.data);
       } catch (e) {
         console.log(e);
+        setServerError(true);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchAndSaveEvents();
   }, []);
+
+  if (serverError) {
+    return <Error500Page />;
+  }
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="w-full py-10">

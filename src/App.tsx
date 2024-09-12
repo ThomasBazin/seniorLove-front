@@ -4,57 +4,47 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import EventsPage from './pages/EventsPage';
 import HomePageLogged from './pages/HomePageLogged';
-import SearchProfilesPage from './pages/ProfilesPage';
+import ProfilesPage from './pages/ProfilesPage';
 import ProfilePage from './pages/ProfilePage';
 import MyProfilePage from './pages/MyProfilePage';
 import ConnexionPage from './pages/ConnectionPage';
 import EventPage from './pages/EventPage';
 import Error404Page from './pages/Error404Page';
+import ErrorAuthPage from './pages/ErrorAuthPage';
 import MessagePage from './pages/MessagePage';
 
 interface AppProps {
   isAuthenticated: boolean;
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function App({
   isAuthenticated,
-  setIsAuthenticated,
   setUserToken,
+  setIsAuthenticated,
 }: AppProps) {
   return (
     <Routes>
       {isAuthenticated ? (
         <>
-          <Route
-            path="/"
-            element={<HomePageLogged setIsAuthenticated={setIsAuthenticated} />}
-          />
-          <Route path="/profiles" element={<SearchProfilesPage />} />
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/home" element={<HomePageLogged />} />
+          <Route path="/profiles" element={<ProfilesPage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
-          <Route path="/myprofile" element={<MyProfilePage />} />
+        
           <Route
             path="/messages"
             element={<MessagePage setIsAuthenticated={setIsAuthenticated} />}
           />
           <Route
-            path="/events"
-            element={
-              <EventsPage
-                isAuthenticated={isAuthenticated}
-                setIsAuthenticated={setIsAuthenticated}
-              />
-            }
+            path="/myprofile"
+            element={<MyProfilePage setIsAuthenticated={setIsAuthenticated} />}
           />
+          <Route path="/events" element={<EventsPage />} />
           <Route
             path="/events/:id"
-            element={
-              <EventPage
-                isAuthenticated={isAuthenticated}
-                setIsAuthenticated={setIsAuthenticated}
-              />
-            }
+            element={<EventPage isAuthenticated={isAuthenticated} />}
           />
         </>
       ) : (
@@ -64,31 +54,24 @@ export default function App({
             path="/login"
             element={<ConnexionPage setUserToken={setUserToken} />}
           />
-          <Route
-            path="/events"
-            element={
-              <EventsPage
-                isAuthenticated={isAuthenticated}
-                setIsAuthenticated={setIsAuthenticated}
-              />
-            }
-          />
+          <Route path="/events" element={<EventsPage />} />
           <Route
             path="/events/:id"
-            element={
-              <EventPage
-                isAuthenticated={isAuthenticated}
-                setIsAuthenticated={setIsAuthenticated}
-              />
-            }
+            element={<EventPage isAuthenticated={isAuthenticated} />}
           />
         </>
       )}
-      <Route path="*" element={<Navigate to="/error" replace />} />
+
+      <Route
+        path="*"
+        element={<Error404Page isAuthenticated={isAuthenticated} />}
+      />
+
       <Route
         path="/error"
         element={<Error404Page isAuthenticated={isAuthenticated} />}
       />
+      <Route path="/loggedout" element={<ErrorAuthPage />} />
     </Routes>
   );
 }

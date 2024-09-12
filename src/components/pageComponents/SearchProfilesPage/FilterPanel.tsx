@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
+import { FilterUser } from '../../../@types/IFilterUser';
 
-export default function FilterPanel({
-  setFilter,
-}: {
-  setFilter: (eventData: any) => void;
-}) {
+interface FilterPanelProps {
+  setFilter: React.Dispatch<React.SetStateAction<FilterUser[]>>;
+}
+export default function FilterPanel({ setFilter }: FilterPanelProps) {
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   // afficher/cacher le formulaire de recherche
   const toggleFilterVisibility = () => {
     setIsFilterVisible((prevState) => !prevState);
   };
 
-  function changeFilter(name: string, value: any) {
-    setFilter((prevFilter:any) =>
-      prevFilter.map((filterValue: any) => ({
+  function changeFilter(name: string, value: string) {
+    setFilter((prevFilter) =>
+      prevFilter.map((filterValue) => ({
         ...filterValue,
         [name]: value,
       }))
@@ -42,11 +42,10 @@ export default function FilterPanel({
             className="rounded-lg p-2 border border-primaryGrey min-w-[150px]"
             onChange={(e) => changeFilter('gender', e.currentTarget.value)}
           >
-            <option value="">Choisir..</option>
+            <option value="allGender">Tous</option>
             <option value="female">Femme</option>
             <option value="male">Homme</option>
             <option value="other">Autre</option>
-            <option value="allGender">Tous</option>
           </select>
         </label>
 
@@ -58,11 +57,10 @@ export default function FilterPanel({
             className="rounded-lg p-2 border border-primaryGrey min-w-[150px]"
             onChange={(e) => changeFilter('age', e.currentTarget.value)}
           >
-            <option value="">Choisir..</option>
+            <option value="0">Tous les ages</option>
             <option value="60">De 60 à 69 ans</option>
             <option value="70">De 70 à 79 ans</option>
             <option value="80">80 ans et plus</option>
-            <option value="0">Tous les ages</option>
           </select>
         </label>
       </div>

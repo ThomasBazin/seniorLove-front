@@ -1,32 +1,53 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from '../../../axios';
-import { IUsers } from '../../../@types/IUsers';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
-import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn'; // Assurez-vous que DefaultBtn est importé correctement
+import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
+import EditProfileModal from './EditProfileModal';
+import { IUsers } from '../../../@types/IUsers';
+import Error500Page from '../../../pages/Error500Page';
+import Loader from '../../standaloneComponents/Loader/Loader';
 
 export default function MyProfileView() {
   const { myId } = useParams<{ myId: string }>();
+
+  // STATE 1 : my profile
   const [me, setMe] = useState<IUsers | null>(null);
-  const [error, setError] = useState<string | null>(null);
+
+  // STATE 2 : loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // STATE 3 : error server
+  const [serverError, setServerError] = useState(false);
+  const [isModalOpen, setisModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchConnectedUser = async () => {
       try {
         const response = await axios.get(`/private/users/me`);
         setMe(response.data); // Stocke les données de l'utilisateur dans le state
-      } catch (error) {
-        setError('Error fetching your profile');
+      } catch (e) {
+        console.error(e);
+        setServerError(true);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchConnectedUser();
   }, [myId]); // L'ID de l'utilisateur est utilisé comme dépendance pour relancer le fetch si nécessaire
 
-  if (error) {
-    return <p className="text-red-500 text-center">{error}</p>;
+  if (serverError) {
+    return <Error500Page />;
   }
 
-  // message de chargement tant que les données ne sont pas disponibles
+  if (isLoading) {
+    return (
+      <section className=" justify-center md:items-center flex md:px-16 md:h-screen">
+        <Loader />
+      </section>
+    );
+  }
+
   if (!me) {
     return <p className="text-center">Chargement du profil...</p>;
   }
@@ -44,7 +65,6 @@ export default function MyProfileView() {
             />
           </div>
 
-          {/* Détails de mon profil */}
           <div className="flex-grow md:w-2/3">
             <div className="p-4 bg-white rounded-lg shadow-md">
               <div className="text-center mb-4">
@@ -69,13 +89,14 @@ export default function MyProfileView() {
                   {/* Hobbies */}
                   <div className="mt-6">
                     <p className="text-primaryText italic mb-1">
-                      <span className="font-semibold">Hobbies:</span>
+                      <span className="font-semibold">Centres d'intérêt:</span>
                     </p>
                     <div className="flex flex-wrap gap-2">
                       <ul className="text-primaryText font-semibold list-disc list-inside">
-                        {me.hobbies.map((hobby) => (
-                          <li key={hobby.id}>{hobby.name}</li>
-                        ))}
+                        {me.hobbies &&
+                          me.hobbies.map((hobby: any) => (
+                            <li key={hobby.id}>{hobby.name}</li>
+                          ))}
                       </ul>
                     </div>
                   </div>
@@ -85,13 +106,13 @@ export default function MyProfileView() {
                     <p className="text-primaryText italic mb-1">
                       <span className="font-semibold">Prochaines sorties:</span>
                     </p>
-                    {me.events.length > 0 ? (
+                    {me.events && me.events.length > 0 ? (
                       <div className="flex flex-wrap gap-4">
                         {me.events.map((event) => (
                           <EventSticker
-                            key={event.id}
                             event={event}
                             size="small"
+                            key={event.id}
                           />
                         ))}
                       </div>
@@ -104,12 +125,25 @@ export default function MyProfileView() {
 
                   {/* Bouton pour envoyer un message */}
                   <div className="button_container flex justify-center mt-6 gap-6">
-                    <Link
-                      to="#"
+                    <button
+                      type="button"
+                      onClick={() => setisModalOpen(true)}
                       className="min-w-44 bg-buttonGreen hover:bg-white rounded-lg text-primaryText font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
                     >
                       Editer mon profil
-                    </Link>
+                    </button>
+                    {isModalOpen && (
+                      <EditProfileModal
+                        isOpen={isModalOpen}
+                        onClose={() => setisModalOpen(false)}
+                        user={me}
+                        onUpdate={(updatedUser: IUsers) => {
+                          setMe(updatedUser);
+                          setisModalOpen(false);
+                        }}
+                      />
+                    )}
+
                     <DefaultBtn btnText="Supprimer mon compte" />
                   </div>
                 </div>

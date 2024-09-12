@@ -1,5 +1,6 @@
-// MobileFooterMenu V1 (before connexion)
+// MobileFooterMenu V2 (logged)
 
+import { Link } from 'react-router-dom';
 import Logo from '/icon/logo-pink-background.png';
 import DiscoverLogo from '/icon/decouvrir.png';
 import EventLogo from '/icon/evenement.png';
@@ -12,18 +13,28 @@ export default function MobileNavBarLogged() {
       logo: DiscoverLogo,
       alt: 'bouton decouvrir',
       text: 'Decouvrir',
-      href: '#',
+      href: '/profiles',
     },
     { logo: MessageLogo, alt: 'bouton messages', text: 'Messages', href: '#' },
-    { logo: Logo, alt: 'bouton accueil', text: 'Accueil', href: '/' },
-    { logo: EventLogo, alt: 'bouton connexion', text: 'Événements', href: '#' },
-    { logo: ProfileLogo, alt: 'bouton profile', text: 'Profil', href: '#' },
+    { logo: Logo, alt: 'bouton accueil', text: 'Accueil', href: '/home' },
+    {
+      logo: EventLogo,
+      alt: 'bouton connexion',
+      text: 'Événements',
+      href: '/events',
+    },
+    {
+      logo: ProfileLogo,
+      alt: 'bouton profile',
+      text: 'Profil',
+      href: '/myprofile',
+    },
   ];
 
   return (
     <div className="bg-white shadow-mobileNav w-full px-3 pt-2 flex justify-around items-center font-semibold text-primaryText fixed bottom-0 z-10 md:hidden">
       {menuItems.map((item) => (
-        <a href={item.href} key={item.text}>
+        <Link to={item.href} key={item.text}>
           <img
             src={item.logo}
             alt={item.alt}
@@ -32,7 +43,7 @@ export default function MobileNavBarLogged() {
           <p className="mb-1 text-base text-primaryText text-center">
             {item.text}
           </p>
-        </a>
+        </Link>
       ))}
     </div>
   );
