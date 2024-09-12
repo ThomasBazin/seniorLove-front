@@ -13,43 +13,22 @@ import Error404Page from './pages/Error404Page';
 
 interface AppProps {
   isAuthenticated: boolean;
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-export default function App({
-  isAuthenticated,
-  setIsAuthenticated,
-  setUserToken,
-}: AppProps) {
+export default function App({ isAuthenticated, setUserToken }: AppProps) {
   return (
     <Routes>
       {isAuthenticated ? (
         <>
-          <Route
-            path="/"
-            element={<HomePageLogged setIsAuthenticated={setIsAuthenticated} />}
-          />
+          <Route path="/" element={<HomePageLogged />} />
           <Route path="/profiles" element={<ProfilesPage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
           <Route path="/myprofile" element={<MyProfilePage />} />
-          <Route
-            path="/events"
-            element={
-              <EventsPage
-                isAuthenticated={isAuthenticated}
-                setIsAuthenticated={setIsAuthenticated}
-              />
-            }
-          />
+          <Route path="/events" element={<EventsPage />} />
           <Route
             path="/events/:id"
-            element={
-              <EventPage
-                isAuthenticated={isAuthenticated}
-                setIsAuthenticated={setIsAuthenticated}
-              />
-            }
+            element={<EventPage isAuthenticated={isAuthenticated} />}
           />
         </>
       ) : (
@@ -59,23 +38,10 @@ export default function App({
             path="/login"
             element={<ConnexionPage setUserToken={setUserToken} />}
           />
-          <Route
-            path="/events"
-            element={
-              <EventsPage
-                isAuthenticated={isAuthenticated}
-                setIsAuthenticated={setIsAuthenticated}
-              />
-            }
-          />
+          <Route path="/events" element={<EventsPage />} />
           <Route
             path="/events/:id"
-            element={
-              <EventPage
-                isAuthenticated={isAuthenticated}
-                setIsAuthenticated={setIsAuthenticated}
-              />
-            }
+            element={<EventPage isAuthenticated={isAuthenticated} />}
           />
         </>
       )}

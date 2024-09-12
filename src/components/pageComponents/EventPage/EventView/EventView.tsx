@@ -65,12 +65,12 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
     getEvent();
   }, [id]);
 
+  // vérification des évenements possédés par l'user
+  const checkSubscribe = userEvents.some(
+    (element) => element.id === Number(id)
+  );
   // If authenticated fetch me to check subscriptions to events and set state
   useEffect(() => {
-    // vérification des évenements possédés par l'user
-    const checkSubscribe = userEvents.some(
-      (element) => element.id === Number(id)
-    );
     const getUser = async () => {
       try {
         const result = await axios.get('private/users/me');
@@ -94,7 +94,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       }
       setButtonText(isSubscribe ? 'Me désinscrire' : 'Je participe');
     }
-  }, [event, id, isAuthenticated, isSubscribe, userEvents]);
+  }, [checkSubscribe, event, isAuthenticated, isSubscribe]);
 
   // s'inscrire à un évenement
   async function subscribeEvent(eventId: number) {

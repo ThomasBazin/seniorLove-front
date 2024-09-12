@@ -10,6 +10,7 @@ import {
   removeTokenFromLocalStorage,
 } from './localStorage/localStorage';
 import axios from './axios';
+import UserHeadband from './components/standaloneComponents/UserHeadband/UserHeadband';
 
 export default function Root() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -57,16 +58,15 @@ export default function Root() {
   return (
     <BrowserRouter>
       {isAuthenticated ? (
-        <NavBarLogged setIsAuthenticated={setIsAuthenticated} />
+        <>
+          <NavBarLogged setIsAuthenticated={setIsAuthenticated} />
+          <UserHeadband setIsAuthenticated={setIsAuthenticated} />
+        </>
       ) : (
         <NavBarV1 />
       )}
 
-      <App
-        isAuthenticated={isAuthenticated}
-        setIsAuthenticated={setIsAuthenticated}
-        setUserToken={setUserToken}
-      />
+      <App isAuthenticated={isAuthenticated} setUserToken={setUserToken} />
       <Footer />
     </BrowserRouter>
   );
