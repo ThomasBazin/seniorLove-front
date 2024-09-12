@@ -20,7 +20,7 @@ export default function NavBarLogged({
     { text: 'Accueil', to: '/home' },
     { text: 'Découvrir', to: '/profiles' },
     { text: 'Evènements', to: '/events' },
-    { text: 'Messages', to: '#' },
+    { text: 'Messages', to: '/messages' },
     { text: 'Mon profil', to: 'myprofile' },
     { text: 'Se déconnecter', to: '/', onclick: onClickDisconnect },
   ];

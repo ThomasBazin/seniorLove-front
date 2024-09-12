@@ -1,19 +1,44 @@
-function ConversationPreview() {
-  return (
-    <div className="flex">
-      <img
-        src="/src/assets/pexels-olly-3831645.jpg"
-        alt="Expediteur"
-        className="aspect-square rounded-full w-20 h-20 object-cover shadow-xl"
-      />
-      <div>
-        <h2 className="text-sm font-bold text-secondaryPink">Helena</h2>
-        <p className="text-sm text-primaryText">
-          J'ai également passé une très belle...
-        </p>
-      </div>
-    </div>
-  );
+interface ContactInterface {
+  selectedContact: (messages: object) => void;
+  contact: {
+    id: number;
+    name: string;
+    picture: string;
+    messages: [];
+  };
 }
 
-export default ConversationPreview;
+export default function ConversationPreview({
+  contact,
+  selectedContact,
+}: ContactInterface) {
+  const lastMessage = contact.messages[contact.messages.length - 1];
+  const { message }: { message: string } = lastMessage;
+
+  return (
+    <button
+      type="button"
+      className="p-2 rounded-3xl hover:shadow-around w-full"
+      onClick={() => selectedContact(contact)}
+    >
+      <div className="flex justify-start">
+        <img
+          src={contact.picture}
+          alt="Expediteur"
+          className="aspect-square rounded-full size-20 object-cover shadow-lg"
+        />
+        <div>
+          <h2 className="mb-1.5 text-sm p-2 text-left font-medium text-secondaryPink">
+            {contact.name}
+          </h2>
+          <p
+            className="p-2 font-semibold
+ text-xs text-primaryText block"
+          >
+            {`${message.substring(0, 50)}...`}
+          </p>
+        </div>
+      </div>
+    </button>
+  );
+}
