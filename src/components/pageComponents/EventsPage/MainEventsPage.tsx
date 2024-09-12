@@ -13,7 +13,7 @@ export default function MainEventsPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // STATE 3 : error server
-  const [serverError, setErrorServer] = useState(false);
+  const [serverError, setServerError] = useState(false);
 
   useEffect(() => {
     const fetchAndSaveEvents = async () => {
@@ -22,7 +22,7 @@ export default function MainEventsPage() {
         setEvents(result.data);
       } catch (e) {
         console.error(e);
-        setErrorServer(true);
+        setServerError(true);
       } finally {
         setIsLoading(false);
       }

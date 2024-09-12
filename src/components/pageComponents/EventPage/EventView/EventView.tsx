@@ -4,7 +4,9 @@ import { Link, useParams, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AxiosError } from 'axios';
 import axios from '../../../../axios';
+
 import { IEvent } from '../../../../@types/IEvent';
 import { IUsersFull } from '../../../../@types/IUsersFull';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
@@ -36,7 +38,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // STATE 5 : error
-  const [serverError, setServerError] = useState(false);
+  const [isError, setIsError] = useState<number | null>(null);
 
   // toast de confirmation
   const subNotify = () =>
@@ -57,9 +59,14 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       try {
         const result = await axios.get(`public/events/${id}`);
         setEvent(result.data);
-      } catch (error) {
-        setIsError(true);
-        console.log(error);
+      } catch (e) {
+        if (e instanceof AxiosError && e.response?.status === 404) {
+          console.error(e);
+          setIsError(404);
+        } else {
+          setIsError(500);
+          console.log(e);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -78,7 +85,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
         const result = await axios.get('private/users/me');
         setUserEvents(result.data.events);
       } catch (e) {
-        setServerError(true);
+        setIsError(500);
         console.error(e);
       } finally {
         setIsLoading(false);
@@ -123,7 +130,11 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       console.log(error);
     }
   }
-  if (serverError) {
+  if (isError === 404) {
+    return <Navigate to="/error" />;
+  }
+
+  if (isError === 500) {
     return <Error500Page />;
   }
 
