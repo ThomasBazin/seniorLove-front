@@ -1,20 +1,22 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 import axios from '../../../../axios';
 import { IUsers } from '../../../../@types/IUsers';
 import EventSticker from '../../../standaloneComponents/EventSticker/EventSticker';
 import Loader from '../../../standaloneComponents/Loader/Loader';
+import Error500Page from '../../../../pages/Error500Page';
 
 export default function ProfileView() {
   const { userId } = useParams<{ userId: string }>(); // Récupère l'id de l'utilisateur à partir de l'URL
   // STATE 1 : profile
   const [profile, setProfile] = useState<IUsers | null>(null);
 
-  // STATE 2 : erreur
-  // const [error, setError] = useState<string | null>(null);
-
-  // STATE 3 : loading
+  // STATE 2 : loading
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // STATE 3 : error
+  const [isError, setIsError] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -22,13 +24,27 @@ export default function ProfileView() {
         const response = await axios.get(`/private/users/${userId}`);
         setProfile(response.data); // Stocke les données de l'utilisateur dans le state
       } catch (e) {
-        console.error(e);
+        if (e instanceof AxiosError && e.response?.status === 404) {
+          console.error(e);
+          setIsError(404);
+        } else {
+          setIsError(500);
+          console.log(e);
+        }
       } finally {
         setIsLoading(false);
       }
     };
     fetchUserProfile();
   }, [userId]); // L'ID de l'utilisateur est utilisé comme dépendance pour relancer le fetch si nécessaire
+
+  if (isError === 404) {
+    return <Navigate to="/error" />;
+  }
+
+  if (isError === 500) {
+    return <Error500Page />;
+  }
 
   if (isLoading) {
     return <Loader />;
@@ -93,7 +109,8 @@ export default function ProfileView() {
                           Prochaines sorties:
                         </span>
                       </p>
-                      {profile.events.length > 0 ? (
+
+                      {profile.events && profile.events.length > 0 ? (
                         <div className="flex flex-wrap gap-4">
                           {profile.events.map((event) => (
                             <EventSticker
@@ -117,12 +134,6 @@ export default function ProfileView() {
                         className="bg-buttonGreen text-primaryText text-center w-[60%] max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl font-medium py-1 px-4 rounded-lg shadow-lg text-sm sm:text-base md:text-lg lg:text-base xl:text-lg italic"
                       >
                         Envoyer un message
-                      </Link>
-                      <Link
-                        to="#"
-                        className="text-primaryText text-center w-[15%] max-w-xs sm:max-w-xs md:max-w-xs lg:max-w-xs xl:max-w-xs font-medium py-3 px-3 rounded-lg shadow-md text-xs sm:text-xs md:text-xs lg:text-xs xl:text-xs italic"
-                      >
-                        Signaler ce profil
                       </Link>
                     </div>
                   </div>

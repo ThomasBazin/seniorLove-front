@@ -57,8 +57,8 @@ export default function NotFoundPage({ isAuthenticated }: NotFoundPageProps) {
   return (
     <div className="flex flex-col items-center justify-center min-h-full flex-grow text-center text-primaryText my-20">
       <h1 className="text-3xl font-semibold mb-20">
-        🐔 Oups ! Cette page a pris la poudre d&apos;escampette... comme une
-        poule effrayée ! 🐔
+        🐔 Oups ! Erreur 404. Cette page a pris la poudre d&apos;escampette...
+        comme une poule effrayée ! 🐔
       </h1>
       <div className="mx-20">
         {' '}
@@ -70,9 +70,15 @@ export default function NotFoundPage({ isAuthenticated }: NotFoundPageProps) {
         <ul className="list-disc list-inside text-left mx-4 mb-6">
           <li>
             Retourner au{' '}
-            <Link to="/" className="text-secondaryPink">
-              nid d&apos;accueil
-            </Link>{' '}
+            {isAuthenticated ? (
+              <Link to="/home" className="text-secondaryPink">
+                nid d&apos;accueil{' '}
+              </Link>
+            ) : (
+              <Link to="/" className="text-secondaryPink">
+                nid d&apos;accueil{' '}
+              </Link>
+            )}
             pour commencer à nouveau.
           </li>
           <li>

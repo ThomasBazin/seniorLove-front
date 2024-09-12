@@ -17,7 +17,7 @@ export default function NavBarLogged({
     removeTokenFromLocalStorage();
   };
   const NavBarButtons = [
-    { text: 'Accueil', to: '/' },
+    { text: 'Accueil', to: '/home' },
     { text: 'Découvrir', to: '/profiles' },
     { text: 'Evènements', to: '/events' },
     { text: 'Messages', to: '#' },
@@ -28,7 +28,7 @@ export default function NavBarLogged({
   return (
     <header className="bg-white bg-opacity-90 md:sticky top-0 w-full py-4 z-10">
       <nav className="flex justify-center md:justify-between items-center w-full px-3">
-        <Link to="/">
+        <Link to="/home">
           <img
             src={Logo}
             alt="Retour à l'accueil"

@@ -1,5 +1,5 @@
 // Importing components
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
 import EventsPage from './pages/EventsPage';
@@ -10,21 +10,31 @@ import MyProfilePage from './pages/MyProfilePage';
 import ConnexionPage from './pages/ConnectionPage';
 import EventPage from './pages/EventPage';
 import Error404Page from './pages/Error404Page';
+import ErrorAuthPage from './pages/ErrorAuthPage';
 
 interface AppProps {
   isAuthenticated: boolean;
   setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function App({ isAuthenticated, setUserToken }: AppProps) {
+export default function App({
+  isAuthenticated,
+  setUserToken,
+  setIsAuthenticated,
+}: AppProps) {
   return (
     <Routes>
       {isAuthenticated ? (
         <>
-          <Route path="/" element={<HomePageLogged />} />
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/home" element={<HomePageLogged />} />
           <Route path="/profiles" element={<ProfilesPage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
-          <Route path="/myprofile" element={<MyProfilePage />} />
+          <Route
+            path="/myprofile"
+            element={<MyProfilePage setIsAuthenticated={setIsAuthenticated} />}
+          />
           <Route path="/events" element={<EventsPage />} />
           <Route
             path="/events/:id"
@@ -55,6 +65,7 @@ export default function App({ isAuthenticated, setUserToken }: AppProps) {
         path="/error"
         element={<Error404Page isAuthenticated={isAuthenticated} />}
       />
+      <Route path="/loggedout" element={<ErrorAuthPage />} />
     </Routes>
   );
 }
