@@ -70,9 +70,15 @@ export default function NotFoundPage({ isAuthenticated }: NotFoundPageProps) {
         <ul className="list-disc list-inside text-left mx-4 mb-6">
           <li>
             Retourner au{' '}
-            <Link to="/" className="text-secondaryPink">
-              nid d&apos;accueil
-            </Link>{' '}
+            {isAuthenticated ? (
+              <Link to="/home" className="text-secondaryPink">
+                nid d&apos;accueil{' '}
+              </Link>
+            ) : (
+              <Link to="/" className="text-secondaryPink">
+                nid d&apos;accueil{' '}
+              </Link>
+            )}
             pour commencer à nouveau.
           </li>
           <li>

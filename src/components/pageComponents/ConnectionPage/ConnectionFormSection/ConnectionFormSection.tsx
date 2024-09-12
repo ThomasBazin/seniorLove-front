@@ -31,7 +31,7 @@ export default function ConnectionFormSection({
       setUserToken(response.data.token);
       // setIsAuthenticated(true);
       setErrorLog(false);
-      navigate('/');
+      navigate('/home');
     } catch (error) {
       // si par contre on a catch une erreur et qu'on reçoit une 401 on renregistre une erreur dans le state
       setErrorLog(true);

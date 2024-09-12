@@ -1,5 +1,5 @@
 // Importing components
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
 import EventsPage from './pages/EventsPage';
@@ -21,7 +21,8 @@ export default function App({ isAuthenticated, setUserToken }: AppProps) {
     <Routes>
       {isAuthenticated ? (
         <>
-          <Route path="/" element={<HomePageLogged />} />
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/home" element={<HomePageLogged />} />
           <Route path="/profiles" element={<ProfilesPage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
           <Route path="/myprofile" element={<MyProfilePage />} />
