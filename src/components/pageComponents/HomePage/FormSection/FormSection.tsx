@@ -74,21 +74,43 @@ export default function FormSection({
 
   useEffect(() => {
     const submitGlobalForm = async () => {
+      // Create FormData object if necessary
+      // const formData = new FormData();
+      // Object.keys(formInfos).forEach((key) => {
+      //   // Append all form data to FormData object
+      //   formData.append(key, formInfos[key as keyof IRegisterForm]);
+      // });
+
+      // Log the FormData object content (for debugging purposes)
+      // console.log('Submitting form data:');
+      // formData.forEach((value, key) => {
+      //   console.log(`${key}: ${typeof value}`);
+      // });
+
       try {
-        const response = await axios.post('/public/register', formInfos);
+        // Post the form data to the server
+        const response = await axios.post('/public/register', formInfos, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
         setRegisterError(null);
-        console.log(response.status);
       } catch (e) {
-        if (e instanceof AxiosError && e.response?.status === 400) {
-          console.error(e);
-          setRegisterError(
-            "L'adresse e-mail que vous avez renseigné correspond à un compte déjà créé. Essayez de vous connecter"
-          );
+        if (e instanceof AxiosError) {
+          // Set specific register error message based on status code
+          if (e.response?.status === 400) {
+            setRegisterError(
+              "L'adresse e-mail que vous avez renseigné correspond à un compte déjà créé. Essayez de vous connecter"
+            );
+          } else {
+            setRegisterError(
+              'Une erreur est survenue. Veuillez réessayer plus tard.'
+            );
+          }
         } else {
-          console.error(e);
+          setRegisterError('Une erreur inattendue est survenue.');
         }
       } finally {
-        setIsLoading(true);
+        // Set loading state based on final state
+        setIsLoading(false);
       }
     };
     if (isGlobalFormSubmitted) {
