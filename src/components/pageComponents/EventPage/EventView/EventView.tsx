@@ -14,6 +14,7 @@ import {
   formatTime,
 } from '../../../../utils/dateAndTimeUtils';
 import Loader from '../../../standaloneComponents/Loader/Loader';
+import Error500Page from '../../../../pages/Error500Page';
 
 interface EventViewProps {
   isAuthenticated: boolean;
@@ -35,7 +36,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // STATE 5 : error
-  const [isError, setIsError] = useState<boolean>(false);
+  const [serverError, setServerError] = useState(false);
 
   // toast de confirmation
   const subNotify = () =>
@@ -77,8 +78,8 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
         const result = await axios.get('private/users/me');
         setUserEvents(result.data.events);
       } catch (e) {
-        setIsError(true);
-        console.log(e);
+        setServerError(true);
+        console.error(e);
       } finally {
         setIsLoading(false);
       }
@@ -122,8 +123,8 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       console.log(error);
     }
   }
-  if (isError) {
-    return <Navigate to="/error" />;
+  if (serverError) {
+    return <Error500Page />;
   }
 
   if (isLoading) {

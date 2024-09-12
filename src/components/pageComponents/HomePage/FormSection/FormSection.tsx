@@ -52,7 +52,7 @@ export default function FormSection({
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // STATE 6 : error server
-  const [serverError, setErrorServer] = useState(false);
+  const [serverError, setServerError] = useState(false);
 
   const fillFormInfos = (incomingInfos: object) => {
     setFormInfos((previousInfos) => {
@@ -90,9 +90,10 @@ export default function FormSection({
           );
         } else {
           console.error(e);
+          setServerError(true);
         }
       } finally {
-        setIsLoading(true);
+        setIsLoading(false);
       }
     };
     if (isGlobalFormSubmitted) {
@@ -110,7 +111,7 @@ export default function FormSection({
         setHobbies(hobbiesData);
       } catch (e) {
         console.error(e);
-        setErrorServer(true);
+        setServerError(true);
       } finally {
         setIsLoading(false);
       }
