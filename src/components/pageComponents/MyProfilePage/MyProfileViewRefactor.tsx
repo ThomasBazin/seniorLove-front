@@ -1,14 +1,22 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from '../../../axios';
 import { IUsers } from '../../../@types/IUsers';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
-import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn'; // Assurez-vous que DefaultBtn est importé correctement
+import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
+import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
 
-export default function MyProfileView1() {
+interface MyProfileViewRefactorProps {
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function MyProfileViewRefactor({
+  setIsAuthenticated,
+}: MyProfileViewRefactorProps) {
   const { myId } = useParams<{ myId: string }>();
   const [me, setMe] = useState<IUsers | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchConnectedUser = async () => {
@@ -22,6 +30,18 @@ export default function MyProfileView1() {
     };
     fetchConnectedUser();
   }, [myId]); // L'ID de l'utilisateur est utilisé comme dépendance pour relancer le fetch si nécessaire
+
+  const deleteAccount = async () => {
+    try {
+      await axios.delete(`/private/users/me/delete`);
+      setIsAuthenticated(false);
+      removeTokenFromLocalStorage();
+      navigate('/');
+    } catch (e) {
+      console.error(e);
+      setError('Error deleting your account');
+    }
+  };
 
   if (error) {
     return <p className="text-red-500 text-center">{error}</p>;
@@ -77,13 +97,6 @@ export default function MyProfileView1() {
             </div>
             <div className="flex gap-3">
               <DefaultBtn btnText="Editer mon profil" btnPage="profile" />
-              {/* <button type="button">
-                <img
-                  src="/icon/delete.svg"
-                  alt=""
-                  className="w-8 h-8 px-2 rounded-lg bg-secondaryPink hover:bg-secondaryPinkHover"
-                />
-              </button> */}
             </div>
           </div>
           <div>
@@ -116,6 +129,7 @@ export default function MyProfileView1() {
           btnText="Supprimer mon compte"
           btnPage="profile"
           btnDelete="true"
+          onClick={deleteAccount}
         />
       </div>
     </div>

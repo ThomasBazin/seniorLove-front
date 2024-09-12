@@ -32,7 +32,10 @@ export default function App({
           />
           <Route path="/profiles" element={<ProfilesPage />} />
           <Route path="/profiles/:userId" element={<ProfilePage />} />
-          <Route path="/myprofile" element={<MyProfilePage />} />
+          <Route
+            path="/myprofile"
+            element={<MyProfilePage setIsAuthenticated={setIsAuthenticated} />}
+          />
           <Route
             path="/events"
             element={
