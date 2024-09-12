@@ -1,5 +1,5 @@
 import EventView from './EventView/EventView';
-//import UserHeadband from '../../standaloneComponents/UserHeadband/UserHeadband';
+import UserHeadband from '../../standaloneComponents/UserHeadband/UserHeadband';
 
 interface MainEventPageProps {
   isAuthenticated: boolean;

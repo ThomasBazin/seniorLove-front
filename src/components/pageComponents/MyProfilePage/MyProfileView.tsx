@@ -1,14 +1,30 @@
 import axios from '../../../axios';
-import { useParams, Link } from 'react-router-dom';
-import { IUsers } from '../../../@types/IUsers';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
-import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn'; // Assurez-vous que DefaultBtn est importé correctement
+import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
+import EditProfileModal from './EditProfileModal';
+
+interface IUsers {
+  name: string;
+  alt: string;
+  age: number;
+  picture?: string;
+  birth_date?: string;
+  gender?: string;
+  description?: string;
+  hobbies?: string[];
+  events?: string[];
+  new_password?: string;
+  old_password?: string;
+  repeat_new_password?: string;
+}
 
 export default function MyProfileView() {
   const { myId } = useParams<{ myId: string }>(); 
   const [me, setMe] = useState<IUsers | null>(null); 
-  const [error, setError] = useState<string | null>(null); 
+  const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setisModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchConnectedUser = async () => {
@@ -20,13 +36,12 @@ export default function MyProfileView() {
       }
     };
     fetchConnectedUser();
-  }, [myId]); // L'ID de l'utilisateur est utilisé comme dépendance pour relancer le fetch si nécessaire
+  }, [myId]); 
 
   if (error) {
     return <p className="text-red-500 text-center">{error}</p>;
   }
 
-  // message de chargement tant que les données ne sont pas disponibles
   if (!me) {
     return <p className="text-center">Chargement du profil...</p>;
   }
@@ -44,7 +59,6 @@ export default function MyProfileView() {
             />
           </div>
 
-          {/* Détails de mon profil */}
           <div className="flex-grow md:w-2/3">
             <div className="p-4 bg-white rounded-lg shadow-md">
               <div className="text-center mb-4">
@@ -71,11 +85,11 @@ export default function MyProfileView() {
                   {/* Hobbies */}
                   <div className="mt-6">
                     <p className="text-primaryText italic mb-1">
-                      <span className="font-semibold">Hobbies:</span>
+                      <span className="font-semibold">Centres d'intérêt:</span>
                     </p>
                     <div className="flex flex-wrap gap-2">
                       <ul className="text-primaryText font-semibold list-disc list-inside">
-                        {me.hobbies.map((hobby) => (
+                        {me.hobbies.map((hobby: any) => (
                           <li key={hobby.id}>{hobby.name}</li>
                         ))}
                       </ul>
@@ -103,15 +117,26 @@ export default function MyProfileView() {
                       </p>
                     )}
                   </div>
-
-                  {/* Bouton pour envoyer un message */}
+                  
                   <div className="button_container flex justify-center mt-6 gap-6">
-                  <Link
-                      to="#"
+                    <button
+                      onClick={() => setisModalOpen(true)}
                       className="min-w-44 bg-buttonGreen hover:bg-white rounded-lg text-primaryText font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
                     >
                       Editer mon profil
-                    </Link>
+                    </button>
+                    {isModalOpen && (
+                      <EditProfileModal
+                        isOpen={isModalOpen}
+                        onClose={() => setisModalOpen(false)}
+                        user={me}
+                        onUpdate={(updatedUser: IUsers) => {
+                          setMe(updatedUser);
+                          setisModalOpen(false);
+                        }}
+                      />
+                    )}
+
                     <DefaultBtn btnText="Supprimer mon compte" />
                   </div>
                 </div>

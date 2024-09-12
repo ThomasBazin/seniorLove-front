@@ -107,13 +107,13 @@ export default function ProfileView() {
                   <div className="flex justify-center mt-6 gap-10">
                     <Link
                       to="#"
-                      className="bg-buttonGreen text-primaryText text-center w-[60%] max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl font-medium py-1 px-4 rounded-lg shadow-lg text-sm sm:text-base md:text-lg lg:text-base xl:text-lg italic"
+                      className="min-w-44 bg-buttonGreen hover:bg-white rounded-lg text-primaryText font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
                     >
                       Envoyer un message
                     </Link>
                     <Link
                       to="#"
-                      className="text-primaryText text-center w-[15%] max-w-xs sm:max-w-xs md:max-w-xs lg:max-w-xs xl:max-w-xs font-medium py-3 px-3 rounded-lg shadow-md text-xs sm:text-xs md:text-xs lg:text-xs xl:text-xs italic"
+                      className="text-primaryText text-center w-[10%] shadow-md max-w-xs sm:max-w-xs md:max-w-xs lg:max-w-xs xl:max-w-xs font-medium py-4 px-3 mt-4 text-xs sm:text-xs md:text-xs lg:text-xs xl:text-xs italic"
                     >
                       Signaler ce profil
                     </Link>
