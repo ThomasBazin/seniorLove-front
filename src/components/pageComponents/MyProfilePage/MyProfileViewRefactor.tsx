@@ -2,12 +2,14 @@
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 import axios from '../../../axios';
 import { IUsers } from '../../../@types/IUsers';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
 import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
 import Error500Page from '../../../pages/Error500Page';
+
 import Loader from '../../standaloneComponents/Loader/Loader';
 
 interface MyProfileViewRefactorProps {
@@ -40,13 +42,21 @@ export default function MyProfileViewRefactor({
         setEditedProfile(response.data);
       } catch (e) {
         console.error(e);
-        setServerError(true);
+        if (
+          e instanceof AxiosError &&
+          (e.response?.data.blocked || e.response?.status === 401)
+        ) {
+          removeTokenFromLocalStorage();
+          navigate('/loggedout');
+        } else {
+          setServerError(true);
+        }
       } finally {
         setIsLoading(false);
       }
     };
     fetchConnectedUser();
-  }, [myId]);
+  }, [myId, navigate]);
 
   const deleteAccount = async () => {
     try {

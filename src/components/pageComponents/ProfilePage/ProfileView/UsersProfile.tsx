@@ -1,4 +1,4 @@
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import axios from '../../../../axios';
@@ -7,6 +7,7 @@ import EventSticker from '../../../standaloneComponents/EventSticker/EventSticke
 import Loader from '../../../standaloneComponents/Loader/Loader';
 import Error500Page from '../../../../pages/Error500Page';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
+import { removeTokenFromLocalStorage } from '../../../../localStorage/localStorage';
 
 export default function UsersProfile() {
   const { userId } = useParams<{ userId: string }>(); // Récupère l'id de l'utilisateur à partir de l'URL
@@ -19,13 +20,21 @@ export default function UsersProfile() {
   // STATE 3 : error
   const [isError, setIsError] = useState<number | null>(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(`/private/users/${userId}`);
         setProfile(response.data); // Stocke les données de l'utilisateur dans le state
       } catch (e) {
-        if (e instanceof AxiosError && e.response?.status === 404) {
+        if (
+          e instanceof AxiosError &&
+          (e.response?.data.blocked || e.response?.status === 401)
+        ) {
+          removeTokenFromLocalStorage();
+          navigate('/loggedout');
+        } else if (e instanceof AxiosError && e.response?.status === 404) {
           console.error(e);
           setIsError(404);
         } else {
@@ -37,7 +46,7 @@ export default function UsersProfile() {
       }
     };
     fetchUserProfile();
-  }, [userId]); // L'ID de l'utilisateur est utilisé comme dépendance pour relancer le fetch si nécessaire
+  }, [navigate, userId]); // L'ID de l'utilisateur est utilisé comme dépendance pour relancer le fetch si nécessaire
 
   if (isError === 404) {
     return <Navigate to="/error" />;
