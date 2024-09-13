@@ -2,7 +2,7 @@
 
 import Logo from '/img/logo-text-seniorlove.webp';
 import MobileNavBarLogged from '../MobileNavBar/MobileNavBarLogged';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
 
 interface NavBarLoggedProps {
@@ -37,14 +37,14 @@ export default function NavBarLogged({
         </Link>
         <div className="flex gap-2 flex-wrap justify-end">
           {NavBarButtons.map((button) => (
-            <Link
+            <NavLink
               to={button.to}
               key={button.text}
               onClick={button.onclick || undefined}
               className=" text-secondaryPink hover:text-primaryText font-semibold py-2 px-3 hidden md:block"
             >
               {button.text}
-            </Link>
+            </NavLink>
           ))}
         </div>
       </nav>

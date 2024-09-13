@@ -11,6 +11,7 @@ import {
 } from './localStorage/localStorage';
 import axios from './axios';
 import UserHeadband from './components/standaloneComponents/UserHeadband/UserHeadband';
+import './index.css';
 
 export default function Root() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
