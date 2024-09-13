@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 import axios from '../../../axios';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import { IEvent } from '../../../@types/IEvent';
 import Loader from '../../standaloneComponents/Loader/Loader';
 import Error500Page from '../../../pages/Error500Page';
+
+import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
 
 export default function MainEventsPage() {
   // STATE 1 : events
@@ -15,6 +19,8 @@ export default function MainEventsPage() {
   // STATE 3 : error server
   const [serverError, setServerError] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchAndSaveEvents = async () => {
       try {
@@ -22,13 +28,21 @@ export default function MainEventsPage() {
         setEvents(result.data);
       } catch (e) {
         console.error(e);
-        setServerError(true);
+        if (
+          e instanceof AxiosError &&
+          (e.response?.data.blocked || e.response?.status === 401)
+        ) {
+          removeTokenFromLocalStorage();
+          navigate('/loggedout');
+        } else {
+          setServerError(true);
+        }
       } finally {
         setIsLoading(false);
       }
     };
     fetchAndSaveEvents();
-  }, []);
+  }, [navigate]);
 
   if (serverError) {
     return <Error500Page />;

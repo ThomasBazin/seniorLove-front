@@ -12,9 +12,9 @@ export default function ConnectionArticleReverse() {
             activités enrichissantes.
           </p>
           <h3 className="font-semibold">
-            Rejoignez-nous dès aujourd'hui sur Senior Love et lancez-vous dans
-            une nouvelle aventure pleine de découvertes, de rencontres et de
-            moments mémorables !
+            Rejoignez-nous dès aujourd&apos;hui sur Senior Love et lancez-vous
+            dans une nouvelle aventure pleine de découvertes, de rencontres et
+            de moments mémorables !
           </h3>
         </div>
 

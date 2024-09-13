@@ -47,6 +47,7 @@ export default function App({ isAuthenticated, setUserToken }: AppProps) {
           />
         </>
       )}
+      <Route path="/loggedout" element={<ErrorAuthPage />} />
 
       <Route
         path="*"
@@ -57,7 +58,6 @@ export default function App({ isAuthenticated, setUserToken }: AppProps) {
         path="/error"
         element={<Error404Page isAuthenticated={isAuthenticated} />}
       />
-      <Route path="/loggedout" element={<ErrorAuthPage />} />
     </Routes>
   );
 }

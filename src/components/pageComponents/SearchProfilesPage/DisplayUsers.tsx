@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
-import ProfileSticker from '../../standaloneComponents/ProfileSticker/ProfileSticker';
+import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 import axios from '../../../axios';
-import { getTokenAndDataFromLocalStorage } from '../../../localStorage/localStorage';
+import {
+  getTokenAndDataFromLocalStorage,
+  removeTokenFromLocalStorage,
+} from '../../../localStorage/localStorage';
 import { IUsers } from '../../../@types/IUsers';
 import { FilterUser } from '../../../@types/IFilterUser';
 import Loader from '../../standaloneComponents/Loader/Loader';
 import Error500Page from '../../../pages/Error500Page';
+import ProfileSticker from '../../standaloneComponents/ProfileSticker/ProfileSticker';
 
 interface DisplayUsersProps {
   filter: FilterUser[];
@@ -23,6 +28,8 @@ export default function DisplayUsers({ filter }: DisplayUsersProps) {
   // STATE 3 : error server
   const [serverError, setServerError] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -30,7 +37,15 @@ export default function DisplayUsers({ filter }: DisplayUsersProps) {
         setUsers(responseFetch.data);
       } catch (e) {
         console.error(e);
-        setServerError(true);
+        if (
+          e instanceof AxiosError &&
+          (e.response?.data.blocked || e.response?.status === 401)
+        ) {
+          removeTokenFromLocalStorage();
+          navigate('/loggedout');
+        } else {
+          setServerError(true);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -38,7 +53,7 @@ export default function DisplayUsers({ filter }: DisplayUsersProps) {
     if (token) {
       fetchUsers();
     }
-  }, [token]);
+  }, [navigate, token]);
 
   const filterUser = users.filter((user) => {
     // Filtrer par genre

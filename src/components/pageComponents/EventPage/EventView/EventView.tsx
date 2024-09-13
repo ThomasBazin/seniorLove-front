@@ -89,8 +89,16 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
         const result = await axios.get('private/users/me');
         setUserEvents(result.data.events);
       } catch (e) {
-        setIsError(500);
         console.error(e);
+        if (
+          e instanceof AxiosError &&
+          (e.response?.data.blocked || e.response?.status === 401)
+        ) {
+          removeTokenFromLocalStorage();
+          navigate('/loggedout');
+        } else {
+          setIsError(500);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -107,7 +115,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
       }
       setButtonText(isSubscribe ? 'Me désinscrire' : 'Je participe');
     }
-  }, [checkSubscribe, event, isAuthenticated, isSubscribe]);
+  }, [checkSubscribe, event, isAuthenticated, isSubscribe, navigate]);
 
   // s'inscrire à un évenement
   async function subscribeEvent(eventId: number) {
