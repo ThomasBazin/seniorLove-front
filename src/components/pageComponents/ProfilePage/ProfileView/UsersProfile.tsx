@@ -125,13 +125,13 @@ export default function UsersProfile() {
               Mes prochaines sorties :
             </h3>
             {profile.events && profile.events.length > 0 ? (
-              <div className="flex flex-wrap justify-center gap-5 md:gap-10 pt-5">
+              <div className="flex flex-wrap justify-center gap-5 md:gap-10 py-5">
                 {profile.events.map((event) => (
                   <EventSticker event={event} key={event.id} page="profile" />
                 ))}
               </div>
             ) : (
-              <p className="text-center font-semibold pt-6">
+              <p className="text-center font-semibold py-6">
                 Je ne suis actuellement enregistré à aucun futur événement.
               </p>
             )}
