@@ -79,24 +79,43 @@ export default function FormSection({
   useEffect(() => {
     const submitGlobalForm = async () => {
       try {
-        const response = await axios.post('/public/register', formInfos);
+        // Attempt to post the formInfos object to the server
+        // The 'Content-Type' header is set to 'multipart/form-data' to indicate that the request is sending form data
+        await axios.post('/public/register', formInfos, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+
+        // If the request is successful, clear any previous register error
         setRegisterError(null);
-        console.log(response.status);
       } catch (e) {
-        if (e instanceof AxiosError && e.response?.status === 400) {
-          console.error(e);
-          setRegisterError(
-            "L'adresse e-mail que vous avez renseigné correspond à un compte déjà créé. Essayez de vous connecter"
-          );
+        // Handle errors that occur during the request
+        if (e instanceof AxiosError) {
+          // Check if the error is an AxiosError, indicating an error response from the server
+          if (e.response?.status === 400) {
+            // If the server responds with a 400 status code, set a specific error message related to email already being registered
+            setRegisterError(
+              "L'adresse e-mail que vous avez renseigné correspond à un compte déjà créé. Essayez de vous connecter"
+            );
+          } else {
+            // For other Axios errors, set a generic error message for the user
+            setRegisterError(
+              'Une erreur est survenue. Veuillez réessayer plus tard.'
+            );
+          }
         } else {
-          console.error(e);
-          setServerError(true);
+          // If the error is not an AxiosError, set a generic error message for unexpected errors
+          setRegisterError('Une erreur inattendue est survenue.');
         }
       } finally {
+        // This block of code will execute regardless of whether an error occurred or not
+        // Set the loading state to false to indicate that the request process has completed
         setIsLoading(false);
       }
     };
+
+    // Check if the global form has been submitted
     if (isGlobalFormSubmitted) {
+      // Call the submitGlobalForm function to handle the form submission
       submitGlobalForm();
     }
   }, [formInfos, isGlobalFormSubmitted]);

@@ -8,6 +8,7 @@ import Footer from './components/standaloneComponents/Footer/Footer';
 import { getTokenAndDataFromLocalStorage } from './localStorage/localStorage';
 import axios from './axios';
 import UserHeadband from './components/standaloneComponents/UserHeadband/UserHeadband';
+import './index.css';
 
 export default function Root() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -64,7 +65,11 @@ export default function Root() {
         <NavBarV1 />
       )}
 
-      <App isAuthenticated={isAuthenticated} setUserToken={setUserToken} />
+      <App
+        isAuthenticated={isAuthenticated}
+        setIsAuthenticated={setIsAuthenticated}
+        setUserToken={setUserToken}
+      />
       <Footer />
     </BrowserRouter>
   );

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import axios from '../../../axios';
@@ -85,12 +86,9 @@ export default function EventSection() {
           <EventSticker event={event} key={event.name} />
         ))}
       </div>
-      <DefaultBtn
-        btnText="Voir plus d'évènements"
-        onClick={() => {
-          window.location.href = '/events';
-        }}
-      />
+      <Link to="/events">
+        <DefaultBtn btnText="Voir plus d'évènements" />
+      </Link>
     </div>
   );
 }

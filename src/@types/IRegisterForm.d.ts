@@ -3,7 +3,7 @@ export interface IRegisterForm {
   birth_date: string;
   gender: string;
   hobbies: number[];
-  picture: string;
+  picture: file;
   description: string;
   email: string;
   password: string;

@@ -1,0 +1,13 @@
+.active {
+  position: relative;
+}
+
+.active::before {
+  content: '';
+  position: absolute;
+  top: 90%;
+  width: 100%;
+  left: 0%;
+  height: 1px;
+  background-color: #F3D6E0;
+}

@@ -10,7 +10,8 @@ function ProfileSticker({ user }: ProfileStickerProps) {
   return (
     <Link
       to={`/profiles/${user.id}`}
-      state={{ user }} // Properly use state to pass data
+      state={{ user }}
+      className="h-72 w-72 2xl:w-80 mx-auto" // Properly use state to pass data
     >
       <div className="h-72 w-72 2xl:w-80 rounded-xl mx-auto shadow-lg relative">
         <img

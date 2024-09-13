@@ -18,7 +18,7 @@ export default function SubscribeFormV3({
   onPreviousClick,
 }: SubscribeFormV3Props) {
   // STATE 1 : picture input value
-  const [pictureInputValue, setPictureInputValue] = useState<string>('');
+  const [pictureFile, setPictureFile] = useState<File | null>(null);
 
   // STATE 2 : description input value
   const [descriptionInputValue, setDescriptionInputValue] =
@@ -27,8 +27,15 @@ export default function SubscribeFormV3({
   // STATE 3 : error
   const [error, setError] = useState<string | null>(null);
 
+  // const handlePictureInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setPictureInputValue(e.currentTarget.value);
+  // };
+
+  // Handle picture input change
   const handlePictureInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPictureInputValue(e.currentTarget.value);
+    if (e.target.files && e.target.files[0]) {
+      setPictureFile(e.target.files[0]); // Save the selected file
+    }
   };
 
   const handleDescriptionInputChange = (
@@ -37,29 +44,58 @@ export default function SubscribeFormV3({
     setDescriptionInputValue(e.currentTarget.value);
   };
 
-  const handleValidateFormV1 = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleValidateFormV3 = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
-    const { picture, description } = rawFormData;
 
-    if (!picture) {
-      setError("Veuillez indiquer l'URL de votre photo !");
-    } else if (!description) {
-      setError('Merci de renseigner votre description !');
-    } else {
-      const formV3Infos = {
-        picture,
-        description,
-      };
-      setError(null);
-      fillFormInfos(formV3Infos);
-      setIsForm3Validated(true);
+    if (!pictureFile) {
+      setError('Veuillez ajouter une photo !');
+      return;
     }
+
+    if (!descriptionInputValue) {
+      setError('Merci de renseigner votre description !');
+      return;
+    }
+
+    try {
+      // Prepare form data with file and description
+      const formData = new FormData();
+      formData.append('picture', pictureFile); // File upload
+      formData.append('description', descriptionInputValue);
+
+      // Update form info with picture and description
+      fillFormInfos({
+        picture: pictureFile,
+        description: descriptionInputValue,
+      });
+
+      setError(null);
+      setIsForm3Validated(true); // Mark step 3 as validated
+    } catch (error) {
+      setError('Une erreur est survenue lors de la soumission du formulaire.');
+    }
+
+    // const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
+    // const { picture, description } = rawFormData;
+
+    // if (!picture) {
+    //   setError("Veuillez indiquer l'URL de votre photo !");
+    // } else if (!description) {
+    //   setError('Merci de renseigner votre description !');
+    // } else {
+    //   const formV3Infos = {
+    //     picture,
+    //     description,
+    //   };
+    //   setError(null);
+    //   fillFormInfos(formV3Infos);
+    //   setIsForm3Validated(true);
+    // }
   };
 
   useEffect(() => {
     if (formInfos.picture && formInfos.description) {
-      setPictureInputValue(formInfos.picture);
+      setPictureFile(formInfos.picture);
       setDescriptionInputValue(formInfos.description);
     }
   }, [formInfos]);
@@ -74,18 +110,17 @@ export default function SubscribeFormV3({
       </p>
       <form
         className="text-primaryText"
-        onSubmit={(e) => handleValidateFormV1(e)}
+        encType="multipart/form-data"
+        onSubmit={handleValidateFormV3}
       >
-        <label htmlFor="name" className="flex flex-col mb-4">
+        <label htmlFor="picture" className="flex flex-col mb-4">
           Votre photo
           <input
-            type="url"
-            placeholder="Url de votre photo"
+            type="file"
             name="picture"
             id="picture"
             className="rounded-lg p-2 border border-primaryGrey"
-            value={pictureInputValue}
-            onChange={(e) => handlePictureInputChange(e)}
+            onChange={handlePictureInputChange}
             required
           />
         </label>
@@ -99,7 +134,7 @@ export default function SubscribeFormV3({
             placeholder="Écrivez votre description ici"
             className="w-full rounded-lg p-2 border border-primaryGrey"
             value={descriptionInputValue}
-            onChange={(e) => handleDescriptionInputChange(e)}
+            onChange={handleDescriptionInputChange}
             required
           />
         </label>
