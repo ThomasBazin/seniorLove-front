@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 interface ContactInterface {
   selectedContact: (messages: object) => void;
   contact: {
@@ -12,6 +14,7 @@ export default function ConversationPreview({
   contact,
   selectedContact,
 }: ContactInterface) {
+  const [selected, setSelected] = useState(false);
   const lastMessage = contact.messages[contact.messages.length - 1];
   const { message }: { message: string } = lastMessage;
 

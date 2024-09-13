@@ -11,7 +11,7 @@ export default function ContactsListField({
   selectedContact,
 }: ContactInterface) {
   return (
-    <div className="rounded-l-3xl p-4 bg-white border flex-col flex gap-y-2 items-center md:w-2/5">
+    <div className="rounded-l-3xl p-4 bg-white border flex-col flex gap-y-2 items-center md:w-2/5 md:h-4/6">
       <p className="italic text-secondaryPink">Message</p>
       {listContacts.map((contact) => {
         return (
