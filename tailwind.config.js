@@ -29,6 +29,7 @@ module.exports = {
       boxShadow: {
         mobileNav: '2px 0px 14px 3px rgba(0,0,0,0.2)',
         around: '1px 1px 7px 0px rgba(50,50,50,0.25)',
+        pink: '1px 1px 7px 0px rgb(216, 80, 113)'
       },
       screens: {
         xxs: '0px',
@@ -36,5 +37,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: []
 };

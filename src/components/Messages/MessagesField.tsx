@@ -12,6 +12,11 @@ export default function MessagesField() {
     sendStatus: false,
     lastReceiverId: displayMessages?.id,
   });
+  // state pour changer les classe css en fonction de la taille d'écran
+  const [toggleDisplay, setToggleDisplay] = useState<boolean>();
+  // state pour indiquer que l'api renvoi une 403 (user not found  ou blocked)
+  const [badSend, setBadSend] = useState<boolean>(false);
+  // const [isMobileView, setIsMobileView] = useState(false);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -34,8 +39,9 @@ export default function MessagesField() {
         console.error(error);
       }
     };
-
     fetchMessages();
+    // passe le display a true pour l'affichage par default des classes css
+    setToggleDisplay(true);
   }, [sendMessage]);
 
   const handleUpdateMessages = (newMessages: object) => {
@@ -46,41 +52,67 @@ export default function MessagesField() {
     setSendMessage({ sendStatus: !sendMessage.sendStatus, lastReceiverId: id });
   };
 
+  const handleToggleMessageView = () => {
+    // changer l'état de toggle pur indiquer aux classes css de changer l'affichage
+    setToggleDisplay(false);
+  };
+
   const idSent = Number(displayMessages?.id);
   return (
-    <div className="flex mt-6 h-screen">
-      <ContactsListField
-        listContacts={messagesData}
-        selectedContact={handleUpdateMessages}
-      />
+    <>
+      {!toggleDisplay && (
+        <button
+          type="button"
+          className="mt-3 inline-flex self-start items-center rounded-md bg-pink-50 px-2 py-1 text-xs font-medium text-pink-700 ring-1 ring-inset ring-pink-700/10"
+          onClick={() => setToggleDisplay(true)}
+        >
+          Retour
+        </button>
+      )}
+      <div className="flex mt-6 h-screen">
+        <ContactsListField
+          listContacts={messagesData}
+          selectedContact={handleUpdateMessages}
+          setBadSend={setBadSend}
+          toggleDisplay={toggleDisplay}
+          switchView={handleToggleMessageView}
+        />
 
-      <div className="hidden md:block">
-        <div className="bg-white border rounded-r-3xl flex flex-col justify-between w-full md:h-4/6">
-          <div className="overflow-auto w-full flex flex-col">
-            {displayMessages?.messages.map((message) => {
-              // console.log(displayMessages);
-              if (displayMessages.id === message.sender_id) {
+        <div
+          className={`${toggleDisplay ? 'hidden' : ''} md:block md:h-4/6 overflow-auto`}
+        >
+          <div className="bg-white border rounded-r-3xl flex flex-col justify-between w-full md:h-full">
+            <div className="w-full flex flex-col">
+              {displayMessages?.messages.map((message) => {
+                // console.log(displayMessages);
+                if (displayMessages.id === message.sender_id) {
+                  return (
+                    <ReceivedMessage
+                      receiveMessage={message.message}
+                      userId={displayMessages.id}
+                      key={message.id}
+                      picture={displayMessages.picture}
+                    />
+                  );
+                }
                 return (
-                  <ReceivedMessage
-                    receiveMessage={message.message}
-                    userId={displayMessages.id}
+                  <SentMessage
+                    sentMessage={message.message}
                     key={message.id}
-                    picture={displayMessages.picture}
+                    myPicture={message.sender.picture}
                   />
                 );
-              }
-              return (
-                <SentMessage
-                  sentMessage={message.message}
-                  key={message.id}
-                  myPicture={message.sender.picture}
-                />
-              );
-            })}
+              })}
+            </div>
+            <EditMessagesForm
+              badSend={badSend}
+              setBadSend={setBadSend}
+              send={handleSendMessages}
+              receiverId={idSent}
+            />
           </div>
-          <EditMessagesForm send={handleSendMessages} receiverId={idSent} />
         </div>
       </div>
-    </div>
+    </>
   );
 }

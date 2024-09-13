@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 interface ContactInterface {
   selectedContact: (messages: object) => void;
@@ -8,21 +8,33 @@ interface ContactInterface {
     picture: string;
     messages: [];
   };
+  setBadSend: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSelected: React.Dispatch<React.SetStateAction<boolean>>;
+  isSelected: boolean | undefined;
+  switchView: () => void;
 }
 
 export default function ConversationPreview({
   contact,
   selectedContact,
+  setBadSend,
+  // setIsSelected,
+  isSelected,
+  switchView,
 }: ContactInterface) {
-  const [selected, setSelected] = useState(false);
   const lastMessage = contact.messages[contact.messages.length - 1];
   const { message }: { message: string } = lastMessage;
 
   return (
     <button
       type="button"
-      className="p-2 rounded-3xl hover:shadow-around w-full"
-      onClick={() => selectedContact(contact)}
+      className={`p-2 rounded-3xl hover:shadow-around w-full ${isSelected ? 'shadow-pink' : ''}`}
+      onClick={() => {
+        selectedContact(contact);
+        setBadSend(false);
+        // setIsSelected(true);
+        switchView();
+      }}
     >
       <div className="flex justify-start">
         <img
