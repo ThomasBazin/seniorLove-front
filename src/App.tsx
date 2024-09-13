@@ -58,6 +58,7 @@ export default function App({
           />
         </>
       )}
+      <Route path="/loggedout" element={<ErrorAuthPage />} />
 
       <Route
         path="*"
@@ -68,7 +69,6 @@ export default function App({
         path="/error"
         element={<Error404Page isAuthenticated={isAuthenticated} />}
       />
-      <Route path="/loggedout" element={<ErrorAuthPage />} />
     </Routes>
   );
 }

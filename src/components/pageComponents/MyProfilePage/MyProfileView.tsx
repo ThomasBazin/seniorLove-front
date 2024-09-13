@@ -1,5 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 import axios from '../../../axios';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
@@ -7,6 +8,8 @@ import EditProfileModal from './EditProfileModal';
 import { IUsers } from '../../../@types/IUsers';
 import Error500Page from '../../../pages/Error500Page';
 import Loader from '../../standaloneComponents/Loader/Loader';
+
+import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
 
 export default function MyProfileView() {
   const { myId } = useParams<{ myId: string }>();
@@ -19,7 +22,11 @@ export default function MyProfileView() {
 
   // STATE 3 : error server
   const [serverError, setServerError] = useState(false);
+
+  // STATE 4 : modal
   const [isModalOpen, setisModalOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchConnectedUser = async () => {
@@ -28,13 +35,21 @@ export default function MyProfileView() {
         setMe(response.data); // Stocke les données de l'utilisateur dans le state
       } catch (e) {
         console.error(e);
-        setServerError(true);
+        if (
+          e instanceof AxiosError &&
+          (e.response?.data.blocked || e.response?.status === 401)
+        ) {
+          removeTokenFromLocalStorage();
+          navigate('/loggedout');
+        } else {
+          setServerError(true);
+        }
       } finally {
         setIsLoading(false);
       }
     };
     fetchConnectedUser();
-  }, [myId]); // L'ID de l'utilisateur est utilisé comme dépendance pour relancer le fetch si nécessaire
+  }, [myId, navigate]); // L'ID de l'utilisateur est utilisé comme dépendance pour relancer le fetch si nécessaire
 
   if (serverError) {
     return <Error500Page />;

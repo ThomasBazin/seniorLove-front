@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import axios from '../../../axios';
 import ProfileSticker from '../../standaloneComponents/ProfileSticker/ProfileSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
-import { getTokenAndDataFromLocalStorage } from '../../../localStorage/localStorage';
-import axios from '../../../axios';
+import {
+  getTokenAndDataFromLocalStorage,
+  removeTokenFromLocalStorage,
+} from '../../../localStorage/localStorage';
 import { IUsers } from '../../../@types/IUsers';
 import Loader from '../../standaloneComponents/Loader/Loader';
 import Error500Page from '../../../pages/Error500Page';
@@ -19,6 +23,8 @@ export default function UsersSection() {
 
   // STATE 3 : error server
   const [serverError, setServerError] = useState(false);
+  // Import of navigate to force redirection when forced logged out
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -27,7 +33,15 @@ export default function UsersSection() {
         setUsers(responseFetch.data);
       } catch (e) {
         console.error(e);
-        setServerError(true);
+        if (
+          e instanceof AxiosError &&
+          (e.response?.data.blocked || e.response?.status === 401)
+        ) {
+          removeTokenFromLocalStorage();
+          navigate('/loggedout');
+        } else {
+          setServerError(true);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -35,7 +49,7 @@ export default function UsersSection() {
     if (token) {
       fetchUsers();
     }
-  }, [token]);
+  }, [navigate, token]);
   const [numProfiles, setNumProfiles] = useState(3);
 
   useEffect(() => {

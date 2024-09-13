@@ -5,10 +5,7 @@ import App from './App';
 import NavBarLogged from './components/standaloneComponents/NavBar/NavBarLogged';
 import NavBarV1 from './components/standaloneComponents/NavBar/NavBar';
 import Footer from './components/standaloneComponents/Footer/Footer';
-import {
-  getTokenAndDataFromLocalStorage,
-  removeTokenFromLocalStorage,
-} from './localStorage/localStorage';
+import { getTokenAndDataFromLocalStorage } from './localStorage/localStorage';
 import axios from './axios';
 import UserHeadband from './components/standaloneComponents/UserHeadband/UserHeadband';
 import './index.css';
@@ -31,7 +28,8 @@ export default function Root() {
         axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;
       } else {
         setIsAuthenticated(false);
-        removeTokenFromLocalStorage();
+        setUserToken(null);
+        delete axios.defaults.headers.common.Authorization;
       }
     };
 
@@ -54,7 +52,7 @@ export default function Root() {
       window.removeEventListener('storage', handleStorageChange);
       clearInterval(intervalId);
     };
-  }, [userToken]);
+  }, [userToken, isAuthenticated]);
 
   return (
     <BrowserRouter>

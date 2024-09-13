@@ -40,7 +40,7 @@ export default function ConnectionFormSection({
       setErrorLog(false);
       navigate('/home');
     } catch (e) {
-      // if error is from axios and respons status is 401 unauthorized, it means credentials error
+      // if error is from axios and respons status is 401, it means credentials error
       if (e instanceof AxiosError && e.response?.status === 401) {
         console.error(e);
         setErrorLog(true);
