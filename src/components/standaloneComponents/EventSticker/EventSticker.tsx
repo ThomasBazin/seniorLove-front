@@ -14,10 +14,10 @@ export default function EventSticker({ event, page }: EventStickerProps) {
   const extractedDate = extractDayMonth(event.date);
 
   return (
-    <div className={page === 'profile' ? 'pt-4 md:pt-0' : ''}>
-      <Link to={`/events/${event.id}`}>
+    <div className={page === 'profile' ? 'pt-4 md:pt-0' : 'mx-auto'}>
+      <Link to={`/events/${event.id}`} className="h-72 w-72">
         <div
-          className={`rounded-xl mx-auto shadow-lg relative ${page === 'profile' ? 'h-36 w-36' : 'h-72 w-72'}`}
+          className={`rounded-xl shadow-lg relative ${page === 'profile' ? 'h-36 w-36' : 'h-72 w-72'}`}
         >
           <div
             className={`absolute -right-5 -top-8 ${page === 'profile' ? '-right-4 -top-4' : ''}`}
