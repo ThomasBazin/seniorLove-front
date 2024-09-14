@@ -6,8 +6,11 @@ import ReceivedMessage from './ReceivedMessage';
 import SentMessage from './SentMessage';
 
 export default function MessagesField() {
+  // données de tous les messages
   const [messagesData, setMessagesData] = useState<[]>([]);
+  // données du message a afficher
   const [displayMessages, setDisplayMessages] = useState();
+  // status de l'envoi du message et id destinataire
   const [sendMessage, setSendMessage] = useState({
     sendStatus: false,
     lastReceiverId: displayMessages?.id,
@@ -26,14 +29,18 @@ export default function MessagesField() {
         // console.table(result.data[0]);
         setMessagesData(result.data);
 
+        // console.table(isSelected);
+
         if (sendMessage.lastReceiverId) {
           setDisplayMessages(
             result.data.find(
               (data: object) => data.id === sendMessage.lastReceiverId
             )
+            // TODO: modifié isSelected a true sur l'index correspondant a cette entrée
           );
         } else {
           setDisplayMessages(result.data[0]);
+          // TODO: modifié isSelected a true sur l'index correspondant a cette entrée
         }
       } catch (error) {
         console.error(error);
@@ -48,12 +55,12 @@ export default function MessagesField() {
     setDisplayMessages(newMessages);
   };
 
-  const handleSendMessages = (id) => {
+  const handleSendMessages = (id: number) => {
     setSendMessage({ sendStatus: !sendMessage.sendStatus, lastReceiverId: id });
   };
 
   const handleToggleMessageView = () => {
-    // changer l'état de toggle pur indiquer aux classes css de changer l'affichage
+    // changer l'état de toggle pour indiquer aux classes css de changer l'affichage
     setToggleDisplay(false);
   };
 
@@ -69,6 +76,8 @@ export default function MessagesField() {
           Retour
         </button>
       )}
+
+      {/* // TODO: insérer une condition si pas de message */}
       <div className="flex mt-6 h-screen">
         <ContactsListField
           listContacts={messagesData}

@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 interface ContactInterface {
   selectedContact: (messages: object) => void;
   contact: {
@@ -9,8 +7,8 @@ interface ContactInterface {
     messages: [];
   };
   setBadSend: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsSelected: React.Dispatch<React.SetStateAction<boolean>>;
-  isSelected: boolean | undefined;
+  onSelect: () => void;
+  isSelected: boolean;
   switchView: () => void;
 }
 
@@ -18,21 +16,23 @@ export default function ConversationPreview({
   contact,
   selectedContact,
   setBadSend,
-  // setIsSelected,
+  onSelect,
   isSelected,
   switchView,
 }: ContactInterface) {
   const lastMessage = contact.messages[contact.messages.length - 1];
   const { message }: { message: string } = lastMessage;
 
+  //  ${isSelected ? 'shadow-pink' : ''}
+
   return (
     <button
       type="button"
-      className={`p-2 rounded-3xl hover:shadow-around w-full ${isSelected ? 'shadow-pink' : ''}`}
+      className={`p-2 rounded-3xl hover:shadow-around ${isSelected ? 'shadow-pink' : ''} w-full`}
       onClick={() => {
         selectedContact(contact);
         setBadSend(false);
-        // setIsSelected(true);
+        onSelect();
         switchView();
       }}
     >

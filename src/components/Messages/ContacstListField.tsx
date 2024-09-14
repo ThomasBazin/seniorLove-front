@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+// import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ConversationPreview from './ConversationPreview';
 
 interface ContactInterface {
@@ -8,6 +9,8 @@ interface ContactInterface {
   setBadSend: React.Dispatch<React.SetStateAction<boolean>>;
   toggleDisplay: boolean | undefined;
   switchView: () => void;
+  isSelected: boolean[];
+  onSelect: () => (index: number) => void;
 }
 
 export default function ContactsListField({
@@ -17,12 +20,25 @@ export default function ContactsListField({
   toggleDisplay,
   switchView,
 }: ContactInterface) {
-  const [isSelected, setIsSelected] = useState<boolean>();
+  const [isSelected, setIsSelected] = useState<boolean[]>([]);
 
-  function handleSelected() {
-    const setSelect = () => setIsSelected(true);
+  useEffect(() => {
+    const set = () => {
+      setIsSelected([...Array(listContacts.length).fill(false)]);
+      const newDefaultList = [...isSelected];
+      newDefaultList[0] = true;
+      setIsSelected(newDefaultList);
+    };
+    set();
+  }, [listContacts.length]);
 
-    setSelect();
+  function handleSelected(index: number) {
+    // TODO: mettre un nouveau tableau avec une valeur true a l'index passé en paramètre
+    const newSelected = new Array(isSelected.length).fill(false);
+
+    newSelected[index] = true;
+
+    setIsSelected(newSelected);
   }
 
   return (
@@ -30,15 +46,15 @@ export default function ContactsListField({
       className={`max-md:rounded-3xl p-4 bg-white border flex-col ${toggleDisplay ? 'flex' : 'hidden'} gap-y-2 items-center md:w-2/5 md:h-4/6 md:rounded-l-3xl`}
     >
       <p className="italic text-secondaryPink">Messages</p>
-      {listContacts.map((contact) => {
+      {listContacts.map((contact, i) => {
         return (
           <ConversationPreview
             key={contact.id}
             contact={contact}
             setBadSend={setBadSend}
             selectedContact={selectedContact}
-            setIsSelected={() => handleSelected}
-            isSelected={isSelected}
+            onSelect={() => handleSelected(i)}
+            isSelected={isSelected[i]}
             switchView={switchView}
           />
         );
