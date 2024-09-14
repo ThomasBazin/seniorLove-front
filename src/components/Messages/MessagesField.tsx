@@ -19,28 +19,21 @@ export default function MessagesField() {
   const [toggleDisplay, setToggleDisplay] = useState<boolean>();
   // state pour indiquer que l'api renvoi une 403 (user not found  ou blocked)
   const [badSend, setBadSend] = useState<boolean>(false);
-  // const [isMobileView, setIsMobileView] = useState(false);
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         const result = await axios.get('/private/contacts');
-        // eslint-disable-next-line no-restricted-syntax
-        // console.table(result.data[0]);
         setMessagesData(result.data);
-
-        // console.table(isSelected);
 
         if (sendMessage.lastReceiverId) {
           setDisplayMessages(
             result.data.find(
               (data: object) => data.id === sendMessage.lastReceiverId
             )
-            // TODO: modifié isSelected a true sur l'index correspondant a cette entrée
           );
         } else {
           setDisplayMessages(result.data[0]);
-          // TODO: modifié isSelected a true sur l'index correspondant a cette entrée
         }
       } catch (error) {
         console.error(error);
@@ -48,7 +41,9 @@ export default function MessagesField() {
     };
     fetchMessages();
     // passe le display a true pour l'affichage par default des classes css
-    setToggleDisplay(true);
+    if (window.innerWidth >= 768) {
+      setToggleDisplay(true);
+    }
   }, [sendMessage]);
 
   const handleUpdateMessages = (newMessages) => {
@@ -77,49 +72,54 @@ export default function MessagesField() {
         </button>
       )}
 
-      {/* // TODO: insérer une condition si pas de message */}
-      <div className="md:flex mt-6 h-screen max-md:flex-col w-2/6">
-        <ContactsListField
-          listContacts={messagesData}
-          selectedContact={handleUpdateMessages}
-          setBadSend={setBadSend}
-          toggleDisplay={toggleDisplay}
-          switchView={handleToggleMessageView}
-        />
+      {messagesData.length === 0 ? (
+        <p className="text-center font-semibold pt-6">
+          Vous n'avez pas de messages !
+        </p>
+      ) : (
+        <div className="md:flex mt-6 max-md:flex-col w-2/6 md:h-svh">
+          <ContactsListField
+            listContacts={messagesData}
+            selectedContact={handleUpdateMessages}
+            setBadSend={setBadSend}
+            toggleDisplay={toggleDisplay}
+            switchView={handleToggleMessageView}
+          />
 
-        <div className={`${toggleDisplay ? 'hidden' : ''} md:block md:h-4/6`}>
-          <div className="bg-white border flex flex-col justify-between w-full md:rounded-r-3xl md:h-full max-md:rounded-3xl max-md:self-center">
-            <div className="w-full flex flex-col overflow-auto">
-              {displayMessages?.messages.map((message) => {
-                // console.log(displayMessages);
-                if (displayMessages.id === message.sender_id) {
+          <div className={`${toggleDisplay ? 'hidden' : ''} md:block md:h-4/6`}>
+            <div className="bg-white border flex flex-col justify-between w-full md:rounded-r-3xl md:h-screen max-md:rounded-3xl max-md:self-center">
+              <div className="w-full flex flex-col overflow-auto">
+                {displayMessages?.messages.map((message) => {
+                  // console.log(displayMessages);
+                  if (displayMessages.id === message.sender_id) {
+                    return (
+                      <ReceivedMessage
+                        receiveMessage={message.message}
+                        userId={displayMessages.id}
+                        key={message.id}
+                        picture={displayMessages.picture}
+                      />
+                    );
+                  }
                   return (
-                    <ReceivedMessage
-                      receiveMessage={message.message}
-                      userId={displayMessages.id}
+                    <SentMessage
+                      sentMessage={message.message}
                       key={message.id}
-                      picture={displayMessages.picture}
+                      myPicture={message.sender.picture}
                     />
                   );
-                }
-                return (
-                  <SentMessage
-                    sentMessage={message.message}
-                    key={message.id}
-                    myPicture={message.sender.picture}
-                  />
-                );
-              })}
+                })}
+              </div>
+              <EditMessagesForm
+                badSend={badSend}
+                setBadSend={setBadSend}
+                send={handleSendMessages}
+                receiverId={idSent}
+              />
             </div>
-            <EditMessagesForm
-              badSend={badSend}
-              setBadSend={setBadSend}
-              send={handleSendMessages}
-              receiverId={idSent}
-            />
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

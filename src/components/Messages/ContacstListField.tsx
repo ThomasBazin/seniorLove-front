@@ -32,7 +32,6 @@ export default function ContactsListField({
   }, [listContacts.length]);
 
   function handleSelected(index: number) {
-    // TODO: mettre un nouveau tableau avec une valeur true a l'index passé en paramètre
     const newSelected = new Array(isSelected.length).fill(false);
 
     newSelected[index] = true;
@@ -42,7 +41,7 @@ export default function ContactsListField({
 
   return (
     <div
-      className={`max-md:rounded-3xl max-md:w-full p-4 bg-white border flex-col ${toggleDisplay ? 'flex' : 'hidden'} gap-y-2 items-center md:w-2/5 md:h-4/6 md:rounded-l-3xl`}
+      className={`overflow-auto max-md:rounded-3xl max-md:w-full p-4 bg-white border flex-col ${toggleDisplay ? 'flex' : 'hidden'} gap-y-2 items-center md:w-2/5 md:h-screen md:rounded-l-3xl`}
     >
       <p className="italic text-secondaryPink">Messages</p>
       {listContacts.map((contact, i) => {

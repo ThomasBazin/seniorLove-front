@@ -50,6 +50,7 @@ export default function EditMessagesForm({
             console.log(error);
             if (error.status === 403) {
               setBadSend(true);
+              setMessage('');
             }
           }
         }}
