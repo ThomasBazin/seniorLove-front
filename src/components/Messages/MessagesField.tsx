@@ -77,7 +77,7 @@ export default function MessagesField() {
           Vous n'avez pas de messages !
         </p>
       ) : (
-        <div className="md:flex mt-6 max-md:flex-col w-2/6 md:h-svh">
+        <div className="md:flex mt-6 max-md:flex-col md:h-svh">
           <ContactsListField
             listContacts={messagesData}
             selectedContact={handleUpdateMessages}

@@ -1946,6 +1946,10 @@ video {
     height: 100svh;
   }
 
+  .md\:h-4\/5 {
+    height: 80%;
+  }
+
   .md\:w-1\/2 {
     width: 50%;
   }
