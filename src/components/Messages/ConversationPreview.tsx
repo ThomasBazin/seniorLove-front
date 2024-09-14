@@ -1,25 +1,42 @@
 interface ContactInterface {
-  selectedContact: (messages: object) => void;
+  selectedContact: (message: object) => void;
   contact: {
     id: number;
     name: string;
     picture: string;
     messages: [];
   };
+  setBadSend: React.Dispatch<React.SetStateAction<boolean>>;
+  onSelect: () => void;
+  isSelected: boolean;
+  switchView: () => void;
 }
 
 export default function ConversationPreview({
   contact,
   selectedContact,
+  setBadSend,
+  onSelect,
+  isSelected,
+  switchView,
 }: ContactInterface) {
   const lastMessage = contact.messages[contact.messages.length - 1];
   const { message }: { message: string } = lastMessage;
 
+  //  ${isSelected ? 'shadow-pink' : ''}
+
   return (
     <button
       type="button"
-      className="p-2 rounded-3xl hover:shadow-around w-full"
-      onClick={() => selectedContact(contact)}
+      className={`p-2 rounded-3xl hover:shadow-around ${isSelected ? 'shadow-pink' : ''} w-full`}
+      onClick={() => {
+        selectedContact(contact);
+        setBadSend(false);
+        onSelect();
+        if (window.innerWidth <= 768) {
+          switchView();
+        }
+      }}
     >
       <div className="flex justify-start">
         <img

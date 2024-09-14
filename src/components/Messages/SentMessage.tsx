@@ -1,8 +1,8 @@
-function SentMessage({ sentMessage , myPicture}) {
+function SentMessage({ sentMessage, myPicture }) {
   return (
     <div className="m-4 flex gap-2 justify-end w-2/3 ml-2 self-end">
-      <div className="p-4 bg-white border rounded-3xl shadow-around">
-        <p className="text-sm text-primaryText">{sentMessage}</p>
+      <div className="p-4 bg-secondaryPink border rounded-3xl shadow-around">
+        <p className="text-sm text-white">{sentMessage}</p>
       </div>
       <img
         src={myPicture}
