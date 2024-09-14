@@ -1,5 +1,5 @@
 interface ContactInterface {
-  selectedContact: (messages: object) => void;
+  selectedContact: (message: object) => void;
   contact: {
     id: number;
     name: string;
@@ -33,7 +33,9 @@ export default function ConversationPreview({
         selectedContact(contact);
         setBadSend(false);
         onSelect();
-        switchView();
+        if (window.innerWidth <= 768) {
+          switchView();
+        }
       }}
     >
       <div className="flex justify-start">

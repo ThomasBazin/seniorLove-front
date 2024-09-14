@@ -9,8 +9,6 @@ interface ContactInterface {
   setBadSend: React.Dispatch<React.SetStateAction<boolean>>;
   toggleDisplay: boolean | undefined;
   switchView: () => void;
-  isSelected: boolean[];
-  onSelect: () => (index: number) => void;
 }
 
 export default function ContactsListField({
@@ -30,6 +28,7 @@ export default function ContactsListField({
       setIsSelected(newDefaultList);
     };
     set();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listContacts.length]);
 
   function handleSelected(index: number) {
@@ -43,7 +42,7 @@ export default function ContactsListField({
 
   return (
     <div
-      className={`max-md:rounded-3xl p-4 bg-white border flex-col ${toggleDisplay ? 'flex' : 'hidden'} gap-y-2 items-center md:w-2/5 md:h-4/6 md:rounded-l-3xl`}
+      className={`max-md:rounded-3xl max-md:w-full p-4 bg-white border flex-col ${toggleDisplay ? 'flex' : 'hidden'} gap-y-2 items-center md:w-2/5 md:h-4/6 md:rounded-l-3xl`}
     >
       <p className="italic text-secondaryPink">Messages</p>
       {listContacts.map((contact, i) => {

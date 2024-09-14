@@ -51,7 +51,7 @@ export default function MessagesField() {
     setToggleDisplay(true);
   }, [sendMessage]);
 
-  const handleUpdateMessages = (newMessages: object) => {
+  const handleUpdateMessages = (newMessages) => {
     setDisplayMessages(newMessages);
   };
 
@@ -70,15 +70,15 @@ export default function MessagesField() {
       {!toggleDisplay && (
         <button
           type="button"
-          className="mt-3 inline-flex self-start items-center rounded-md bg-pink-50 px-2 py-1 text-xs font-medium text-pink-700 ring-1 ring-inset ring-pink-700/10"
+          className="bg-secondaryPink hover:bg-secondaryPinkHover rounded-lg text-white font-bold shadow-md py-1 block mx-auto text-lg px-4 min-w-44 my-4 "
           onClick={() => setToggleDisplay(true)}
         >
-          Retour
+          Revenir aux contacts
         </button>
       )}
 
       {/* // TODO: insérer une condition si pas de message */}
-      <div className="flex mt-6 h-screen">
+      <div className="md:flex mt-6 h-screen max-md:flex-col w-2/6">
         <ContactsListField
           listContacts={messagesData}
           selectedContact={handleUpdateMessages}
@@ -87,11 +87,9 @@ export default function MessagesField() {
           switchView={handleToggleMessageView}
         />
 
-        <div
-          className={`${toggleDisplay ? 'hidden' : ''} md:block md:h-4/6 overflow-auto`}
-        >
-          <div className="bg-white border rounded-r-3xl flex flex-col justify-between w-full md:h-full">
-            <div className="w-full flex flex-col">
+        <div className={`${toggleDisplay ? 'hidden' : ''} md:block md:h-4/6`}>
+          <div className="bg-white border flex flex-col justify-between w-full md:rounded-r-3xl md:h-full max-md:rounded-3xl max-md:self-center">
+            <div className="w-full flex flex-col overflow-auto">
               {displayMessages?.messages.map((message) => {
                 // console.log(displayMessages);
                 if (displayMessages.id === message.sender_id) {
