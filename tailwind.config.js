@@ -18,6 +18,9 @@ module.exports = {
         buttonGreen: '#ADD5AF',
         backgroundPink: '#FFF4F7',
       },
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'],
+      },
       backgroundImage: {
         firstForm: "url('/img/first-form.webp')",
         secondForm: "url('/img/second-form.webp')",

@@ -34,7 +34,7 @@ export default function UserHeadband({
           <Link
             to="/"
             onClick={() => onClickDisconnect()}
-            className="text-sm md:hidden text-secondaryPink hover:text-primaryText font-semibold py-2 px-3"
+            className="text-sm md:text-lg text-secondaryPink hover:text-primaryText font-semibold py-2 px-3"
           >
             Déconnexion
           </Link>
