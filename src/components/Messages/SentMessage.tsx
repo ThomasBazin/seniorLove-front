@@ -1,4 +1,9 @@
-function SentMessage({ sentMessage, myPicture }) {
+interface SendInterface {
+  sentMessage: string;
+  myPicture: string;
+}
+
+function SentMessage({ sentMessage, myPicture }: SendInterface) {
   return (
     <div className="m-4 flex gap-2 justify-end w-2/3 ml-2 self-end">
       <div className="p-4 bg-secondaryPink border rounded-3xl shadow-around">

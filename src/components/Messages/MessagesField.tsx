@@ -75,7 +75,7 @@ export default function MessagesField() {
 
       {messagesData.length === 0 ? (
         <p className="text-center font-semibold pt-6">
-          Vous n&aposavez pas de messages !
+          Vous n&apos;avez pas de messages !
         </p>
       ) : (
         <div className="md:flex mt-6 max-md:flex-col md:h-svh">
