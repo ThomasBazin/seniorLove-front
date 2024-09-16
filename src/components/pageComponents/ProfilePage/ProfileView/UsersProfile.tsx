@@ -23,6 +23,9 @@ export default function UsersProfile() {
   // STATE 4 : send message
   const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
 
+  // STATE 5 : nessage error
+  const [isErrorMessage, setIsErrorMessage] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -75,12 +78,15 @@ export default function UsersProfile() {
         message,
         receiver_id: userId,
       });
-      console.log(userId);
-      console.log('Message sent');
       setIsSendMessage(false);
       navigate('/messages');
     } catch (e) {
       console.error(e);
+      if (e instanceof AxiosError && e.response?.status === 403) {
+        setIsErrorMessage(true);
+      } else {
+        setIsError(500);
+      }
     }
   };
 
@@ -139,14 +145,23 @@ export default function UsersProfile() {
               />
             </div>
             {isSendMessage ? (
-              <textarea
-                rows={3}
-                cols={40}
-                name="messageField"
-                id="messageFieldMobile"
-                placeholder="Écrire votre message ici"
-                className="p-2 my-2 font-normal"
-              />
+              <>
+                {isErrorMessage && (
+                  <p className="text-red-500 text-xs text-center mt-2">
+                    Ce contact n&apos;est plus disponible pour recevoir des
+                    messages.
+                  </p>
+                )}
+
+                <textarea
+                  rows={3}
+                  cols={40}
+                  name="messageField"
+                  id="messageFieldMobile"
+                  placeholder="Écrire votre message ici"
+                  className="p-2 my-2 font-normal"
+                />
+              </>
             ) : null}
           </div>
           <div>
@@ -185,13 +200,21 @@ export default function UsersProfile() {
             </div>
           </div>
           {isSendMessage ? (
-            <textarea
-              rows={3}
-              name="messageField"
-              id="messageField"
-              placeholder="Écrire votre message ici"
-              className="p-2 my-2 hidden md:block"
-            />
+            <>
+              {isErrorMessage && (
+                <p className="text-red-500 text-xs text-center mt-2">
+                  Ce contact n&apos;est plus disponible pour recevoir des
+                  messages.
+                </p>
+              )}
+              <textarea
+                rows={3}
+                name="messageField"
+                id="messageField"
+                placeholder="Écrire votre message ici"
+                className="p-2 my-2 hidden md:block"
+              />
+            </>
           ) : null}
           <div>
             <h3 className="text-xl text-secondaryPink text-center font-semibold pb-3 md:text-black md:text-left ">
