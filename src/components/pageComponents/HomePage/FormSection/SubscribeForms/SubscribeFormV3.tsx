@@ -27,17 +27,14 @@ export default function SubscribeFormV3({
   // STATE 3 : error
   const [error, setError] = useState<string | null>(null);
 
-  // const handlePictureInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPictureInputValue(e.currentTarget.value);
-  // };
-
   // Handle picture input change
   const handlePictureInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setPictureFile(e.target.files[0]); // Save the selected file
+      setPictureFile(e.target.files[0]); // Save the selected file in state
     }
   };
 
+  // Handle description input change
   const handleDescriptionInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -60,7 +57,7 @@ export default function SubscribeFormV3({
     // Update form info with picture and description
     fillFormInfos({ picture: pictureFile, description: descriptionInputValue });
 
-    setError(null);
+    setError(null); // reset potential error
     setIsForm3Validated(true); // Mark step 3 as validated
   };
 
