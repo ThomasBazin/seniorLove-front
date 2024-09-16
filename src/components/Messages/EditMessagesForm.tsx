@@ -15,6 +15,7 @@ export default function EditMessagesForm({
   setBadSend,
 }: EditMessage) {
   const [message, setMessage] = useState('');
+
   const submitMessage = async () => {
     const inputForm = document.getElementById('formMessage');
     const formData = Object.fromEntries(new FormData(inputForm));
@@ -25,9 +26,9 @@ export default function EditMessagesForm({
       });
       send(receiverId);
       setMessage('');
-    } catch (error) {
-      console.log(error);
-      if (error.status === 403) {
+    } catch (err) {
+      console.log(err);
+      if (err.status === 403) {
         setBadSend(true);
         setMessage('');
       }
