@@ -78,7 +78,7 @@ export default function UsersProfile() {
       console.log(userId);
       console.log('Message sent');
       setIsSendMessage(false);
-      // navigate('/messages');
+      navigate('/messages');
     } catch (e) {
       console.error(e);
     }
