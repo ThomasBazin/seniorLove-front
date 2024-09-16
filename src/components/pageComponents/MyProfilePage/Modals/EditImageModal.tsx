@@ -69,12 +69,12 @@ export default function EditImageModal({
               //     }
               //   }}
             />
-            <img
+            {/* <img
               id="new-image-preview"
               src="#" // Placeholder image, will be updated with the selected file
               alt="New Image"
               className="w-32 h-32 object-cover rounded-md border border-gray-300"
-            />
+            /> */}
             <p className="mt-2 text-gray-600">Nouvelle image</p>
           </div>
         </div>
