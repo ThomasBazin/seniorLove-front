@@ -58,7 +58,8 @@ export default function Root() {
     <BrowserRouter>
       {isAuthenticated ? (
         <>
-          <NavBarLogged setIsAuthenticated={setIsAuthenticated} />
+          {/* <NavBarLogged setIsAuthenticated={setIsAuthenticated} /> */}
+          <NavBarLogged />
           <UserHeadband setIsAuthenticated={setIsAuthenticated} />
         </>
       ) : (

@@ -3,26 +3,27 @@
 import Logo from '/img/logo-text-seniorlove.webp';
 import MobileNavBarLogged from '../MobileNavBar/MobileNavBarLogged';
 import { Link, NavLink } from 'react-router-dom';
-import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
+// import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
 
-interface NavBarLoggedProps {
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-}
+// interface NavBarLoggedProps {
+//   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+// }
 
-export default function NavBarLogged({
-  setIsAuthenticated,
-}: NavBarLoggedProps) {
-  const onClickDisconnect = () => {
-    setIsAuthenticated(false);
-    removeTokenFromLocalStorage();
-  };
+export default function NavBarLogged() {
+  // export default function NavBarLogged({
+  //   setIsAuthenticated,
+  // }: NavBarLoggedProps) {
+  //   const onClickDisconnect = () => {
+  //     setIsAuthenticated(false);
+  //     removeTokenFromLocalStorage();
+  //   };
   const NavBarButtons = [
     { text: 'Accueil', to: '/home' },
     { text: 'Découvrir', to: '/profiles' },
     { text: 'Evènements', to: '/events' },
     { text: 'Messages', to: '/messages' },
     { text: 'Mon profil', to: 'myprofile' },
-    { text: 'Se déconnecter', to: '/', onclick: onClickDisconnect },
+    // { text: 'Se déconnecter', to: '/', onclick: onClickDisconnect },
   ];
 
   return (
@@ -40,8 +41,8 @@ export default function NavBarLogged({
             <NavLink
               to={button.to}
               key={button.text}
-              onClick={button.onclick || undefined}
-              className=" text-secondaryPink hover:text-primaryText font-semibold py-2 px-3 hidden md:block"
+              // onClick={button.onclick || undefined}
+              className=" text-secondaryPink hover:text-primaryText font-semibold py-2 px-3 nav-link hidden md:block"
             >
               {button.text}
             </NavLink>

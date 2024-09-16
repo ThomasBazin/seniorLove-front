@@ -79,7 +79,6 @@ export default function MyProfileViewRefactor({
         gender: editedProfile.gender,
         picture: editedProfile.picture,
         email: editedProfile.email,
-        // Include other fields that might be required by your backend
       };
 
       const response = await axios.patch(`/private/users/me`, dataToSend);
@@ -134,6 +133,7 @@ export default function MyProfileViewRefactor({
             className="max-w-64 md:max-w-full rounded-md border border-secondaryPink"
           />
           <div className="font-semibold flex flex-col text-center justify-between md:hidden">
+            {/* Name & Age */}
             <div>
               <span className="text-3xl text-secondaryPink">
                 {isEditing ? (
@@ -150,6 +150,7 @@ export default function MyProfileViewRefactor({
               </span>
               , {me.age} ans
             </div>
+            {/* Edit button */}
             <div className="pt-4">
               <DefaultBtn
                 btnText={isEditing ? 'Sauvegarder' : 'Editer mon profil'}
@@ -158,6 +159,7 @@ export default function MyProfileViewRefactor({
               />
             </div>
           </div>
+          {/* Hobbies */}
           <div>
             <h2 className="text-xl text-center font-semibold text-secondaryPink pb-3">
               Mes Centres d&apos;intérêt
@@ -178,6 +180,7 @@ export default function MyProfileViewRefactor({
         {/* Main content */}
         <div className="md:w-2/3 flex flex-col gap-3 md:gap-6">
           <div className="hidden font-semibold md:flex text-center justify-between">
+            {/* Name & Age */}
             <div>
               <span className="text-3xl text-secondaryPink">
                 {isEditing ? (
@@ -194,6 +197,7 @@ export default function MyProfileViewRefactor({
               </span>
               , {me.age} ans
             </div>
+            {/* Edit button */}
             <div className="flex gap-3">
               <DefaultBtn
                 btnText={isEditing ? 'Sauvegarder' : 'Editer mon profil'}
@@ -202,6 +206,7 @@ export default function MyProfileViewRefactor({
               />
             </div>
           </div>
+          {/* Description */}
           <div>
             <h3 className="text-xl text-secondaryPink text-center font-semibold pb-3 md:text-black md:text-left ">
               A propos de moi :
@@ -218,7 +223,7 @@ export default function MyProfileViewRefactor({
               <p className="text-primaryText text-justify">{me.description}</p>
             )}
           </div>
-          {/* Add more editable fields here as needed */}
+          {/* Events */}
           <div className="pt-8">
             <h3 className="text-xl text-secondaryPink text-center font-semibold md:text-black pb-3">
               Mes prochaines sorties :
@@ -230,13 +235,14 @@ export default function MyProfileViewRefactor({
                 ))}
               </div>
             ) : (
-              <p className="text-center font-semibold pt-6">
+              <p className="text-center pt-6">
                 Je ne suis actuellement enregistré à aucun futur événement.
               </p>
             )}
           </div>
         </div>
       </div>
+      {/* Delete */}
       <div className="pb-8 pt-32 md:pt-16 relative top-0">
         <DefaultBtn
           btnText="Supprimer mon compte"

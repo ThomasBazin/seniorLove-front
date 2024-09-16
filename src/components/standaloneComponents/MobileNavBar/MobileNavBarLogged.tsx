@@ -37,7 +37,7 @@ export default function MobileNavBarLogged() {
   ];
 
   return (
-    <div className="bg-white shadow-mobileNav w-full px-3 pt-2 flex justify-around items-center font-semibold text-primaryText fixed bottom-0 z-10 md:hidden">
+    <div className="bg-white shadow-mobileNav w-full px-3 pt-2 flex justify-around items-center text-primaryText fixed bottom-0 z-10 md:hidden">
       {menuItems.map((item) => (
         <Link to={item.href} key={item.text}>
           <img
@@ -45,7 +45,7 @@ export default function MobileNavBarLogged() {
             alt={item.alt}
             className="mx-auto w-8 object-contain"
           />
-          <p className="mb-1 text-base text-primaryText text-center">
+          <p className="mb-1 text-sm text-primaryText text-center">
             {item.text}
           </p>
         </Link>
