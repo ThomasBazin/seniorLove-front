@@ -12,7 +12,7 @@ import Error500Page from '../../../pages/Error500Page';
 import editLogo from '/icon/edit.svg';
 
 import Loader from '../../standaloneComponents/Loader/Loader';
-import EditButton from '../../standaloneComponents/EditButton/EditButton';
+import EditMailPassword from '../../standaloneComponents/EditEmailPassword';
 
 interface MyProfileViewRefactorProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -84,7 +84,6 @@ export default function MyProfileViewRefactor({
       };
 
       const response = await axios.patch(`/private/users/me`, dataToSend);
-      console.log(response.data);
       setMe(response.data);
       // localStorage.setItem('name', response.data.name); // TODO: fix this with useState
       setIsEditing(false);
@@ -235,7 +234,7 @@ export default function MyProfileViewRefactor({
           </div>
           {/* Description */}
           <div>
-            <h3 className="text-xl text-secondaryPink text-center font-semibold pb-3 md:text-black md:text-left ">
+            <h3 className="text-xl text-secondaryPink text-center font-semibold pb-3 md:text-left ">
               A propos de moi :
             </h3>
             {isEditing ? (
@@ -250,6 +249,7 @@ export default function MyProfileViewRefactor({
               <p className="text-primaryText text-justify">{me.description}</p>
             )}
           </div>
+          {isEditing && <EditMailPassword user={me} />}
           {/* Events */}
           <div className="pt-8">
             <h3 className="text-xl text-secondaryPink text-center font-semibold md:text-black pb-3">
