@@ -24,6 +24,7 @@ export default function EditImageModal({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
+      console.log('Selected file:', file);
       setSelectedFile(file);
     }
     // Create a preview of the selected image
@@ -75,9 +76,6 @@ export default function EditImageModal({
     }
   };
 
-  // useEffect(() => {
-  //   console.log(selectedFile);
-  // }, [selectedFile]);
   return (
     <ReactModal
       isOpen={isImageModalOpen}
