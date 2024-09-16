@@ -14,6 +14,7 @@ import editLogo from '/icon/edit.svg';
 import Loader from '../../standaloneComponents/Loader/Loader';
 import EditMailPassword from './Modals/EditEmailPassword';
 import EditImageModal from './Modals/EditImageModal';
+import EditHobbyModal from './Modals/EditHobbyModal';
 
 interface MyProfileViewRefactorProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,6 +36,9 @@ export default function MyProfileViewRefactor({
 
   // STATE 4 : image modal
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
+  // STATE 5 : hobbies modal
+  const [isHobbyModalOpen, setIsHobbyModalOpen] = useState(false);
 
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
@@ -182,8 +186,7 @@ export default function MyProfileViewRefactor({
               {isEditing && (
                 <button
                   onClick={() => {
-                    // Handle your click logic here
-                    console.log('Edit button clicked');
+                    setIsHobbyModalOpen(true);
                   }}
                   className="bg-white p-1 rounded-2xl"
                 >
@@ -291,6 +294,13 @@ export default function MyProfileViewRefactor({
         <EditImageModal
           isImageModalOpen={isImageModalOpen}
           setIsImageModalOpen={setIsImageModalOpen}
+          user={me}
+        />
+      )}
+      {isHobbyModalOpen && (
+        <EditHobbyModal
+          isHobbyModalOpen={isHobbyModalOpen}
+          setIsHobbyModalOpen={setIsHobbyModalOpen}
           user={me}
         />
       )}

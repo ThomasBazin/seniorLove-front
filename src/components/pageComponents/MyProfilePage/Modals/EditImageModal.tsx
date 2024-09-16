@@ -33,7 +33,7 @@ export default function EditImageModal({
       }}
     >
       <h3 className="text-xl font-semibold text-secondaryPink">
-        Changer votre image
+        Changez votre image
       </h3>
       <div className="flex flex-col gap-4 mt-4">
         <div className="flex flex-col gap-6">

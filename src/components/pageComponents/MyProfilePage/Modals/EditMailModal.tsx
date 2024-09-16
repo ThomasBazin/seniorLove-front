@@ -33,7 +33,7 @@ export default function EditMailModal({
       }}
     >
       <h3 className="text-xl font-semibold text-secondaryPink">
-        Changer votre adresse e-mail
+        Changez votre adresse e-mail
       </h3>
       <div className="flex flex-col gap-4 mt-4">
         <div className="flex flex-col gap-3">
