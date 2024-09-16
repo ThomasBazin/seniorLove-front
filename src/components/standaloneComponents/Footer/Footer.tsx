@@ -2,11 +2,26 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   const footerLinks = [
-    { text: 'Signaler un contenu illégal', href: '#' },
-    { text: 'Politique de confidentialité', href: '#' },
-    { text: 'Conditions générales', href: '#' },
-    { text: 'Charte d’utilisation des cookies', href: '#' },
-    { text: 'Règles de communauté', href: '#' },
+    {
+      text: 'Signaler un contenu illégal',
+      href: '/src/components/standaloneComponents/Footer/Footer%20links/SignalProfile.html',
+    },
+    {
+      text: 'Politique de confidentialité',
+      href: '/src/components/standaloneComponents/Footer/Footer%20links/Confidentiality.html',
+    },
+    {
+      text: 'Conditions générales',
+      href: '/src/components/standaloneComponents/Footer/Footer%20links/GeneralConditions.html',
+    },
+    {
+      text: 'Charte d’utilisation des cookies',
+      href: '/src/components/standaloneComponents/Footer/Footer links/CookieUsePolicy.html',
+    },
+    {
+      text: 'Règles de communauté',
+      href: '/src/components/standaloneComponents/Footer/Footer links/CommunityGuidelines.html',
+    },
   ];
 
   return (
@@ -16,7 +31,7 @@ export default function Footer() {
           Pour toute question ou assistance, veuillez nous contacter à
           l&apos;adresse suivante :{' '}
           <a href="mailto:support@seniorlove.fr">support@seniorlove.fr</a> ou
-          appelez-nous au <a href="tel:+330123456789">+33 (0)1 23 45 67 89</a>.
+          nous appeler au <a href="tel:+330123456789">+33 (0)1 23 45 67 89</a>.
         </p>
       </div>
       <div className="footer-copyright_container text-center mb-2">
