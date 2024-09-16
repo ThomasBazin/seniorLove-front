@@ -1,11 +1,8 @@
-interface ContactInterface {
-  selectedContact: (message: object) => void;
-  contact: {
-    id: number;
-    name: string;
-    picture: string;
-    messages: [];
-  };
+import { IMessage } from '../../@types/IMessage';
+
+interface ConversationPreviewProps {
+  selectedContact: (message: IMessage) => void;
+  contact: IMessage;
   setBadSend: React.Dispatch<React.SetStateAction<boolean>>;
   onSelect: () => void;
   isSelected: boolean;
@@ -19,7 +16,7 @@ export default function ConversationPreview({
   onSelect,
   isSelected,
   switchView,
-}: ContactInterface) {
+}: ConversationPreviewProps) {
   const lastMessage = contact.messages[contact.messages.length - 1];
   const { message }: { message: string } = lastMessage;
 
@@ -28,7 +25,7 @@ export default function ConversationPreview({
   return (
     <button
       type="button"
-      className={`p-2 rounded-3xl hover:shadow-around ${isSelected ? 'shadow-pink' : ''} w-full`}
+      className={`p-2 hover:shadow-around max-md:shadow-md ${isSelected ? 'md:shadow-around' : ''} w-full`}
       onClick={() => {
         selectedContact(contact);
         setBadSend(false);
@@ -48,10 +45,7 @@ export default function ConversationPreview({
           <h2 className="mb-1.5 text-sm p-2 text-left font-medium text-secondaryPink">
             {contact.name}
           </h2>
-          <p
-            className="p-2 font-semibold
- text-xs text-primaryText block"
-          >
+          <p className="p-2 font-semibold text-xs text-primaryText block">
             {`${message.substring(0, 50)}...`}
           </p>
         </div>

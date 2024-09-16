@@ -2,9 +2,10 @@
 // import { useState } from 'react';
 import { useEffect, useState } from 'react';
 import ConversationPreview from './ConversationPreview';
+import { IMessage } from '../../@types/IMessage';
 
 interface ContactInterface {
-  selectedContact: (message: object) => void;
+  selectedContact: (message: IMessage) => void;
   listContacts: [];
   setBadSend: React.Dispatch<React.SetStateAction<boolean>>;
   toggleDisplay: boolean | undefined;
@@ -41,7 +42,7 @@ export default function ContactsListField({
 
   return (
     <div
-      className={`overflow-auto max-md:rounded-3xl max-md:w-full p-4 bg-white border flex-col ${toggleDisplay ? 'flex' : 'hidden'} gap-y-2 items-center md:w-2/5 md:h-screen md:rounded-l-3xl`}
+      className={`overflow-y-scroll md:overflow-y-auto p-4 bg-white border flex-col ${toggleDisplay ? 'flex' : 'hidden'} gap-y-2 items-center md:w-3/5 h-[calc(100vh-300px)] md:h-[calc(100vh-400px)]`}
     >
       <p className="italic text-secondaryPink">Messages</p>
       {listContacts.map((contact, i) => {

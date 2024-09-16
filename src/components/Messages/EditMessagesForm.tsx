@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from '../../axios';
+import DefaultBtn from '../standaloneComponents/Button/DefaultBtn';
 
 interface EditMessage {
   setBadSend: React.Dispatch<React.SetStateAction<boolean>>;
@@ -42,7 +43,11 @@ export default function EditMessagesForm({
   };
 
   return (
-    <form action="post" className="bg-transparent" id="formMessage">
+    <form
+      action="post"
+      className="bg-transparent shadow-message"
+      id="formMessage"
+    >
       {badSend && (
         <p className="text-red-500 text-xs text-center">
           Ce contact n'est plus disponible pour recevoir des messages.
@@ -59,13 +64,7 @@ export default function EditMessagesForm({
         }}
         onKeyDown={handleKeyPress}
       />
-      <button
-        type="button"
-        className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
-        onClick={submitMessage}
-      >
-        Envoyer
-      </button>
+      <DefaultBtn btnText="Envoyer" onClick={submitMessage} />
     </form>
   );
 }
