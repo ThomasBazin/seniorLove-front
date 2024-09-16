@@ -89,6 +89,9 @@ export default function MyProfileViewRefactor({
         gender: editedProfile.gender,
         picture: editedProfile.picture,
         email: editedProfile.email,
+        old_password: editedProfile.old_password,
+        new_password: editedProfile.new_password,
+        repeat_new_password: editedProfile.repeat_new_password,
       };
 
       const response = await axios.patch(`/private/users/me`, dataToSend);
@@ -260,7 +263,11 @@ export default function MyProfileViewRefactor({
             )}
           </div>
           {isEditing && (
-            <EditMailPassword user={me} handleInputChange={handleInputChange} />
+            <EditMailPassword
+              user={me}
+              handleInputChange={handleInputChange}
+              setEditedProfile={setEditedProfile}
+            />
           )}
 
           {/* Events */}
