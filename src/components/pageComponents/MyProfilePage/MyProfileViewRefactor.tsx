@@ -70,6 +70,10 @@ export default function MyProfileViewRefactor({
     fetchConnectedUser();
   }, [myId, navigate]);
 
+  useEffect(() => {
+    console.log(editedProfile);
+  }, [editedProfile]);
+
   const deleteAccount = async () => {
     try {
       await axios.delete(`/private/users/me/delete`);
@@ -90,10 +94,12 @@ export default function MyProfileViewRefactor({
         description: editedProfile.description,
         gender: editedProfile.gender,
         picture: editedProfile.picture,
+        picture_id: editedProfile.picture_id,
         email: editedProfile.email,
         old_password: editedProfile.old_password,
         new_password: editedProfile.new_password,
         repeat_new_password: editedProfile.repeat_new_password,
+        hobbies: editedProfile.hobbies,
       };
 
       const response = await axios.patch(`/private/users/me`, dataToSend);
@@ -136,6 +142,7 @@ export default function MyProfileViewRefactor({
   if (!me) {
     return <Error500Page />;
   }
+
   return (
     <div className="w-full min-h-full flex-grow flex flex-col items-center justify-between bg-primaryGrey">
       <div className="flex flex-col pt-8 px-8 max-w-7xl w-full gap-10 md:flex-row">
@@ -188,21 +195,21 @@ export default function MyProfileViewRefactor({
           {/* Hobbies */}
           <div>
             <div className="flex flex-row gap-2 items-center justify-center w-full">
-              {isEditing && (
+              {isEditing ? (
                 <button
                   onClick={() => {
                     setIsHobbyModalOpen(true);
                   }}
-                  className="bg-white p-1 rounded-2xl"
                 >
-                  <img src={editLogo} alt="edit" className="w-6 h-6" />
+                  <h2 className="text-xl w-full font-semibold text-secondaryPink pb-3 text-center">
+                    Modifiez vos centres d&apos;intérêt
+                  </h2>
                 </button>
+              ) : (
+                <h2 className="text-xl w-full font-semibold text-secondaryPink pb-3 text-center">
+                  Mes Centres d&apos;intérêt
+                </h2>
               )}
-              <h2
-                className={`text-xl ${isEditing ? 'w-1/2 my-auto' : 'w-full'} font-semibold text-secondaryPink pb-3 text-center`}
-              >
-                Mes Centres d&apos;intérêt
-              </h2>
             </div>
 
             <div className="flex flex-wrap justify-around gap-2">
@@ -315,6 +322,7 @@ export default function MyProfileViewRefactor({
         <EditHobbyModal
           isHobbyModalOpen={isHobbyModalOpen}
           setIsHobbyModalOpen={setIsHobbyModalOpen}
+          setEditedProfile={setEditedProfile}
           user={me}
         />
       )}

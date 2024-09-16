@@ -8,7 +8,7 @@ interface EditImageModalProps {
   setIsImageModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   user: IUsers;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
-  setModifiedPhotoUrl: React.Dispatch<React.SetStateAction<string>>;
+  setModifiedPhotoUrl: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export default function EditImageModal({
@@ -66,6 +66,7 @@ export default function EditImageModal({
       const result = await response.json();
       if (response.ok) {
         setEditedProfile((prev) => ({ ...prev, picture: result.pictureUrl }));
+        setEditedProfile((prev) => ({ ...prev, picture_id: result.pictureId }));
         setModifiedPhotoUrl(result.pictureUrl);
         setIsImageModalOpen(false); // Close modal after success
       } else {
