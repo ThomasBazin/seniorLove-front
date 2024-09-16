@@ -1891,8 +1891,21 @@ body {
     line-height: 1.25rem;
   }
 
+  .sm\:text-xs {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
   .sm\:leading-6 {
     line-height: 1.5rem;
+  }
+
+  .sm\:placeholder\:hidden::-moz-placeholder {
+    display: none;
+  }
+
+  .sm\:placeholder\:hidden::placeholder {
+    display: none;
   }
 }
 

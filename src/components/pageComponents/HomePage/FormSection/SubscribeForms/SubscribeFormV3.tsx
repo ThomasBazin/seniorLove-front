@@ -57,40 +57,11 @@ export default function SubscribeFormV3({
       return;
     }
 
-    try {
-      // Prepare form data with file and description
-      const formData = new FormData();
-      formData.append('picture', pictureFile); // File upload
-      formData.append('description', descriptionInputValue);
+    // Update form info with picture and description
+    fillFormInfos({ picture: pictureFile, description: descriptionInputValue });
 
-      // Update form info with picture and description
-      fillFormInfos({
-        picture: pictureFile,
-        description: descriptionInputValue,
-      });
-
-      setError(null);
-      setIsForm3Validated(true); // Mark step 3 as validated
-    } catch (error) {
-      setError('Une erreur est survenue lors de la soumission du formulaire.');
-    }
-
-    // const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
-    // const { picture, description } = rawFormData;
-
-    // if (!picture) {
-    //   setError("Veuillez indiquer l'URL de votre photo !");
-    // } else if (!description) {
-    //   setError('Merci de renseigner votre description !');
-    // } else {
-    //   const formV3Infos = {
-    //     picture,
-    //     description,
-    //   };
-    //   setError(null);
-    //   fillFormInfos(formV3Infos);
-    //   setIsForm3Validated(true);
-    // }
+    setError(null);
+    setIsForm3Validated(true); // Mark step 3 as validated
   };
 
   useEffect(() => {
@@ -113,31 +84,49 @@ export default function SubscribeFormV3({
         encType="multipart/form-data"
         onSubmit={handleValidateFormV3}
       >
-        <label htmlFor="picture" className="flex flex-col mb-4">
-          Votre photo
-          <input
-            type="file"
-            name="picture"
-            id="picture"
-            className="rounded-lg p-2 border border-primaryGrey"
-            onChange={handlePictureInputChange}
-            required
-          />
-        </label>
+        <div className="mb-2">
+          <label
+            htmlFor="picture"
+            className="block text-lg font-medium leading-6 text-primaryText"
+          >
+            Votre photo
+          </label>
+        </div>
+        <div className="mt-2">
+          <div className="flex bg-white rounded-md shadow-sm border">
+            <input
+              type="file"
+              name="picture"
+              id="picture"
+              className="w-full border-0 bg-transparent py-1.5 p-2 text-primaryText"
+              onChange={handlePictureInputChange}
+              required
+            />
+          </div>
+        </div>
 
-        <label htmlFor="birthDate" className="mb-4">
-          Présentez-vous en quelques lignes (max 1000 caractères)
-          <textarea
-            name="description"
-            id="description"
-            maxLength={1000}
-            placeholder="Écrivez votre description ici"
-            className="w-full rounded-lg p-2 border border-primaryGrey"
-            value={descriptionInputValue}
-            onChange={handleDescriptionInputChange}
-            required
-          />
-        </label>
+        <div className="mb-2 mt-4">
+          <label
+            htmlFor="description"
+            className="block text-lg font-medium leading-6 text-primaryText"
+          >
+            Présentez-vous en quelques lignes
+          </label>
+        </div>
+        <div className="mt-2">
+          <div className="flex bg-white rounded-md shadow-sm border">
+            <textarea
+              name="description"
+              id="description"
+              maxLength={1000}
+              placeholder="Écrivez votre description ici"
+              className="block w-full border-0 bg-transparent py-1.5 p-2 text-primaryText placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+              value={descriptionInputValue}
+              onChange={handleDescriptionInputChange}
+              required
+            />
+          </div>
+        </div>
 
         {error && (
           <div className="text-secondaryPink text-center flex justify-center mt-6">
