@@ -13,6 +13,7 @@ import editLogo from '/icon/edit.svg';
 
 import Loader from '../../standaloneComponents/Loader/Loader';
 import EditMailPassword from './Modals/EditEmailPassword';
+import EditImageModal from './Modals/EditImageModal';
 
 interface MyProfileViewRefactorProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,6 +32,9 @@ export default function MyProfileViewRefactor({
 
   // STATE 3 : error server
   const [serverError, setServerError] = useState(false);
+
+  // STATE 4 : image modal
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
@@ -130,13 +134,14 @@ export default function MyProfileViewRefactor({
         <div className="flex flex-col items-center gap-5 md:w-1/3">
           <div className="relative">
             {isEditing && (
-              <a href="#">
-                <img
-                  src={editLogo}
-                  alt="edit"
-                  className="bg-white p-1 rounded-2xl absolute top-2 left-2"
-                />
-              </a>
+              <button
+                onClick={() => {
+                  setIsImageModalOpen(true);
+                }}
+                className="bg-white p-1 rounded-2xl absolute top-2 left-2"
+              >
+                <img src={editLogo} alt="edit" className="w-6 h-6" />
+              </button>
             )}
             <img
               src={me.picture}
@@ -175,13 +180,15 @@ export default function MyProfileViewRefactor({
           <div>
             <div className="flex flex-row gap-2 items-center justify-center w-full">
               {isEditing && (
-                <a href="#" className="">
-                  <img
-                    src={editLogo}
-                    alt="edit"
-                    className="bg-white p-1 rounded-2xl"
-                  />
-                </a>
+                <button
+                  onClick={() => {
+                    // Handle your click logic here
+                    console.log('Edit button clicked');
+                  }}
+                  className="bg-white p-1 rounded-2xl"
+                >
+                  <img src={editLogo} alt="edit" className="w-6 h-6" />
+                </button>
               )}
               <h2
                 className={`text-xl ${isEditing ? 'w-1/2 my-auto' : 'w-full'} font-semibold text-secondaryPink pb-3 text-center`}
@@ -279,6 +286,14 @@ export default function MyProfileViewRefactor({
           onClick={deleteAccount}
         />
       </div>
+
+      {isImageModalOpen && (
+        <EditImageModal
+          isImageModalOpen={isImageModalOpen}
+          setIsImageModalOpen={setIsImageModalOpen}
+          user={me}
+        />
+      )}
     </div>
   );
 }
