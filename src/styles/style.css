@@ -1,0 +1,8 @@
+/* styles.css or your stylesheet */
+.modal-content {
+  @apply w-1/4 max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg;
+}
+
+.modal-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50;
+}
