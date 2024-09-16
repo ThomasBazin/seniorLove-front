@@ -15,6 +15,31 @@ export default function EditMessagesForm({
   setBadSend,
 }: EditMessage) {
   const [message, setMessage] = useState('');
+  const submitMessage = async () => {
+    const inputForm = document.getElementById('formMessage');
+    const formData = Object.fromEntries(new FormData(inputForm));
+    try {
+      await axios.post('/private/messages', {
+        message: formData.sendMessage,
+        receiver_id: receiverId,
+      });
+      send(receiverId);
+      setMessage('');
+    } catch (error) {
+      console.log(error);
+      if (error.status === 403) {
+        setBadSend(true);
+        setMessage('');
+      }
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevents the default action (form submission or new line in a textarea)
+      submitMessage();
+    }
+  };
 
   return (
     <form action="post" className="bg-transparent" id="formMessage">
@@ -27,33 +52,17 @@ export default function EditMessagesForm({
         type="text"
         name="sendMessage"
         placeholder="Ecrivez un message..."
-        className="border-y shadow-inner w-full h-15"
+        className="border-y shadow-inner w-full h-15 px-2"
         value={message}
         onChange={(e) => {
           setMessage(e.target.value);
         }}
+        onKeyDown={handleKeyPress}
       />
       <button
         type="button"
         className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
-        onClick={async () => {
-          const inputForm = document.getElementById('formMessage');
-          const formData = Object.fromEntries(new FormData(inputForm));
-          try {
-            await axios.post('/private/messages', {
-              message: formData.sendMessage,
-              receiver_id: receiverId,
-            });
-            send(receiverId);
-            setMessage('');
-          } catch (error) {
-            console.log(error);
-            if (error.status === 403) {
-              setBadSend(true);
-              setMessage('');
-            }
-          }
-        }}
+        onClick={submitMessage}
       >
         Envoyer
       </button>

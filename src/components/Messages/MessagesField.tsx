@@ -88,7 +88,7 @@ export default function MessagesField() {
 
           <div className={`${toggleDisplay ? 'hidden' : ''} md:block md:h-4/6`}>
             <div className="bg-white border flex flex-col justify-between w-full md:rounded-r-3xl md:h-screen max-md:rounded-3xl max-md:self-center">
-              <div className="w-full flex flex-col overflow-auto">
+              <div className="w-full flex flex-col overflow-y-auto">
                 {displayMessages?.messages.map((message) => {
                   // console.log(displayMessages);
                   if (displayMessages.id === message.sender_id) {
