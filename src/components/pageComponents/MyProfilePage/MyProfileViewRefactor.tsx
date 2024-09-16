@@ -304,6 +304,7 @@ export default function MyProfileViewRefactor({
         <EditImageModal
           isImageModalOpen={isImageModalOpen}
           setIsImageModalOpen={setIsImageModalOpen}
+          setEditedProfile={setEditedProfile}
           user={me}
         />
       )}

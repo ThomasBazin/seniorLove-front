@@ -1,17 +1,46 @@
 import ReactModal from 'react-modal';
 import { IUsers } from '../../../../@types/IUsers';
+import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
+import { useState } from 'react';
 
 interface EditImageModalProps {
   isImageModalOpen: boolean;
   setIsImageModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   user: IUsers;
+  setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
 }
 
 export default function EditImageModal({
   isImageModalOpen,
   setIsImageModalOpen,
   user,
+  setEditedProfile,
 }: EditImageModalProps) {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      setSelectedFile(file);
+    }
+    // Create a preview of the selected image
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewUrl(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleImageUpload = async () => {
+    if (!selectedFile) {
+      console.error('No file selected');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', selectedFile); // 'image' is the key name in Multer
+  };
   return (
     <ReactModal
       isOpen={isImageModalOpen}
@@ -49,26 +78,24 @@ export default function EditImageModal({
           <div className="flex flex-col items-center">
             <input
               type="file"
+              name="new-image"
               id="new-image"
               className="border border-gray-300 rounded-lg px-3 py-2 text-gray-700 mb-2"
+              onChange={handleFileChange}
             />
-            {/* <img
-              id="new-image-preview"
-              src="#" // Placeholder image, will be updated with the selected file
-              alt="New Image"
-              className="w-32 h-32 object-cover rounded-md border border-gray-300"
-            /> */}
-            <p className="mt-2 text-gray-600">Nouvelle image</p>
+            {previewUrl && (
+              <>
+                <p className="mt-2 text-gray-600">Nouvelle image</p>
+                <img
+                  src={previewUrl}
+                  alt="New Image Preview"
+                  className="w-32 h-32 object-cover rounded-md border border-gray-300"
+                />
+              </>
+            )}
           </div>
         </div>
-        <button
-          onClick={() => {
-            /* Handle save email logic */
-          }}
-          className="bg-primaryPink text-white px-4 py-2 rounded-lg mt-4"
-        >
-          Sauvegarder
-        </button>
+        <DefaultBtn btnText="Sauvegarder" onClick={handleImageUpload} />
       </div>
     </ReactModal>
   );
