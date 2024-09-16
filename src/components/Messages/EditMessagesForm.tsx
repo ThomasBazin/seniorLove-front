@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { AxiosError } from 'axios';
 import axios from '../../axios';
+import Error500Page from '../../pages/Error500Page';
 
 interface EditMessage {
   setBadSend: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,11 +16,20 @@ export default function EditMessagesForm({
   badSend,
   setBadSend,
 }: EditMessage) {
+  // STATE 1 : message
   const [message, setMessage] = useState('');
+
+  // STATE 2 : error server
+  const [serverError, setServerError] = useState(false);
 
   const submitMessage = async () => {
     const inputForm = document.getElementById('formMessage');
     const formData = Object.fromEntries(new FormData(inputForm));
+
+    // Check if message is not empty before sending to API
+    if (formData.sendMessage.toString().length === 0) {
+      return;
+    }
     try {
       await axios.post('/private/messages', {
         message: formData.sendMessage,
@@ -27,10 +38,12 @@ export default function EditMessagesForm({
       send(receiverId);
       setMessage('');
     } catch (err) {
-      console.log(err);
-      if (err.status === 403) {
+      console.error(err);
+      if (err instanceof AxiosError && err.response?.status === 403) {
         setBadSend(true);
         setMessage('');
+      } else {
+        setServerError(true);
       }
     }
   };
@@ -41,6 +54,10 @@ export default function EditMessagesForm({
       submitMessage();
     }
   };
+
+  if (serverError) {
+    return <Error500Page />;
+  }
 
   return (
     <form action="post" className="bg-transparent" id="formMessage">
