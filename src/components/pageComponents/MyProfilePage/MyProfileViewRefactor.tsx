@@ -82,6 +82,7 @@ export default function MyProfileViewRefactor({
       };
 
       const response = await axios.patch(`/private/users/me`, dataToSend);
+      console.log(response.data);
       setMe(response.data);
       // localStorage.setItem('name', response.data.name); // TODO: fix this with useState
       setIsEditing(false);
