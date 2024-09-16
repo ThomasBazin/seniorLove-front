@@ -51,23 +51,6 @@ export default function EditImageModal({
               type="file"
               id="new-image"
               className="border border-gray-300 rounded-lg px-3 py-2 text-gray-700 mb-2"
-              //   onChange={(e) => {
-              //     if (e.target.files && e.target.files[0]) {
-              //       // Handle file upload logic here
-              //       const file = e.target.files[0];
-              //       // Example: display a preview of the selected image
-              //       const reader = new FileReader();
-              //       reader.onload = (event) => {
-              //         const newImage = document.getElementById(
-              //           'new-image-preview'
-              //         ) as HTMLImageElement;
-              //         if (newImage) {
-              //           newImage.src = event.target?.result as string;
-              //         }
-              //       };
-              //       reader.readAsDataURL(file);
-              //     }
-              //   }}
             />
             {/* <img
               id="new-image-preview"
