@@ -1,19 +1,13 @@
 import ReactModal from 'react-modal';
-import { IUsers } from '../../@types/IUsers';
-
-// Set app element for this modal only
-ReactModal.setAppElement('#root'); // Replace '#root' with your main app element's ID
 
 interface EditPasswordModalProps {
   isPasswordModalOpen: boolean;
   setIsPasswordModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  user: IUsers;
 }
 
 export default function EditPasswordlModal({
   isPasswordModalOpen,
   setIsPasswordModalOpen,
-  user,
 }: EditPasswordModalProps) {
   return (
     <ReactModal

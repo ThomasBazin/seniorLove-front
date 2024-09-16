@@ -1,9 +1,6 @@
 import ReactModal from 'react-modal';
 import { IUsers } from '../../@types/IUsers';
 
-// Set app element for this modal only
-ReactModal.setAppElement('#root'); // Replace '#root' with your main app element's ID
-
 interface EditMailModalProps {
   isEmailModalOpen: boolean;
   setIsEmailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
