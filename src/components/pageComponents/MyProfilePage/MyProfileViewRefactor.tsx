@@ -40,6 +40,8 @@ export default function MyProfileViewRefactor({
   // STATE 5 : hobbies modal
   const [isHobbyModalOpen, setIsHobbyModalOpen] = useState(false);
 
+  const [modifiedPhotoUrl, setModifiedPhotoUrl] = useState<string | null>(null);
+
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState<Partial<IUsers>>({});
@@ -151,7 +153,7 @@ export default function MyProfileViewRefactor({
               </button>
             )}
             <img
-              src={me.picture}
+              src={modifiedPhotoUrl ? modifiedPhotoUrl : me.picture}
               alt={me.name}
               className="max-w-64 md:max-w-full rounded-md border border-secondaryPink"
             />
@@ -305,6 +307,7 @@ export default function MyProfileViewRefactor({
           isImageModalOpen={isImageModalOpen}
           setIsImageModalOpen={setIsImageModalOpen}
           setEditedProfile={setEditedProfile}
+          setModifiedPhotoUrl={setModifiedPhotoUrl}
           user={me}
         />
       )}
