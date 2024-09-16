@@ -135,6 +135,7 @@ export default function UsersProfile() {
                 btnText="Envoyer un message"
                 btnPage="profile"
                 onClick={handleMessageToggle}
+                btnMessage={isSendMessage}
               />
             </div>
             {isSendMessage ? (
@@ -179,6 +180,7 @@ export default function UsersProfile() {
                 btnText="Envoyer un message"
                 btnPage="profile"
                 onClick={handleMessageToggle}
+                btnMessage={isSendMessage}
               />
             </div>
           </div>
