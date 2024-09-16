@@ -1,24 +1,38 @@
 import { useEffect, useState } from 'react';
-import ContactsListField from './ContacstListField';
+import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 import axios from '../../axios';
+import ContactsListField from './ContacstListField';
 import EditMessagesForm from './EditMessagesForm';
 import ReceivedMessage from './ReceivedMessage';
 import SentMessage from './SentMessage';
+import Loader from '../standaloneComponents/Loader/Loader';
+import Error500Page from '../../pages/Error500Page';
+import { removeTokenFromLocalStorage } from '../../localStorage/localStorage';
 
 export default function MessagesField() {
-  // données de tous les messages
+  // STATE 1 : données de tous les messages
   const [messagesData, setMessagesData] = useState<[]>([]);
-  // données du message a afficher
+  // STATE 2 : données du message a afficher
   const [displayMessages, setDisplayMessages] = useState();
-  // status de l'envoi du message et id destinataire
+  // STATE 3 : status de l'envoi du message et id destinataire
   const [sendMessage, setSendMessage] = useState({
     sendStatus: false,
     lastReceiverId: displayMessages?.id,
   });
-  // state pour changer les classe css en fonction de la taille d'écran
+  // STATE 4 : state pour changer les classe css en fonction de la taille d'écran
   const [toggleDisplay, setToggleDisplay] = useState<boolean>();
-  // state pour indiquer que l'api renvoi une 403 (user not found  ou blocked)
+  // STATE 5 : state pour indiquer que l'api renvoi une 403 (user not found  ou blocked)
   const [badSend, setBadSend] = useState<boolean>(false);
+
+  // STATE 6 : loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // STATE 7 : error server
+  const [serverError, setServerError] = useState(false);
+
+  // Import of navigate to force redirection when forced logged out
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -35,8 +49,19 @@ export default function MessagesField() {
         } else {
           setDisplayMessages(result.data[0]);
         }
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        console.error(err);
+        if (
+          err instanceof AxiosError &&
+          (err.response?.data.blocked || err.response?.status === 401)
+        ) {
+          removeTokenFromLocalStorage();
+          navigate('/loggedout');
+        } else {
+          setServerError(true);
+        }
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchMessages();
@@ -44,7 +69,7 @@ export default function MessagesField() {
     if (window.innerWidth >= 768) {
       setToggleDisplay(true);
     }
-  }, [sendMessage]);
+  }, [navigate, sendMessage]);
 
   const handleUpdateMessages = (newMessages) => {
     setDisplayMessages(newMessages);
@@ -60,6 +85,15 @@ export default function MessagesField() {
   };
 
   const idSent = Number(displayMessages?.id);
+
+  if (serverError) {
+    return <Error500Page />;
+  }
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <>
       {!toggleDisplay && (
