@@ -20,6 +20,9 @@ export default function UsersProfile() {
   // STATE 3 : error
   const [isError, setIsError] = useState<number | null>(null);
 
+  // STATE 4 : send message
+  const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,6 +50,48 @@ export default function UsersProfile() {
     };
     fetchUserProfile();
   }, [navigate, userId]); // L'ID de l'utilisateur est utilisé comme dépendance pour relancer le fetch si nécessaire
+
+  const sendMessage = async () => {
+    // Get the message from the textarea
+    const messageField = document.getElementById(
+      'messageField'
+    ) as HTMLTextAreaElement;
+    const messageFieldMobile = document.getElementById(
+      'messageFieldMobile'
+    ) as HTMLTextAreaElement;
+
+    let message = '';
+    // Check if the message is not empty
+    if (messageField.textLength > 0) {
+      message = messageField.value;
+    } else if (messageFieldMobile.textLength > 0) {
+      message = messageFieldMobile.value;
+    } else {
+      return;
+    }
+    // Send the message to the backend
+    try {
+      await axios.post(`/private/messages`, {
+        message,
+        receiver_id: userId,
+      });
+      console.log(userId);
+      console.log('Message sent');
+      setIsSendMessage(false);
+      // navigate('/messages');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // Toggle the message textarea
+  const handleMessageToggle = () => {
+    if (isSendMessage) {
+      sendMessage();
+    } else {
+      setIsSendMessage(true);
+    }
+  };
 
   if (isError === 404) {
     return <Navigate to="/error" />;
@@ -86,8 +131,22 @@ export default function UsersProfile() {
               , {profile.age} ans
             </div>
             <div className="pt-4">
-              <DefaultBtn btnText="Envoyer un message" btnPage="profile" />
+              <DefaultBtn
+                btnText="Envoyer un message"
+                btnPage="profile"
+                onClick={handleMessageToggle}
+              />
             </div>
+            {isSendMessage ? (
+              <textarea
+                rows={3}
+                cols={40}
+                name="messageField"
+                id="messageFieldMobile"
+                placeholder="Écrire votre message ici"
+                className="p-2 my-2 font-normal"
+              />
+            ) : null}
           </div>
           <div>
             <h2 className="text-xl text-center font-semibold text-secondaryPink pb-3">
@@ -116,9 +175,22 @@ export default function UsersProfile() {
               , {profile.age} ans
             </div>
             <div className="flex gap-3">
-              <DefaultBtn btnText="Envoyer un message" btnPage="profile" />
+              <DefaultBtn
+                btnText="Envoyer un message"
+                btnPage="profile"
+                onClick={handleMessageToggle}
+              />
             </div>
           </div>
+          {isSendMessage ? (
+            <textarea
+              rows={3}
+              name="messageField"
+              id="messageField"
+              placeholder="Écrire votre message ici"
+              className="p-2 my-2 hidden md:block"
+            />
+          ) : null}
           <div>
             <h3 className="text-xl text-secondaryPink text-center font-semibold pb-3 md:text-black md:text-left ">
               A propos de moi :
