@@ -34,12 +34,12 @@ export default function EditMailPassword({ user }: EditEmailPasswordProps) {
           user={user}
         />
       )}
-      {/* {isPasswordModalOpen && (
+      {isPasswordModalOpen && (
         <EditPasswordModal
           isPasswordModalOpen={isPasswordModalOpen}
           setIsPasswordModalOpen={setIsPasswordModalOpen}
         />
-      )} */}
+      )}
     </div>
   );
 }
