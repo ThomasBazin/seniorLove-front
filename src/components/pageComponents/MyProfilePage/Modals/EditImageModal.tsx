@@ -1,7 +1,7 @@
 import ReactModal from 'react-modal';
 import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface EditImageModalProps {
   isImageModalOpen: boolean;
@@ -18,6 +18,8 @@ export default function EditImageModal({
 }: EditImageModalProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -29,7 +31,9 @@ export default function EditImageModal({
     reader.onloadend = () => {
       setPreviewUrl(reader.result as string);
     };
-    reader.readAsDataURL(file);
+    if (file) {
+      reader.readAsDataURL(file as Blob);
+    }
   };
 
   const handleImageUpload = async () => {
@@ -38,9 +42,42 @@ export default function EditImageModal({
       return;
     }
 
+    setLoading(true);
+    setError(null);
+
     const formData = new FormData();
-    formData.append('image', selectedFile); // 'image' is the key name in Multer
+    formData.append('new-image', selectedFile);
+
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/private/users/${user.id}/uploadPhoto`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: formData,
+        }
+      );
+
+      const result = await response.json();
+      if (response.ok) {
+        setEditedProfile((prev) => ({ ...prev, picture: result.pictureUrl }));
+        setIsImageModalOpen(false); // Close modal after success
+      } else {
+        setError(result.error || 'Image upload failed');
+      }
+    } catch (error) {
+      setError('Error uploading image');
+      console.error('Error uploading image:', error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  // useEffect(() => {
+  //   console.log(selectedFile);
+  // }, [selectedFile]);
   return (
     <ReactModal
       isOpen={isImageModalOpen}
