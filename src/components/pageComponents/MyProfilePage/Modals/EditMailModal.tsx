@@ -1,16 +1,19 @@
 import ReactModal from 'react-modal';
 import { IUsers } from '../../../../@types/IUsers';
+import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 
 interface EditMailModalProps {
   isEmailModalOpen: boolean;
   setIsEmailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   user: IUsers;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function EditMailModal({
   isEmailModalOpen,
   setIsEmailModalOpen,
   user,
+  handleInputChange,
 }: EditMailModalProps) {
   return (
     <ReactModal
@@ -40,13 +43,7 @@ export default function EditMailModal({
           <label htmlFor="old-email" className="font-medium text-secondaryPink">
             Ancienne adresse e-mail
           </label>
-          <input
-            type="email"
-            name="old-email"
-            id="old-email"
-            placeholder={user.email}
-            className="border border-gray-300 rounded-lg px-3 py-2 text-gray-700"
-          />
+          <p className="text-gray-700">{user.email}</p>
         </div>
         <div className="flex flex-col gap-3">
           <label htmlFor="new-email" className="font-medium text-secondaryPink">
@@ -54,20 +51,17 @@ export default function EditMailModal({
           </label>
           <input
             type="email"
-            name="new-email"
+            name="email"
             id="new-email"
+            onChange={handleInputChange}
             placeholder="Entrez la nouvelle adresse e-mail"
             className="border border-gray-300 rounded-lg px-3 py-2 text-gray-700"
           />
         </div>
-        <button
-          onClick={() => {
-            /* Handle save email logic */
-          }}
-          className="bg-primaryPink text-white px-4 py-2 rounded-lg mt-4"
-        >
-          Sauvegarder
-        </button>
+        <DefaultBtn
+          btnText='Sauvegarder'
+          onClick={() => setIsEmailModalOpen(false)}
+        />
       </div>
     </ReactModal>
   );

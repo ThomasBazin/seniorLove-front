@@ -174,7 +174,7 @@ export default function MyProfileViewRefactor({
             {/* Edit button */}
             <div className="pt-4">
               <DefaultBtn
-                btnText={isEditing ? 'Sauvegarder' : 'Editer mon profil'}
+                btnText={isEditing ? 'Sauvegarder' : 'Éditer mon profil'}
                 btnPage="profile"
                 onClick={handleEditToggle}
               />
@@ -259,7 +259,10 @@ export default function MyProfileViewRefactor({
               <p className="text-primaryText text-justify">{me.description}</p>
             )}
           </div>
-          {isEditing && <EditMailPassword user={me} />}
+          {isEditing && (
+            <EditMailPassword user={me} handleInputChange={handleInputChange} />
+          )}
+
           {/* Events */}
           <div className="pt-8">
             <h3 className="text-xl text-secondaryPink text-center font-semibold md:text-black pb-3">
