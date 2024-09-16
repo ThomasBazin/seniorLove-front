@@ -140,7 +140,7 @@ export default function UsersProfile() {
                 ))}
               </div>
             ) : (
-              <p className="text-center font-semibold py-6">
+              <p className="text-center py-6">
                 Je ne suis actuellement enregistré à aucun futur événement.
               </p>
             )}

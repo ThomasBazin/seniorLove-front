@@ -235,7 +235,7 @@ export default function MyProfileViewRefactor({
                 ))}
               </div>
             ) : (
-              <p className="text-center font-semibold pt-6">
+              <p className="text-center pt-6">
                 Je ne suis actuellement enregistré à aucun futur événement.
               </p>
             )}
