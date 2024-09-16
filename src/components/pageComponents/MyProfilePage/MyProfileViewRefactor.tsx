@@ -9,8 +9,10 @@ import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
 import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
 import Error500Page from '../../../pages/Error500Page';
+import editLogo from '/icon/edit.svg';
 
 import Loader from '../../standaloneComponents/Loader/Loader';
+import EditButton from '../../standaloneComponents/EditButton/EditButton';
 
 interface MyProfileViewRefactorProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -127,11 +129,22 @@ export default function MyProfileViewRefactor({
       <div className="flex flex-col pt-8 px-8 max-w-7xl w-full gap-10 md:flex-row">
         {/* Aside in desktop view */}
         <div className="flex flex-col items-center gap-5 md:w-1/3">
-          <img
-            src={me.picture}
-            alt={me.name}
-            className="max-w-64 md:max-w-full rounded-md border border-secondaryPink"
-          />
+          <div className="relative">
+            {isEditing && (
+              <a href="#">
+                <img
+                  src={editLogo}
+                  alt="edit"
+                  className="bg-white p-1 rounded-2xl absolute top-2 left-2"
+                />
+              </a>
+            )}
+            <img
+              src={me.picture}
+              alt={me.name}
+              className="max-w-64 md:max-w-full rounded-md border border-secondaryPink"
+            />
+          </div>
           <div className="font-semibold flex flex-col text-center justify-between md:hidden">
             {/* Name & Age */}
             <div>
@@ -161,9 +174,23 @@ export default function MyProfileViewRefactor({
           </div>
           {/* Hobbies */}
           <div>
-            <h2 className="text-xl text-center font-semibold text-secondaryPink pb-3">
-              Mes Centres d&apos;intérêt
-            </h2>
+            <div className="flex flex-row gap-2 items-center justify-center w-full">
+              {isEditing && (
+                <a href="#" className="">
+                  <img
+                    src={editLogo}
+                    alt="edit"
+                    className="bg-white p-1 rounded-2xl"
+                  />
+                </a>
+              )}
+              <h2
+                className={`text-xl ${isEditing ? 'w-1/2 my-auto' : 'w-full'} font-semibold text-secondaryPink pb-3 text-center`}
+              >
+                Mes Centres d&apos;intérêt
+              </h2>
+            </div>
+
             <div className="flex flex-wrap justify-around gap-2">
               {me.hobbies.map((hobby) => (
                 <span
@@ -242,6 +269,7 @@ export default function MyProfileViewRefactor({
           </div>
         </div>
       </div>
+
       {/* Delete */}
       <div className="pb-8 pt-32 md:pt-16 relative top-0">
         <DefaultBtn
