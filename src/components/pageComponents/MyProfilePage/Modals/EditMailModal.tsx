@@ -1,5 +1,5 @@
 import ReactModal from 'react-modal';
-import { IUsers } from '../../@types/IUsers';
+import { IUsers } from '../../../../@types/IUsers';
 
 interface EditMailModalProps {
   isEmailModalOpen: boolean;

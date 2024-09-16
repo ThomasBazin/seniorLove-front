@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IUsers } from '../../@types/IUsers';
+import { IUsers } from '../../../../@types/IUsers';
 import EditMailModal from './EditMailModal';
 import EditPasswordModal from './EditPasswordModal'; // Import the password modal
 
@@ -15,13 +15,13 @@ export default function EditMailPassword({ user }: EditEmailPasswordProps) {
     <div className="flex flex-col gap-6">
       <button
         onClick={() => setIsEmailModalOpen(true)}
-        className="text-secondaryPink text-start px-4 py-2 rounded-lg"
+        className="text-secondaryPink text-center md:text-start px-4 py-2 rounded-lg"
       >
         Modifier l'adresse e-mail
       </button>
       <button
         onClick={() => setIsPasswordModalOpen(true)}
-        className="text-secondaryPink text-start px-4 py-2 rounded-lg"
+        className="text-secondaryPink text-center md:text-start px-4 py-2 rounded-lg"
       >
         Modifier le mot de passe
       </button>

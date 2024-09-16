@@ -12,7 +12,7 @@ import Error500Page from '../../../pages/Error500Page';
 import editLogo from '/icon/edit.svg';
 
 import Loader from '../../standaloneComponents/Loader/Loader';
-import EditMailPassword from '../../standaloneComponents/EditEmailPassword';
+import EditMailPassword from './Modals/EditEmailPassword';
 
 interface MyProfileViewRefactorProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;

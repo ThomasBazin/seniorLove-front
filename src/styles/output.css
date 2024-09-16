@@ -2119,6 +2119,10 @@ body {
     text-align: left;
   }
 
+  .md\:text-start {
+    text-align: start;
+  }
+
   .md\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
