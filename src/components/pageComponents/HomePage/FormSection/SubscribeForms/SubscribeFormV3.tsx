@@ -27,10 +27,6 @@ export default function SubscribeFormV3({
   // STATE 3 : error
   const [error, setError] = useState<string | null>(null);
 
-  // const handlePictureInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPictureInputValue(e.currentTarget.value);
-  // };
-
   // Handle picture input change
   const handlePictureInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -71,26 +67,9 @@ export default function SubscribeFormV3({
 
       setError(null);
       setIsForm3Validated(true); // Mark step 3 as validated
-    } catch (error) {
+    } catch (err) {
       setError('Une erreur est survenue lors de la soumission du formulaire.');
     }
-
-    // const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
-    // const { picture, description } = rawFormData;
-
-    // if (!picture) {
-    //   setError("Veuillez indiquer l'URL de votre photo !");
-    // } else if (!description) {
-    //   setError('Merci de renseigner votre description !');
-    // } else {
-    //   const formV3Infos = {
-    //     picture,
-    //     description,
-    //   };
-    //   setError(null);
-    //   fillFormInfos(formV3Infos);
-    //   setIsForm3Validated(true);
-    // }
   };
 
   useEffect(() => {

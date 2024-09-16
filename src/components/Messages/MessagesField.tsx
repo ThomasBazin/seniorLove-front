@@ -4,19 +4,20 @@ import axios from '../../axios';
 import EditMessagesForm from './EditMessagesForm';
 import ReceivedMessage from './ReceivedMessage';
 import SentMessage from './SentMessage';
+import { IContacts } from '../../@types/IContacts';
 
 export default function MessagesField() {
   // données de tous les messages
-  const [messagesData, setMessagesData] = useState<[]>([]);
+  const [messagesData, setMessagesData] = useState<IContacts[]>([]);
   // données du message a afficher
-  const [displayMessages, setDisplayMessages] = useState();
+  const [displayMessages, setDisplayMessages] = useState<IContacts>();
   // status de l'envoi du message et id destinataire
   const [sendMessage, setSendMessage] = useState({
     sendStatus: false,
     lastReceiverId: displayMessages?.id,
   });
   // state pour changer les classe css en fonction de la taille d'écran
-  const [toggleDisplay, setToggleDisplay] = useState<boolean>();
+  const [toggleDisplay, setToggleDisplay] = useState<boolean>(false);
   // state pour indiquer que l'api renvoi une 403 (user not found  ou blocked)
   const [badSend, setBadSend] = useState<boolean>(false);
 
@@ -29,7 +30,7 @@ export default function MessagesField() {
         if (sendMessage.lastReceiverId) {
           setDisplayMessages(
             result.data.find(
-              (data: object) => data.id === sendMessage.lastReceiverId
+              (data: IContacts) => data.id === sendMessage.lastReceiverId
             )
           );
         } else {
@@ -46,7 +47,7 @@ export default function MessagesField() {
     }
   }, [sendMessage]);
 
-  const handleUpdateMessages = (newMessages) => {
+  const handleUpdateMessages = (newMessages: IContacts) => {
     setDisplayMessages(newMessages);
   };
 
@@ -74,7 +75,7 @@ export default function MessagesField() {
 
       {messagesData.length === 0 ? (
         <p className="text-center font-semibold pt-6">
-          Vous n'avez pas de messages !
+          Vous n&aposavez pas de messages !
         </p>
       ) : (
         <div className="md:flex mt-6 max-md:flex-col md:h-svh">
@@ -90,7 +91,6 @@ export default function MessagesField() {
             <div className="bg-white border flex flex-col justify-between w-full md:rounded-r-3xl md:h-screen max-md:rounded-3xl max-md:self-center">
               <div className="w-full flex flex-col overflow-auto">
                 {displayMessages?.messages.map((message) => {
-                  // console.log(displayMessages);
                   if (displayMessages.id === message.sender_id) {
                     return (
                       <ReceivedMessage

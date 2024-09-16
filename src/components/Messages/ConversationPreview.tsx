@@ -1,11 +1,8 @@
+import { IContacts } from '../../@types/IContacts';
+
 interface ContactInterface {
-  selectedContact: (message: object) => void;
-  contact: {
-    id: number;
-    name: string;
-    picture: string;
-    messages: [];
-  };
+  selectedContact: (newMessages: IContacts) => void;
+  contact: IContacts;
   setBadSend: React.Dispatch<React.SetStateAction<boolean>>;
   onSelect: () => void;
   isSelected: boolean;
@@ -22,8 +19,6 @@ export default function ConversationPreview({
 }: ContactInterface) {
   const lastMessage = contact.messages[contact.messages.length - 1];
   const { message }: { message: string } = lastMessage;
-
-  //  ${isSelected ? 'shadow-pink' : ''}
 
   return (
     <button

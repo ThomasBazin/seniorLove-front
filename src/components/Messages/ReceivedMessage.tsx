@@ -1,6 +1,16 @@
 import { Link } from 'react-router-dom';
 
-export default function ReceivedMessage({ receiveMessage, picture, userId }) {
+interface ReceiveInterface {
+  receiveMessage: string;
+  picture: string;
+  userId: number;
+}
+
+export default function ReceivedMessage({
+  receiveMessage,
+  picture,
+  userId,
+}: ReceiveInterface) {
   return (
     <Link to={`/profiles/${userId}`}>
       <div className="m-4 flex gap-2 justify-start w-2/3 mr-2 self-start">

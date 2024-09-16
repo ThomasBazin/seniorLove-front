@@ -4,7 +4,7 @@ import axios from '../../axios';
 interface EditMessage {
   setBadSend: React.Dispatch<React.SetStateAction<boolean>>;
   badSend: boolean;
-  send: (id: any) => void;
+  send: (id: number) => void;
   receiverId: number;
 }
 
@@ -20,7 +20,7 @@ export default function EditMessagesForm({
     <form action="post" className="bg-transparent" id="formMessage">
       {badSend && (
         <p className="text-red-500 text-xs text-center">
-          Ce contact n'est plus disponible pour recevoir des messages.
+          Ce contact n&aposest plus disponible pour recevoir des messages.
         </p>
       )}
       <input
@@ -37,7 +37,9 @@ export default function EditMessagesForm({
         type="button"
         className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
         onClick={async () => {
-          const inputForm = document.getElementById('formMessage');
+          const inputForm = document.getElementById(
+            'formMessage'
+          ) as HTMLFormElement;
           const formData = Object.fromEntries(new FormData(inputForm));
           try {
             await axios.post('/private/messages', {
