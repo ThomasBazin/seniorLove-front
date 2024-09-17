@@ -238,14 +238,6 @@ export default function MyProfileViewRefactor({
             {/* Title */}
             <div className="flex flex-row gap-2 items-center justify-center w-full">
               {isEditing ? (
-                //   <button
-                //   onClick={() => {
-                //     setIsImageModalOpen(true);
-                //   }}
-                //   className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
-                // >
-                //   <img src={editLogo} alt="edit" className="w-6 h-6" />
-                // </button>
                 <button
                   onClick={() => {
                     setIsHobbyModalOpen(true);
