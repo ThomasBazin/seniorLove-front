@@ -1,8 +1,9 @@
 import ReactModal from 'react-modal';
-import { IUsers } from '../../../../@types/IUsers';
 import { useEffect, useState } from 'react';
+import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 import { IHobby } from '../../../../@types/IHobby';
+import Loader from '../../../standaloneComponents/Loader/Loader';
 
 interface EditHobbyModalProps {
   isHobbyModalOpen: boolean;
@@ -19,17 +20,10 @@ export default function EditHobbyModal({
 }: EditHobbyModalProps) {
   const [hobbies, setHobbies] = useState<IHobby[]>([]);
   const [selectedHobbies, setSelectedHobbies] = useState<number[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (isHobbyModalOpen) {
-      fetchHobbies();
-    }
-  }, [isHobbyModalOpen]);
-
   const fetchHobbies = async () => {
-    setLoading(true);
     setError(null);
 
     try {
@@ -41,11 +35,11 @@ export default function EditHobbyModal({
       } else {
         throw new Error('Failed to fetch hobbies');
       }
-    } catch (error) {
+    } catch (err) {
       setError('Error updating hobbies');
       console.error('Error updating hobbies:', error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -58,7 +52,7 @@ export default function EditHobbyModal({
   };
 
   const handleSave = async () => {
-    setLoading(true);
+    setIsLoading(true);
     setError(null);
     setEditedProfile((prev) => ({
       ...prev,
@@ -66,6 +60,12 @@ export default function EditHobbyModal({
     }));
     setIsHobbyModalOpen(false);
   };
+  useEffect(() => {
+    if (isHobbyModalOpen) {
+      fetchHobbies();
+    }
+  }, [isHobbyModalOpen]);
+
   return (
     <ReactModal
       isOpen={isHobbyModalOpen}
@@ -89,21 +89,27 @@ export default function EditHobbyModal({
       <h3 className="text-xl font-semibold text-secondaryPink mb-4">
         Modifiez vos centres d’intérêt
       </h3>
-      <div className="flex flex-col gap-3">
-        {hobbies.map((hobby) => (
-          <div key={hobby.id} className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id={`hobby-${hobby.id}`}
-              checked={selectedHobbies.includes(hobby.id)}
-              onChange={() => handleCheckboxChange(hobby.id)}
-              className="form-checkbox h-5 w-5 text-primaryPink"
-            />
-            <label htmlFor={`hobby-${hobby.id}`} className="text-gray-700">
-              {hobby.name}
-            </label>
-          </div>
-        ))}
+      <div className="flex flex-col gap-3 overflow-y-scroll">
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            {hobbies.map((hobby) => (
+              <div key={hobby.id} className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id={`hobby-${hobby.id}`}
+                  checked={selectedHobbies.includes(hobby.id)}
+                  onChange={() => handleCheckboxChange(hobby.id)}
+                  className="form-checkbox h-5 w-5 text-primaryPink"
+                />
+                <label htmlFor={`hobby-${hobby.id}`} className="text-gray-700">
+                  {hobby.name}
+                </label>
+              </div>
+            ))}
+          </>
+        )}
       </div>
       <div className="flex flex-col gap-4 mt-4">
         <DefaultBtn btnText="Valider" onClick={handleSave} />

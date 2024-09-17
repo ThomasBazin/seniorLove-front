@@ -41,24 +41,35 @@ export default function ConfirmDeleteModal({
             Cette action est irréversible.
           </span>
         </p>
-        <div className="mt-4">
-          <button
+        <div className="mt-4 flex gap-2">
+          <DefaultBtn
+            btnText="Oui, supprimer"
+            onClick={handleConfirmDelete}
+            btnDelete
+            btnModalDelete
+          />
+          {/* <button
             className="bg-buttonGreen hover:bg-red-500 text-black font-bold py-2 px-4 rounded mr-2"
             onClick={handleConfirmDelete}
             type="button"
           >
             Oui, supprimer
-          </button>
-          <button
+          </button> */}
+          <DefaultBtn
+            btnText="Annuler"
+            onClick={handleCancelDelete}
+            btnModalDelete
+          />
+          {/* <button
             className="bg-secondaryPink hover:bg-gray-500 text-white font-bold py-2 px-4 rounded"
             onClick={handleCancelDelete}
             type="button"
           >
             Annuler
-          </button>
+          </button> */}
         </div>
       </div>
-      <div className="flex flex-col gap-4 mt-4"></div>
+      <div className="flex flex-col gap-4 mt-4" />
     </ReactModal>
   );
 }

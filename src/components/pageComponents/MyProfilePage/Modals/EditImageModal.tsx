@@ -1,7 +1,7 @@
 import ReactModal from 'react-modal';
+import { useState } from 'react';
 import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
-import { useState } from 'react';
 import { updateDataInLocalStorage } from '../../../../localStorage/localStorage';
 
 interface EditImageModalProps {
@@ -21,13 +21,8 @@ export default function EditImageModal({
 }: EditImageModalProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const validateImage = async () => {
-    handleImageUpload();
-    setIsImageModalOpen(false);
-  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -51,7 +46,6 @@ export default function EditImageModal({
       return;
     }
 
-    setLoading(true);
     setError(null);
 
     const formData = new FormData();
@@ -79,12 +73,17 @@ export default function EditImageModal({
       } else {
         setError(result.error || 'Image upload failed');
       }
-    } catch (error) {
+    } catch (err) {
       setError('Error uploading image');
       console.error('Error uploading image:', error);
     } finally {
-      setLoading(false);
+      // setIsLoading(false);
     }
+  };
+
+  const validateImage = async () => {
+    handleImageUpload();
+    setIsImageModalOpen(false);
   };
 
   return (
@@ -115,7 +114,7 @@ export default function EditImageModal({
           <div className="flex flex-col items-center">
             <img
               src={user.picture} // Replace with actual image path
-              alt="Old Image"
+              alt={user.name}
               className="w-1/2 object-cover rounded-md border border-gray-300"
             />
             <p className="mt-2 text-gray-600">Ancienne image</p>
@@ -134,7 +133,7 @@ export default function EditImageModal({
                 <p className="mt-2 text-gray-600">Nouvelle image</p>
                 <img
                   src={previewUrl}
-                  alt="New Image Preview"
+                  alt={user.name}
                   className="w-1/2 object-cover rounded-md shadow border border-gray-300"
                 />
               </>

@@ -1,7 +1,7 @@
 import ReactModal from 'react-modal';
+import { useState } from 'react';
 import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
-import { useState } from 'react';
 
 interface EditMailModalProps {
   isEmailModalOpen: boolean;

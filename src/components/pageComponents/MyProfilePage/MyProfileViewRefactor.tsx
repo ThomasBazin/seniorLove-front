@@ -3,10 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import { IUsers } from '../../../@types/IUsers';
-import {
-  removeTokenFromLocalStorage,
-  updateDataInLocalStorage,
-} from '../../../localStorage/localStorage';
+import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
 
 import axios from '../../../axios';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
@@ -18,6 +15,8 @@ import EditMailPassword from './Modals/EditEmailPassword';
 import EditImageModal from './Modals/EditImageModal';
 import EditHobbyModal from './Modals/EditHobbyModal';
 import ConfirmDeleteModal from './Modals/ConfirmDeleteModal';
+import EditNameModal from './Modals/EditNameModal';
+import EditAboutModal from './Modals/EditAboutModal';
 
 interface MyProfileViewRefactorProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -47,17 +46,22 @@ export default function MyProfileViewRefactor({
   // STATE 5 : hobbies modal
   const [isHobbyModalOpen, setIsHobbyModalOpen] = useState(false);
 
-  // STATE 6 : modified photo URL
+  // STATE 6 : name modal
+  const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+  const [NewName, setNewName] = useState('');
+
+  // STATE 7 : about modal
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [NewAbout, setNewAbout] = useState('');
+
+  // STATE 8 : modified photo URL
   const [modifiedPhotoUrl, setModifiedPhotoUrl] = useState<string | null>(null);
 
-  // STATE 7 : editing mode
+  // STATE 9 : editing mode
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  // STATE 8 : edited profile
+  // STATE 10 : edited profile
   const [editedProfile, setEditedProfile] = useState<Partial<IUsers>>({});
-
-  // STATE 9 : show modal
-  const [showModal, setShowModal] = useState<boolean>(false);
 
   // Test modal for confirm delete
   const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] =
@@ -71,6 +75,8 @@ export default function MyProfileViewRefactor({
         const response = await axios.get(`/private/users/me`);
         setMe(response.data);
         setEditedProfile(response.data);
+        setNewName(me?.name || '');
+        setNewAbout(me?.description || '');
       } catch (e) {
         console.error(e);
         if (
@@ -87,7 +93,7 @@ export default function MyProfileViewRefactor({
       }
     };
     fetchConnectedUser();
-  }, [myId, navigate]);
+  }, [myId, navigate, me?.name, me?.description]);
 
   // Delete account function
   const deleteAccount = async () => {
@@ -110,13 +116,11 @@ export default function MyProfileViewRefactor({
 
   const handleConfirmDelete = () => {
     // Confirmation de la suppression
-    setShowModal(false);
     deleteAccount();
   };
 
   const handleCancelDelete = () => {
     // Annulation de la suppression
-    setShowModal(false);
     setIsConfirmDeleteModalOpen(false);
   };
 
@@ -156,16 +160,10 @@ export default function MyProfileViewRefactor({
       setEditedProfile(me || {});
     }
   };
-
-  // Handle input change function
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    if (name === 'name') {
-      updateDataInLocalStorage(editedProfile.picture || '', value);
-    }
-    setEditedProfile((prev) => ({ ...prev, [name]: value }));
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setNewName(me?.name || '');
+    setNewAbout(me?.description || '');
   };
 
   if (serverError) {
@@ -193,6 +191,7 @@ export default function MyProfileViewRefactor({
           <div className="relative">
             {isEditing && (
               <button
+                type="button"
                 onClick={() => {
                   setIsImageModalOpen(true);
                 }}
@@ -202,7 +201,7 @@ export default function MyProfileViewRefactor({
               </button>
             )}
             <img
-              src={modifiedPhotoUrl ? modifiedPhotoUrl : me.picture}
+              src={modifiedPhotoUrl || me.picture}
               alt={me.name}
               className="max-w-64 md:max-w-full rounded-md border border-secondaryPink"
             />
@@ -211,28 +210,44 @@ export default function MyProfileViewRefactor({
           <div className="font-semibold flex flex-col text-center justify-between md:hidden">
             {/* Name & Age */}
             <div>
-              <span className="text-3xl text-secondaryPink">
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name="name"
-                    value={editedProfile.name || ''}
-                    onChange={handleInputChange}
-                    className="text-black text-center px-2 py-1 rounded"
-                  />
-                ) : (
-                  me.name
-                )}
-              </span>
-              , {me.age} ans
+              {isEditing ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsNameModalOpen(true);
+                  }}
+                  className="p-1 rounded-2xl"
+                >
+                  <div className="flex gap-2 items-center">
+                    <img src={editLogo} alt="edit" className="w-6 h-6" />
+                    <span className="text-3xl text-secondaryPink hover:text-secondaryPinkHover">
+                      {NewName}
+                    </span>
+                  </div>
+                </button>
+              ) : (
+                <div>
+                  <span className="text-3xl text-secondaryPink">{me.name}</span>
+                  , {me.age} ans
+                </div>
+              )}
             </div>
             {/* Edit button */}
-            <div className="pt-4">
+            <div className="flex pt-4 gap-3">
               <DefaultBtn
                 btnText={isEditing ? 'Sauvegarder' : 'Éditer mon profil'}
                 btnPage="profile"
+                btnEdit={isEditing}
                 onClick={handleEditToggle}
               />
+              {isEditing && (
+                <DefaultBtn
+                  btnText="Annuler"
+                  btnPage="profile"
+                  btnEdit={!isEditing}
+                  onClick={handleCancelEdit}
+                />
+              )}
             </div>
           </div>
           {/* Hobbies */}
@@ -240,20 +255,14 @@ export default function MyProfileViewRefactor({
             {/* Title */}
             <div className="flex flex-row gap-2 items-center justify-center w-full">
               {isEditing ? (
-                //   <button
-                //   onClick={() => {
-                //     setIsImageModalOpen(true);
-                //   }}
-                //   className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
-                // >
-                //   <img src={editLogo} alt="edit" className="w-6 h-6" />
-                // </button>
                 <button
+                  type="button"
                   onClick={() => {
                     setIsHobbyModalOpen(true);
                   }}
                 >
-                  <h2 className="text-xl w-full font-semibold text-secondaryPink pb-3 text-center">
+                  <h2 className="text-xl w-full flex gap-2 font-semibold text-secondaryPink hover:text-secondaryPinkHover pb-3 text-center">
+                    <img src={editLogo} alt="edit" className="w-6 h-6" />{' '}
                     Modifiez vos centres d&apos;intérêt
                   </h2>
                 </button>
@@ -282,45 +291,75 @@ export default function MyProfileViewRefactor({
           <div className="hidden font-semibold md:flex text-center justify-between">
             {/* Name & Age */}
             <div>
-              <span className="text-3xl text-secondaryPink">
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name="name"
-                    value={editedProfile.name || ''}
-                    onChange={handleInputChange}
-                    className="text-black px-2 py-1 rounded max-w-64"
-                  />
-                ) : (
-                  me.name
-                )}
-              </span>
-              , {me.age} ans
+              {isEditing ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsNameModalOpen(true);
+                  }}
+                  className="p-1 rounded-2xl"
+                >
+                  <div className="flex gap-2 items-center">
+                    <img src={editLogo} alt="edit" className="w-6 h-6" />
+                    <span className="text-3xl text-secondaryPink hover:text-secondaryPinkHover">
+                      {NewName}
+                    </span>
+                  </div>
+                </button>
+              ) : (
+                <div>
+                  <span className="text-3xl text-secondaryPink">{me.name}</span>
+                  , {me.age} ans
+                </div>
+              )}
             </div>
-            {/* Edit button */}
-            <div className="flex gap-3">
+            {/* Edit button desktop */}
+            <div className="flex gap-3 items-center">
               <DefaultBtn
                 btnText={isEditing ? 'Sauvegarder' : 'Editer mon profil'}
                 btnPage="profile"
+                btnEdit={isEditing}
                 onClick={handleEditToggle}
               />
+              {isEditing && (
+                <DefaultBtn
+                  btnText="Annuler"
+                  btnPage="profile"
+                  btnEdit={!isEditing}
+                  onClick={handleCancelEdit}
+                />
+              )}
             </div>
           </div>
           {/* Description */}
           <div>
-            <h3 className="text-xl text-secondaryPink text-center font-semibold pb-3 md:text-left ">
-              A propos de moi :
-            </h3>
             {isEditing ? (
-              <textarea
-                name="description"
-                value={editedProfile.description || ''}
-                onChange={handleInputChange}
-                className="text-black w-full px-2 py-1 rounded"
-                rows={4}
-              />
+              <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsAboutModalOpen(true);
+                  }}
+                  className="p-1 rounded-2xl"
+                >
+                  <div className="flex gap-2 justify-center md:text-left">
+                    <img src={editLogo} alt="edit" className="w-6 h-6" />
+                    <h3 className="text-xl text-secondaryPink hover:text-secondaryPinkHover text-center font-semibold pb-3 md:text-left ">
+                      A propos de moi :
+                    </h3>
+                  </div>
+                </button>
+                <p className="text-primaryText text-justify">{NewAbout}</p>
+              </>
             ) : (
-              <p className="text-primaryText text-justify">{me.description}</p>
+              <>
+                <h3 className="text-xl text-secondaryPink text-center font-semibold pb-3 md:text-left ">
+                  A propos de moi :
+                </h3>
+                <p className="text-primaryText text-justify">
+                  {me.description}
+                </p>
+              </>
             )}
           </div>
 
@@ -349,11 +388,11 @@ export default function MyProfileViewRefactor({
       </div>
 
       {/* Delete */}
-      <div className="pb-8 pt-32 md:pt-16 relative top-0">
+      <div className="pb-8 pt-32 md:pt-16">
         <DefaultBtn
           btnText="Supprimer mon compte"
           btnPage="profile"
-          btnDelete="true"
+          btnDelete
           onClick={handleDeleteClick}
         />
       </div>
@@ -365,6 +404,26 @@ export default function MyProfileViewRefactor({
           setEditedProfile={setEditedProfile}
           setModifiedPhotoUrl={setModifiedPhotoUrl}
           user={me}
+        />
+      )}
+      {isNameModalOpen && (
+        <EditNameModal
+          isNameModalOpen={isNameModalOpen}
+          setIsNameModalOpen={setIsNameModalOpen}
+          user={me}
+          setEditedProfile={setEditedProfile}
+          isNewName={NewName}
+          setNewName={setNewName}
+        />
+      )}
+      {isAboutModalOpen && (
+        <EditAboutModal
+          isAboutModalOpen={isAboutModalOpen}
+          setIsAboutModalOpen={setIsAboutModalOpen}
+          user={me}
+          setEditedProfile={setEditedProfile}
+          isNewAbout={NewAbout}
+          setNewAbout={setNewAbout}
         />
       )}
       {isHobbyModalOpen && (
@@ -383,34 +442,6 @@ export default function MyProfileViewRefactor({
           handleCancelDelete={handleCancelDelete}
         />
       )}
-      {/* Modale de confirmation */}
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <p>
-              Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est
-              irréversible.
-            </p>
-            <div className="mt-4">
-              <button
-                className="bg-buttonGreen hover:bg-red-500 text-black font-bold py-2 px-4 rounded mr-2"
-                onClick={handleConfirmDelete}
-                type="button"
-              >
-                Oui, supprimer
-              </button>
-              <button
-                className="bg-secondaryPink hover:bg-gray-500 text-white font-bold py-2 px-4 rounded"
-                onClick={handleCancelDelete}
-                type="button"
-              >
-                Annuler
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      {/* Message d'erreur serveur */}
       {serverError && (
         <p className="text-red-600 mt-4">
           Une erreur est survenue lors de la suppression du compte.

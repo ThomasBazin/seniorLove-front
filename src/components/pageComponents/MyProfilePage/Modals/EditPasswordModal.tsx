@@ -1,13 +1,12 @@
 import ReactModal from 'react-modal';
-import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 import { useState } from 'react';
+import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 import { IUsers } from '../../../../@types/IUsers';
 
 interface EditPasswordModalProps {
   isPasswordModalOpen: boolean;
   setIsPasswordModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
-  user: IUsers;
 }
 
 export default function EditPasswordlModal({
@@ -21,25 +20,21 @@ export default function EditPasswordlModal({
   const [errorMessage, setErrorMessage] = useState('');
 
   const validatePassword = async () => {
-    //need to find a way to compare oldPassword with password
+    // need to find a way to compare oldPassword with password
     if (!oldPassword || !newPassword || !confirmPassword) {
       setErrorMessage('Tous les champs doivent être remplis.');
-      return;
     } else if (newPassword.length < 12) {
       setErrorMessage(
         'Le nouveau mot de passe doit contenir au moins 12 caractères.'
       );
-      return;
     } else if (newPassword !== confirmPassword) {
       setErrorMessage(
         'Le nouveau mot de passe et la confirmation ne correspondent pas.'
       );
-      return;
     } else if (newPassword === oldPassword) {
       setErrorMessage(
         "Le nouveau mot de passe doit être différent de l'ancien."
       );
-      return;
     } else {
       setEditedProfile((prev) => ({ ...prev, old_password: oldPassword }));
       setEditedProfile((prev) => ({ ...prev, new_password: newPassword }));
