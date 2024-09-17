@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AgeDropdown from './AgeDropdown';
+
+type Interests = {
+  "Centres d'intérêt": boolean;
+};
 
 export default function SearchForm() {
   const [genders, setGenders] = useState({
@@ -9,27 +13,34 @@ export default function SearchForm() {
     Tous: false,
   });
 
-  const handleGenderChange = (gender: string) => {
+  const genderArray: Array<'Femmes' | 'Hommes' | 'Autres' | 'Tous'> = [
+    'Femmes',
+    'Hommes',
+    'Autres',
+    'Tous',
+  ];
+
+  const handleGenderChange = (
+    gender: 'Femmes' | 'Hommes' | 'Autres' | 'Tous'
+  ) => {
     setGenders((prevGenders) => ({
       ...prevGenders,
       [gender]: !prevGenders[gender],
     }));
   };
 
-  const genderArray = ['Femmes', 'Hommes', 'Autres', 'Tous'];
-
-  const [isCheckboxClicked, setIsCheckboxClicked] = useState({
+  const [isCheckboxClicked, setIsCheckboxClicked] = useState<Interests>({
     "Centres d'intérêt": false,
   });
 
-  const handleCheckboxToggle = (status: string) => {
+  const handleCheckboxToggle = (status: keyof Interests) => {
     setIsCheckboxClicked((prevStatus) => ({
       ...prevStatus,
       [status]: !prevStatus[status],
     }));
   };
 
-  const interests = ["Centres d'intérêt"];
+  const interests: Array<keyof Interests> = ["Centres d'intérêt"];
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md max-w-md">
@@ -47,7 +58,7 @@ export default function SearchForm() {
           </legend>
           <div className="mt-6 flex items-center gap-4 flex-wrap">
             {genderArray.map((gender, index) => (
-              <div key={index} className="flex items-center">
+              <div key={gender} className="flex items-center">
                 <input
                   id={`gender-${index}`}
                   type="checkbox"
@@ -83,7 +94,7 @@ export default function SearchForm() {
           </legend>
           <div className="mt-6 flex items-center gap-4 flex-wrap">
             {interests.map((interest, index) => (
-              <div key={index} className="flex items-center">
+              <div key={interest} className="flex items-center">
                 <input
                   id={`interest-${index}`}
                   type="checkbox"

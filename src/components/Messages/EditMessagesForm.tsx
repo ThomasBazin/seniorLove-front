@@ -24,7 +24,7 @@ export default function EditMessagesForm({
   const [serverError, setServerError] = useState(false);
 
   const submitMessage = async () => {
-    const inputForm = document.getElementById('formMessage');
+    const inputForm = document.getElementById('formMessage') as HTMLFormElement;
     const formData = Object.fromEntries(new FormData(inputForm));
 
     // Check if message is not empty before sending to API
@@ -49,7 +49,7 @@ export default function EditMessagesForm({
     }
   };
 
-  const handleKeyPress = (event) => {
+  const handleKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       event.preventDefault(); // Prevents the default action (form submission or new line in a textarea)
       submitMessage();

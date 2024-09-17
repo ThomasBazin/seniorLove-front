@@ -1,16 +1,25 @@
 // TODO: add | hobbies, email, password, picture | update
-
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
-import axios from '../../../axios';
 import { IUsers } from '../../../@types/IUsers';
+import {
+  removeTokenFromLocalStorage,
+  updateDataInLocalStorage,
+} from '../../../localStorage/localStorage';
+
+import axios from '../../../axios';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
-import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
 import Error500Page from '../../../pages/Error500Page';
-
+import editLogo from '/icon/edit.svg';
 import Loader from '../../standaloneComponents/Loader/Loader';
+import EditMailPassword from './Modals/EditEmailPassword';
+import EditImageModal from './Modals/EditImageModal';
+import EditHobbyModal from './Modals/EditHobbyModal';
+import ConfirmDeleteModal from './Modals/ConfirmDeleteModal';
+import EditNameModal from './Modals/EditNameModal';
+import EditAboutModal from './Modals/EditAboutModal';
 
 interface MyProfileViewRefactorProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,7 +28,11 @@ interface MyProfileViewRefactorProps {
 export default function MyProfileViewRefactor({
   setIsAuthenticated,
 }: MyProfileViewRefactorProps) {
+  // Get the user ID from the URL parameters
   const { myId } = useParams<{ myId: string }>();
+
+  // Use the navigate function from react-router-dom
+  const navigate = useNavigate();
 
   // STATE 1 : my profile
   const [me, setMe] = useState<IUsers | null>(null);
@@ -29,18 +42,46 @@ export default function MyProfileViewRefactor({
 
   // STATE 3 : error server
   const [serverError, setServerError] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
-  const navigate = useNavigate();
+  // STATE 4 : image modal
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
+  // STATE 5 : hobbies modal
+  const [isHobbyModalOpen, setIsHobbyModalOpen] = useState(false);
+
+  // STATE 6 : name modal
+  const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+  const [NewName, setNewName] = useState('');
+
+  // STATE 7 : about modal
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [NewAbout, setNewAbout] = useState('');
+
+  // STATE 8 : modified photo URL
+  const [modifiedPhotoUrl, setModifiedPhotoUrl] = useState<string | null>(null);
+
+  // STATE 9 : editing mode
   const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  // STATE 10 : edited profile
   const [editedProfile, setEditedProfile] = useState<Partial<IUsers>>({});
 
+  // STATE 11 : confirm delete modal
+  const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] =
+    useState<boolean>(false);
+
+  const [isPhotoLoading, setIsPhotoLoading] = useState<boolean>(false);
+
+  // Fetch the connected user using useEffect
   useEffect(() => {
+    // Fetch the connected user
     const fetchConnectedUser = async () => {
       try {
         const response = await axios.get(`/private/users/me`);
         setMe(response.data);
         setEditedProfile(response.data);
+        setNewName(me?.name || '');
+        setNewAbout(me?.description || '');
       } catch (e) {
         console.error(e);
         if (
@@ -57,8 +98,9 @@ export default function MyProfileViewRefactor({
       }
     };
     fetchConnectedUser();
-  }, [myId, navigate]);
+  }, [myId, navigate, me?.name, me?.description]);
 
+  // Delete account function
   const deleteAccount = async () => {
     try {
       await axios.delete(`/private/users/me/delete`);
@@ -73,20 +115,21 @@ export default function MyProfileViewRefactor({
 
   const handleDeleteClick = () => {
     // Affiche la modale de confirmation
-    setShowModal(true);
+    // setShowModal(true);
+    setIsConfirmDeleteModalOpen(true);
   };
 
   const handleConfirmDelete = () => {
     // Confirmation de la suppression
-    setShowModal(false);
     deleteAccount();
   };
 
   const handleCancelDelete = () => {
     // Annulation de la suppression
-    setShowModal(false);
+    setIsConfirmDeleteModalOpen(false);
   };
 
+  // Handle submit function
   const handleSubmit = async () => {
     try {
       // Prepare the data to send to the backend
@@ -95,12 +138,17 @@ export default function MyProfileViewRefactor({
         description: editedProfile.description,
         gender: editedProfile.gender,
         picture: editedProfile.picture,
+        picture_id: editedProfile.picture_id,
         email: editedProfile.email,
+        old_password: editedProfile.old_password,
+        new_password: editedProfile.new_password,
+        repeat_new_password: editedProfile.repeat_new_password,
+        hobbies: editedProfile.hobbies,
       };
 
       const response = await axios.patch(`/private/users/me`, dataToSend);
-      console.log(response.data);
       setMe(response.data);
+      updateDataInLocalStorage(response.data.picture, response.data.name);
       // localStorage.setItem('name', response.data.name); // TODO: fix this with useState
       setIsEditing(false);
     } catch (e) {
@@ -109,6 +157,7 @@ export default function MyProfileViewRefactor({
     }
   };
 
+  // Handle edit toggle function
   const handleEditToggle = () => {
     if (isEditing) {
       handleSubmit();
@@ -118,11 +167,10 @@ export default function MyProfileViewRefactor({
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setEditedProfile((prev) => ({ ...prev, [name]: value }));
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setNewName(me?.name || '');
+    setNewAbout(me?.description || '');
   };
 
   if (serverError) {
@@ -136,51 +184,108 @@ export default function MyProfileViewRefactor({
       </section>
     );
   }
+
   if (!me) {
     return <Error500Page />;
   }
+
   return (
     <div className="w-full min-h-full flex-grow flex flex-col items-center justify-between bg-primaryGrey">
       <div className="flex flex-col pt-8 px-8 max-w-7xl w-full gap-10 md:flex-row">
         {/* Aside in desktop view */}
         <div className="flex flex-col items-center gap-5 md:w-1/3">
-          <img
-            src={me.picture}
-            alt={me.name}
-            className="max-w-64 md:max-w-full rounded-md border border-secondaryPink"
-          />
+          {/* Profile picture */}
+          <div className="relative">
+            {isPhotoLoading ? (
+              <Loader />
+            ) : (
+              <>
+                {isEditing && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsImageModalOpen(true);
+                    }}
+                    className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
+                  >
+                    <img src={editLogo} alt="edit" className="w-6 h-6" />
+                  </button>
+                )}
+                <img
+                  src={modifiedPhotoUrl || me.picture}
+                  alt={me.name}
+                  className="max-w-64 md:max-w-full rounded-md border border-secondaryPink"
+                />
+              </>
+            )}
+          </div>
+
           <div className="font-semibold flex flex-col text-center justify-between md:hidden">
             {/* Name & Age */}
             <div>
-              <span className="text-3xl text-secondaryPink">
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name="name"
-                    value={editedProfile.name || ''}
-                    onChange={handleInputChange}
-                    className="text-black px-2 py-1 rounded"
-                  />
-                ) : (
-                  me.name
-                )}
-              </span>
-              , {me.age} ans
+              {isEditing ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsNameModalOpen(true);
+                  }}
+                  className="p-1 rounded-2xl"
+                >
+                  <div className="flex gap-2 items-center">
+                    <img src={editLogo} alt="edit" className="w-6 h-6" />
+                    <span className="text-3xl text-secondaryPink hover:text-secondaryPinkHover">
+                      {NewName}
+                    </span>
+                  </div>
+                </button>
+              ) : (
+                <div>
+                  <span className="text-3xl text-secondaryPink">{me.name}</span>
+                  , {me.age} ans
+                </div>
+              )}
             </div>
             {/* Edit button */}
-            <div className="pt-4">
+            <div className="flex pt-4 gap-3">
               <DefaultBtn
-                btnText={isEditing ? 'Sauvegarder' : 'Editer mon profil'}
+                btnText={isEditing ? 'Sauvegarder' : 'Éditer mon profil'}
                 btnPage="profile"
+                btnEdit={isEditing}
                 onClick={handleEditToggle}
               />
+              {isEditing && (
+                <DefaultBtn
+                  btnText="Annuler"
+                  btnPage="profile"
+                  btnEdit={!isEditing}
+                  onClick={handleCancelEdit}
+                />
+              )}
             </div>
           </div>
           {/* Hobbies */}
           <div>
-            <h2 className="text-xl text-center font-semibold text-secondaryPink pb-3">
-              Mes Centres d&apos;intérêt
-            </h2>
+            {/* Title */}
+            <div className="flex flex-row gap-2 items-center justify-center w-full">
+              {isEditing ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsHobbyModalOpen(true);
+                  }}
+                >
+                  <h2 className="text-xl w-full flex gap-2 font-semibold text-secondaryPink hover:text-secondaryPinkHover pb-3 text-center">
+                    <img src={editLogo} alt="edit" className="w-6 h-6" />{' '}
+                    Modifiez vos centres d&apos;intérêt
+                  </h2>
+                </button>
+              ) : (
+                <h2 className="text-xl w-full font-semibold text-secondaryPink pb-3 text-center">
+                  Mes Centres d&apos;intérêt
+                </h2>
+              )}
+            </div>
+            {/* Hobbies list */}
             <div className="flex flex-wrap justify-around gap-2">
               {me.hobbies.map((hobby) => (
                 <span
@@ -199,47 +304,82 @@ export default function MyProfileViewRefactor({
           <div className="hidden font-semibold md:flex text-center justify-between">
             {/* Name & Age */}
             <div>
-              <span className="text-3xl text-secondaryPink">
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name="name"
-                    value={editedProfile.name || ''}
-                    onChange={handleInputChange}
-                    className="text-black px-2 py-1 rounded max-w-64"
-                  />
-                ) : (
-                  me.name
-                )}
-              </span>
-              , {me.age} ans
+              {isEditing ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsNameModalOpen(true);
+                  }}
+                  className="p-1 rounded-2xl"
+                >
+                  <div className="flex gap-2 items-center">
+                    <img src={editLogo} alt="edit" className="w-6 h-6" />
+                    <span className="text-3xl text-secondaryPink hover:text-secondaryPinkHover">
+                      {NewName}
+                    </span>
+                  </div>
+                </button>
+              ) : (
+                <div>
+                  <span className="text-3xl text-secondaryPink">{me.name}</span>
+                  , {me.age} ans
+                </div>
+              )}
             </div>
-            {/* Edit button */}
-            <div className="flex gap-3">
+            {/* Edit button desktop */}
+            <div className="flex gap-3 items-center">
               <DefaultBtn
                 btnText={isEditing ? 'Sauvegarder' : 'Editer mon profil'}
                 btnPage="profile"
+                btnEdit={isEditing}
                 onClick={handleEditToggle}
               />
+              {isEditing && (
+                <DefaultBtn
+                  btnText="Annuler"
+                  btnPage="profile"
+                  btnEdit={!isEditing}
+                  onClick={handleCancelEdit}
+                />
+              )}
             </div>
           </div>
           {/* Description */}
           <div>
-            <h3 className="text-xl text-secondaryPink text-center font-semibold pb-3 md:text-black md:text-left ">
-              A propos de moi :
-            </h3>
             {isEditing ? (
-              <textarea
-                name="description"
-                value={editedProfile.description || ''}
-                onChange={handleInputChange}
-                className="text-black w-full px-2 py-1 rounded"
-                rows={4}
-              />
+              <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsAboutModalOpen(true);
+                  }}
+                  className="p-1 rounded-2xl"
+                >
+                  <div className="flex gap-2 justify-center md:text-left">
+                    <img src={editLogo} alt="edit" className="w-6 h-6" />
+                    <h3 className="text-xl text-secondaryPink hover:text-secondaryPinkHover text-center font-semibold pb-3 md:text-left ">
+                      A propos de moi :
+                    </h3>
+                  </div>
+                </button>
+                <p className="text-primaryText text-justify">{NewAbout}</p>
+              </>
             ) : (
-              <p className="text-primaryText text-justify">{me.description}</p>
+              <>
+                <h3 className="text-xl text-secondaryPink text-center font-semibold pb-3 md:text-left ">
+                  A propos de moi :
+                </h3>
+                <p className="text-primaryText text-justify">
+                  {me.description}
+                </p>
+              </>
             )}
           </div>
+
+          {isEditing && (
+            <EditMailPassword user={me} setEditedProfile={setEditedProfile} />
+          )}
+
           {/* Events */}
           <div className="pt-8">
             <h3 className="text-xl text-secondaryPink text-center font-semibold md:text-black pb-3">
@@ -259,43 +399,63 @@ export default function MyProfileViewRefactor({
           </div>
         </div>
       </div>
+
       {/* Delete */}
-      <div className="pb-8 pt-32 md:pt-16 relative top-0">
+      <div className="pb-8 pt-32 md:pt-16">
         <DefaultBtn
           btnText="Supprimer mon compte"
           btnPage="profile"
-          btnDelete="true"
+          btnDelete
           onClick={handleDeleteClick}
         />
       </div>
-      {/* Modale de confirmation */}
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <p>
-              Etes-vous sûr de vouloir supprimer votre compte ? Cette action est
-              irréversible.
-            </p>
-            <div className="mt-4">
-              <button
-                className="bg-buttonGreen hover:bg-red-500 text-black font-bold py-2 px-4 rounded mr-2"
-                onClick={handleConfirmDelete}
-                type="button"
-              >
-                Oui, supprimer
-              </button>
-              <button
-                className="bg-secondaryPink hover:bg-gray-500 text-white font-bold py-2 px-4 rounded"
-                onClick={handleCancelDelete}
-                type="button"
-              >
-                Annuler
-              </button>
-            </div>
-          </div>
-        </div>
+
+      {isImageModalOpen && (
+        <EditImageModal
+          isImageModalOpen={isImageModalOpen}
+          setIsImageModalOpen={setIsImageModalOpen}
+          setEditedProfile={setEditedProfile}
+          setModifiedPhotoUrl={setModifiedPhotoUrl}
+          setIsPhotoLoading={setIsPhotoLoading}
+          user={me}
+        />
       )}
-      {/* Message d'erreur serveur */}
+      {isNameModalOpen && (
+        <EditNameModal
+          isNameModalOpen={isNameModalOpen}
+          setIsNameModalOpen={setIsNameModalOpen}
+          user={me}
+          setEditedProfile={setEditedProfile}
+          isNewName={NewName}
+          setNewName={setNewName}
+        />
+      )}
+      {isAboutModalOpen && (
+        <EditAboutModal
+          isAboutModalOpen={isAboutModalOpen}
+          setIsAboutModalOpen={setIsAboutModalOpen}
+          user={me}
+          setEditedProfile={setEditedProfile}
+          isNewAbout={NewAbout}
+          setNewAbout={setNewAbout}
+        />
+      )}
+      {isHobbyModalOpen && (
+        <EditHobbyModal
+          isHobbyModalOpen={isHobbyModalOpen}
+          setIsHobbyModalOpen={setIsHobbyModalOpen}
+          setEditedProfile={setEditedProfile}
+          user={me}
+        />
+      )}
+      {isConfirmDeleteModalOpen && (
+        <ConfirmDeleteModal
+          isConfirmDeleteModalOpen={isConfirmDeleteModalOpen}
+          setIsConfirmDeleteModalOpen={setIsConfirmDeleteModalOpen}
+          handleConfirmDelete={handleConfirmDelete}
+          handleCancelDelete={handleCancelDelete}
+        />
+      )}
       {serverError && (
         <p className="text-red-600 mt-4">
           Une erreur est survenue lors de la suppression du compte.
