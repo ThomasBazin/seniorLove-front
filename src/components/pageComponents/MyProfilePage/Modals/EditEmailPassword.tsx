@@ -38,7 +38,6 @@ export default function EditMailPassword({
           isEmailModalOpen={isEmailModalOpen}
           setIsEmailModalOpen={setIsEmailModalOpen}
           user={user}
-          handleInputChange={handleInputChange}
           setEditedProfile={setEditedProfile}
         />
       )}

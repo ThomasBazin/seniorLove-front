@@ -7,7 +7,6 @@ interface EditMailModalProps {
   isEmailModalOpen: boolean;
   setIsEmailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   user: IUsers;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
 }
 
@@ -15,7 +14,6 @@ export default function EditMailModal({
   isEmailModalOpen,
   setIsEmailModalOpen,
   user,
-  handleInputChange,
   setEditedProfile,
 }: EditMailModalProps) {
   const [newEmail, setNewEmail] = useState('');

@@ -282,7 +282,7 @@ export default function MyProfileViewRefactor({
               <p className="text-primaryText text-justify">{me.description}</p>
             )}
           </div>
-          
+
           {isEditing && (
             <EditMailPassword
               user={me}
