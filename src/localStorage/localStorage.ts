@@ -28,11 +28,8 @@ export const getTokenAndDataFromLocalStorage = () => {
 };
 
 export const updateImageInLocalStorage = (newImage: string) => {
-  if(newImage){
-    localStorage.setItem('picture', newImage);
-  }
+  localStorage.setItem('picture', newImage);
 };
-
 
 // Function to delete token when disconnecting
 export const removeTokenFromLocalStorage = () => {

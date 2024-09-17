@@ -17,9 +17,20 @@ export default function UserHeadband({
   const [newPicture, setNewPicture] = useState<string | null>(picture);
 
   useEffect(() => {
-    const response = getTokenAndDataFromLocalStorage();
-    const { picture } = response || { picture: null };
-    setNewPicture(picture);
+    const fetchPicture = () => {
+      const response = getTokenAndDataFromLocalStorage();
+      const { picture } = response || { picture: null };
+      setNewPicture(picture);
+    };
+
+    // Fetch immediately on mount
+    fetchPicture();
+
+    // Set up an interval to fetch data periodically
+    const intervalId = setInterval(fetchPicture, 1000); // Fetch data every 5 seconds
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   const onClickDisconnect = () => {
