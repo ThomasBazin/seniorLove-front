@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export default function AgeDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,14 +36,14 @@ export default function AgeDropdown() {
         <div className="absolute w-16 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
           <div className="py-1">
             {ages.map((age) => (
-              <a
+              <button
+                type="button"
                 key={age}
-                href="#"
                 className="block px-4 py-2 text-sm text-primaryText hover:bg-gray-100"
                 onClick={() => handleAgeClick(age)}
               >
                 {age}
-              </a>
+              </button>
             ))}
           </div>
         </div>
