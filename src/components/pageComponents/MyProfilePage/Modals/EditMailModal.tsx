@@ -1,12 +1,14 @@
 import ReactModal from 'react-modal';
 import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
+import { useState } from 'react';
 
 interface EditMailModalProps {
   isEmailModalOpen: boolean;
   setIsEmailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   user: IUsers;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
 }
 
 export default function EditMailModal({
@@ -14,7 +16,15 @@ export default function EditMailModal({
   setIsEmailModalOpen,
   user,
   handleInputChange,
+  setEditedProfile,
 }: EditMailModalProps) {
+  const [newEmail, setNewEmail] = useState('');
+
+  const validateEmail = async () => {
+    setEditedProfile((prev) => ({ ...prev, email: newEmail }));
+    setIsEmailModalOpen(false);
+  };
+
   return (
     <ReactModal
       isOpen={isEmailModalOpen}
@@ -51,17 +61,14 @@ export default function EditMailModal({
           </label>
           <input
             type="email"
-            name="email"
+            name="new-email"
             id="new-email"
-            onChange={handleInputChange}
+            onChange={(e) => setNewEmail(e.target.value)}
             placeholder="Entrez la nouvelle adresse e-mail"
             className="border border-gray-300 rounded-lg px-3 py-2 text-gray-700"
           />
         </div>
-        <DefaultBtn
-          btnText='Sauvegarder'
-          onClick={() => setIsEmailModalOpen(false)}
-        />
+        <DefaultBtn btnText="Valider" onClick={() => validateEmail()} />
       </div>
     </ReactModal>
   );

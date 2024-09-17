@@ -23,6 +23,7 @@ interface MyProfileViewRefactorProps {
 export default function MyProfileViewRefactor({
   setIsAuthenticated,
 }: MyProfileViewRefactorProps) {
+  // Get the user ID from the URL parameters
   const { myId } = useParams<{ myId: string }>();
 
   // STATE 1 : my profile
@@ -40,12 +41,18 @@ export default function MyProfileViewRefactor({
   // STATE 5 : hobbies modal
   const [isHobbyModalOpen, setIsHobbyModalOpen] = useState(false);
 
+  // STATE 6 : modified photo URL
   const [modifiedPhotoUrl, setModifiedPhotoUrl] = useState<string | null>(null);
 
-  const navigate = useNavigate();
+  // STATE 7 : editing mode
   const [isEditing, setIsEditing] = useState(false);
+
+  // STATE 8 : edited profile
   const [editedProfile, setEditedProfile] = useState<Partial<IUsers>>({});
 
+  const navigate = useNavigate();
+
+  // Fetch the connected user using useEffect
   useEffect(() => {
     const fetchConnectedUser = async () => {
       try {
@@ -70,10 +77,7 @@ export default function MyProfileViewRefactor({
     fetchConnectedUser();
   }, [myId, navigate]);
 
-  useEffect(() => {
-    console.log(editedProfile);
-  }, [editedProfile]);
-
+  // Delete account function
   const deleteAccount = async () => {
     try {
       await axios.delete(`/private/users/me/delete`);
@@ -86,6 +90,7 @@ export default function MyProfileViewRefactor({
     }
   };
 
+  // Handle submit function
   const handleSubmit = async () => {
     try {
       // Prepare the data to send to the backend
@@ -112,6 +117,7 @@ export default function MyProfileViewRefactor({
     }
   };
 
+  // Handle edit toggle function
   const handleEditToggle = () => {
     if (isEditing) {
       handleSubmit();
@@ -121,6 +127,7 @@ export default function MyProfileViewRefactor({
     }
   };
 
+  // Handle input change function
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -139,6 +146,7 @@ export default function MyProfileViewRefactor({
       </section>
     );
   }
+
   if (!me) {
     return <Error500Page />;
   }
@@ -148,13 +156,14 @@ export default function MyProfileViewRefactor({
       <div className="flex flex-col pt-8 px-8 max-w-7xl w-full gap-10 md:flex-row">
         {/* Aside in desktop view */}
         <div className="flex flex-col items-center gap-5 md:w-1/3">
+          {/* Profile picture */}
           <div className="relative">
             {isEditing && (
               <button
                 onClick={() => {
                   setIsImageModalOpen(true);
                 }}
-                className="bg-white p-1 rounded-2xl absolute top-2 left-2"
+                className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
               >
                 <img src={editLogo} alt="edit" className="w-6 h-6" />
               </button>
@@ -165,6 +174,7 @@ export default function MyProfileViewRefactor({
               className="max-w-64 md:max-w-full rounded-md border border-secondaryPink"
             />
           </div>
+
           <div className="font-semibold flex flex-col text-center justify-between md:hidden">
             {/* Name & Age */}
             <div>
@@ -194,6 +204,7 @@ export default function MyProfileViewRefactor({
           </div>
           {/* Hobbies */}
           <div>
+            {/* Title */}
             <div className="flex flex-row gap-2 items-center justify-center w-full">
               {isEditing ? (
                 <button
@@ -211,7 +222,7 @@ export default function MyProfileViewRefactor({
                 </h2>
               )}
             </div>
-
+            {/* Hobbies list */}
             <div className="flex flex-wrap justify-around gap-2">
               {me.hobbies.map((hobby) => (
                 <span
@@ -271,6 +282,7 @@ export default function MyProfileViewRefactor({
               <p className="text-primaryText text-justify">{me.description}</p>
             )}
           </div>
+          
           {isEditing && (
             <EditMailPassword
               user={me}
