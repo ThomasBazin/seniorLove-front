@@ -29,6 +29,7 @@ export default function MyProfileViewRefactor({
 
   // STATE 3 : error server
   const [serverError, setServerError] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
@@ -68,6 +69,22 @@ export default function MyProfileViewRefactor({
       console.error(e);
       setServerError(true);
     }
+  };
+
+  const handleDeleteClick = () => {
+    // Affiche la modale de confirmation
+    setShowModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    // Confirmation de la suppression
+    setShowModal(false);
+    deleteAccount();
+  };
+
+  const handleCancelDelete = () => {
+    // Annulation de la suppression
+    setShowModal(false);
   };
 
   const handleSubmit = async () => {
@@ -248,9 +265,42 @@ export default function MyProfileViewRefactor({
           btnText="Supprimer mon compte"
           btnPage="profile"
           btnDelete="true"
-          onClick={deleteAccount}
+          onClick={handleDeleteClick}
         />
       </div>
+      {/* Modale de confirmation */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <p>
+              Etes-vous sûr de vouloir supprimer votre compte ? Cette action est
+              irréversible.
+            </p>
+            <div className="mt-4">
+              <button
+                className="bg-buttonGreen hover:bg-red-500 text-black font-bold py-2 px-4 rounded mr-2"
+                onClick={handleConfirmDelete}
+                type="button"
+              >
+                Oui, supprimer
+              </button>
+              <button
+                className="bg-secondaryPink hover:bg-gray-500 text-white font-bold py-2 px-4 rounded"
+                onClick={handleCancelDelete}
+                type="button"
+              >
+                Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Message d'erreur serveur */}
+      {serverError && (
+        <p className="text-red-600 mt-4">
+          Une erreur est survenue lors de la suppression du compte.
+        </p>
+      )}
     </div>
   );
 }
