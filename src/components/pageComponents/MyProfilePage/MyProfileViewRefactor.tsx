@@ -1,20 +1,23 @@
 // TODO: add | hobbies, email, password, picture | update
-
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
-import axios from '../../../axios';
 import { IUsers } from '../../../@types/IUsers';
+import {
+  removeTokenFromLocalStorage,
+  updateDataInLocalStorage,
+} from '../../../localStorage/localStorage';
+
+import axios from '../../../axios';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
-import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
 import Error500Page from '../../../pages/Error500Page';
 import editLogo from '/icon/edit.svg';
-
 import Loader from '../../standaloneComponents/Loader/Loader';
 import EditMailPassword from './Modals/EditEmailPassword';
 import EditImageModal from './Modals/EditImageModal';
 import EditHobbyModal from './Modals/EditHobbyModal';
+import ConfirmDeleteModal from './Modals/ConfirmDeleteModal';
 
 interface MyProfileViewRefactorProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,6 +28,9 @@ export default function MyProfileViewRefactor({
 }: MyProfileViewRefactorProps) {
   // Get the user ID from the URL parameters
   const { myId } = useParams<{ myId: string }>();
+
+  // Use the navigate function from react-router-dom
+  const navigate = useNavigate();
 
   // STATE 1 : my profile
   const [me, setMe] = useState<IUsers | null>(null);
@@ -51,12 +57,15 @@ export default function MyProfileViewRefactor({
   const [editedProfile, setEditedProfile] = useState<Partial<IUsers>>({});
 
   // STATE 9 : show modal
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
-  const navigate = useNavigate();
+  // Test modal for confirm delete
+  const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] =
+    useState<boolean>(false);
 
   // Fetch the connected user using useEffect
   useEffect(() => {
+    // Fetch the connected user
     const fetchConnectedUser = async () => {
       try {
         const response = await axios.get(`/private/users/me`);
@@ -93,10 +102,10 @@ export default function MyProfileViewRefactor({
     }
   };
 
-
   const handleDeleteClick = () => {
     // Affiche la modale de confirmation
-    setShowModal(true);
+    // setShowModal(true);
+    setIsConfirmDeleteModalOpen(true);
   };
 
   const handleConfirmDelete = () => {
@@ -108,6 +117,7 @@ export default function MyProfileViewRefactor({
   const handleCancelDelete = () => {
     // Annulation de la suppression
     setShowModal(false);
+    setIsConfirmDeleteModalOpen(false);
   };
 
   // Handle submit function
@@ -152,6 +162,9 @@ export default function MyProfileViewRefactor({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+    if (name === 'name') {
+      updateDataInLocalStorage(editedProfile.picture || '', value);
+    }
     setEditedProfile((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -205,7 +218,7 @@ export default function MyProfileViewRefactor({
                     name="name"
                     value={editedProfile.name || ''}
                     onChange={handleInputChange}
-                    className="text-black px-2 py-1 rounded"
+                    className="text-black text-center px-2 py-1 rounded"
                   />
                 ) : (
                   me.name
@@ -227,6 +240,14 @@ export default function MyProfileViewRefactor({
             {/* Title */}
             <div className="flex flex-row gap-2 items-center justify-center w-full">
               {isEditing ? (
+                //   <button
+                //   onClick={() => {
+                //     setIsImageModalOpen(true);
+                //   }}
+                //   className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
+                // >
+                //   <img src={editLogo} alt="edit" className="w-6 h-6" />
+                // </button>
                 <button
                   onClick={() => {
                     setIsHobbyModalOpen(true);
@@ -354,12 +375,20 @@ export default function MyProfileViewRefactor({
           user={me}
         />
       )}
+      {isConfirmDeleteModalOpen && (
+        <ConfirmDeleteModal
+          isConfirmDeleteModalOpen={isConfirmDeleteModalOpen}
+          setIsConfirmDeleteModalOpen={setIsConfirmDeleteModalOpen}
+          handleConfirmDelete={handleConfirmDelete}
+          handleCancelDelete={handleCancelDelete}
+        />
+      )}
       {/* Modale de confirmation */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
             <p>
-              Etes-vous sûr de vouloir supprimer votre compte ? Cette action est
+              Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est
               irréversible.
             </p>
             <div className="mt-4">

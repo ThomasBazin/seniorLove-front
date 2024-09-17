@@ -15,12 +15,14 @@ export default function UserHeadband({
   const response = getTokenAndDataFromLocalStorage();
   const { name, picture } = response || { name: null, picture: null };
   const [newPicture, setNewPicture] = useState<string | null>(picture);
+  const [newName, setNewName] = useState<string | null>(name);
 
   useEffect(() => {
     const fetchPicture = () => {
       const response = getTokenAndDataFromLocalStorage();
-      const { picture } = response || { picture: null };
+      const { name, picture } = response || { name: null, picture: null };
       setNewPicture(picture);
+      setNewName(name);
     };
 
     // Fetch immediately on mount
@@ -43,7 +45,7 @@ export default function UserHeadband({
         <Link to="/myprofile">
           <img
             src={newPicture ?? ''}
-            alt={name ?? ''}
+            alt={newName ?? ''}
             className="w-16 h-16 md:w-24 md:h-24 rounded-full object-cover shadow-around"
           />
         </Link>

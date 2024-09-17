@@ -2,7 +2,7 @@ import ReactModal from 'react-modal';
 import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 import { useState } from 'react';
-import { updateImageInLocalStorage } from '../../../../localStorage/localStorage';
+import { updateDataInLocalStorage } from '../../../../localStorage/localStorage';
 
 interface EditImageModalProps {
   isImageModalOpen: boolean;
@@ -73,7 +73,7 @@ export default function EditImageModal({
       if (response.ok) {
         setEditedProfile((prev) => ({ ...prev, picture: result.pictureUrl }));
         setEditedProfile((prev) => ({ ...prev, picture_id: result.pictureId }));
-        updateImageInLocalStorage(result.pictureUrl); // Update localStorage with new image
+        updateDataInLocalStorage(result.pictureUrl, user.name); // Update localStorage with new image
         setModifiedPhotoUrl(result.pictureUrl);
         setIsImageModalOpen(false); // Close modal after success
       } else {
