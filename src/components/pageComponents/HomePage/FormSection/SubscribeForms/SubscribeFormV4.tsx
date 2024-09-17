@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
+// import registerSchema from '../../../../../utils/joiValidateSchema';
 
 interface SubscribeFormV4Props {
   onPreviousClick: () => void;

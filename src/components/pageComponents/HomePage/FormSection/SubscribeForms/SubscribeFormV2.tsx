@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
 import { IHobby } from '../../../../../@types/IHobby';
+import stepTwoSchema from '../../../../../utils/joiValidateFormV2';
 
 interface SubscribeFormV2Props {
   hobbies: IHobby[];
@@ -18,7 +19,7 @@ export default function SubscribeFormV2({
   fillFormInfos,
 }: SubscribeFormV2Props) {
   // STATE 1 : error
-  const [error, setError] = useState<null | string>(null);
+  const [err, setError] = useState<null | string>(null);
 
   const handleValidateFormV2 = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,8 +27,11 @@ export default function SubscribeFormV2({
       .filter((hobby) => hobby.checked)
       .map((hobby) => hobby.id);
 
-    if (!userHobbies.length) {
-      setError("Veuillez indiquer au moins un centre d'intérêt");
+    console.log(typeof userHobbies[0]);
+    const { error } = stepTwoSchema.validate(userHobbies);
+    if (error) {
+      console.log(error.details)
+      setError(error.details[0].message);
     } else {
       setError(null);
       fillFormInfos({ hobbies: userHobbies });
@@ -71,9 +75,9 @@ export default function SubscribeFormV2({
             ))}
           </div>
         </fieldset>
-        {error && (
+        {err && (
           <div className="text-secondaryPink flex justify-center mt-6">
-            <p>{error}</p>
+            <p>{err}</p>
           </div>
         )}
         <div className="flex justify-center mt-6 mb-2">

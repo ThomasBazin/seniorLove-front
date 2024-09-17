@@ -6,6 +6,8 @@ import Logo from '/img/logo-text-seniorlove.webp';
 import { IRegisterForm } from '../../../../../@types/IRegisterForm';
 
 import computeAge from '../../../../../utils/computeAge';
+import stepOneSchema from '../../../../../utils/joiValidateFormV1';
+
 
 interface SubscribeFormV1Props {
   formInfos: IRegisterForm;
@@ -28,7 +30,7 @@ export default function SubscribeFormV1({
   const [birthDateInputValue, setBirthDateInputValue] = useState<string>('');
 
   // STATE 4 : error
-  const [error, setError] = useState<string | null>(null);
+  const [err, setError] = useState<string | null>(null);
 
   const handleNameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNameInputValue(e.currentTarget.value);
@@ -50,14 +52,15 @@ export default function SubscribeFormV1({
     const { name, gender, birthDate } = rawFormData;
     const age = computeAge(birthDate as string);
 
-    if (!name) {
-      setError('Le champs prénom est obligatoire !');
-    } else if (gender !== 'male' && gender !== 'female' && gender !== 'other') {
-      setError('Merci de renseigner votre genre !');
-    } else if (!birthDate) {
-      setError('Merci de renseigner votre date de naissance !');
-    } else if (age < 60) {
-      setError('Vous devez avoir plus de 60 ans pour vous inscrire.');
+    const { error } = stepOneSchema.validate(
+      { name, age, gender },
+      {
+        abortEarly: false,
+      }
+    );
+    if (error) {
+      const newError = error.details[0].message;
+      setError(newError);
     } else {
       const formV1Infos = {
         name,
@@ -133,9 +136,9 @@ export default function SubscribeFormV1({
           />
         </label>
 
-        {error && (
+        {err && (
           <div className="text-secondaryPink text-center flex justify-center mt-6">
-            <p className="justify-self-center max-w-48">{error}</p>
+            <p className="justify-self-center max-w-48">{err}</p>
           </div>
         )}
 
