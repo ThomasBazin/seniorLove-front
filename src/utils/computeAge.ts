@@ -4,6 +4,9 @@
  */
 
 export default function computeAge(birthDate: string) {
+  if (!birthDate || typeof birthDate !== 'string') {
+    throw new Error('You must provide a string !');
+  }
   const now = new Date().getTime();
   return Math.floor((now - new Date(birthDate).getTime()) / 3.15576e10);
 }
