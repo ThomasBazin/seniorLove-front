@@ -34,7 +34,6 @@ export default function MyProfileViewRefactor({
 
   // STATE 3 : error server
   const [serverError, setServerError] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
   // STATE 4 : image modal
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
@@ -50,6 +49,9 @@ export default function MyProfileViewRefactor({
 
   // STATE 8 : edited profile
   const [editedProfile, setEditedProfile] = useState<Partial<IUsers>>({});
+
+  // STATE 9 : show modal
+  const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -91,21 +93,6 @@ export default function MyProfileViewRefactor({
     }
   };
 
-  const handleDeleteClick = () => {
-    // Affiche la modale de confirmation
-    setShowModal(true);
-  };
-
-  const handleConfirmDelete = () => {
-    // Confirmation de la suppression
-    setShowModal(false);
-    deleteAccount();
-  };
-
-  const handleCancelDelete = () => {
-    // Annulation de la suppression
-    setShowModal(false);
-  };
 
   const handleDeleteClick = () => {
     // Affiche la modale de confirmation
