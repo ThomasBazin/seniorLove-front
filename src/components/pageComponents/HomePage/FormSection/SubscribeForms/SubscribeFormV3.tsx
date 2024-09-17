@@ -30,10 +30,11 @@ export default function SubscribeFormV3({
   // Handle picture input change
   const handlePictureInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setPictureFile(e.target.files[0]); // Save the selected file
+      setPictureFile(e.target.files[0]); // Save the selected file in state
     }
   };
 
+  // Handle description input change
   const handleDescriptionInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -92,31 +93,49 @@ export default function SubscribeFormV3({
         encType="multipart/form-data"
         onSubmit={handleValidateFormV3}
       >
-        <label htmlFor="picture" className="flex flex-col mb-4">
-          Votre photo
-          <input
-            type="file"
-            name="picture"
-            id="picture"
-            className="rounded-lg p-2 border border-primaryGrey"
-            onChange={handlePictureInputChange}
-            required
-          />
-        </label>
+        <div className="mb-2">
+          <label
+            htmlFor="picture"
+            className="block text-lg font-medium leading-6 text-primaryText"
+          >
+            Votre photo
+          </label>
+        </div>
+        <div className="mt-2">
+          <div className="flex bg-white rounded-md shadow-sm border">
+            <input
+              type="file"
+              name="picture"
+              id="picture"
+              className="w-full border-0 bg-transparent py-1.5 p-2 text-primaryText"
+              onChange={handlePictureInputChange}
+              required
+            />
+          </div>
+        </div>
 
-        <label htmlFor="birthDate" className="mb-4">
-          Présentez-vous en quelques lignes (max 1000 caractères)
-          <textarea
-            name="description"
-            id="description"
-            maxLength={1000}
-            placeholder="Écrivez votre description ici"
-            className="w-full rounded-lg p-2 border border-primaryGrey"
-            value={descriptionInputValue}
-            onChange={handleDescriptionInputChange}
-            required
-          />
-        </label>
+        <div className="mb-2 mt-4">
+          <label
+            htmlFor="description"
+            className="block text-lg font-medium leading-6 text-primaryText"
+          >
+            Présentez-vous en quelques lignes
+          </label>
+        </div>
+        <div className="mt-2">
+          <div className="flex bg-white rounded-md shadow-sm border">
+            <textarea
+              name="description"
+              id="description"
+              maxLength={1000}
+              placeholder="Écrivez votre description ici"
+              className="block w-full border-0 bg-transparent py-1.5 p-2 text-primaryText placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+              value={descriptionInputValue}
+              onChange={handleDescriptionInputChange}
+              required
+            />
+          </div>
+        </div>
 
         {error && (
           <div className="text-secondaryPink text-center flex justify-center mt-6">

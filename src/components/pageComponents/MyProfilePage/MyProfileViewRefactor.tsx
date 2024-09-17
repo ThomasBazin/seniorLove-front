@@ -32,7 +32,7 @@ export default function MyProfileViewRefactor({
   const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editedProfile, setEditedProfile] = useState<Partial<IUsers>>({});
 
   useEffect(() => {

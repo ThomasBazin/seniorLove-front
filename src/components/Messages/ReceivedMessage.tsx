@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-interface ReceiveInterface {
+interface ReceivedMessageProps {
   receiveMessage: string;
   picture: string;
   userId: number;
@@ -10,18 +10,18 @@ export default function ReceivedMessage({
   receiveMessage,
   picture,
   userId,
-}: ReceiveInterface) {
+}: ReceivedMessageProps) {
   return (
     <Link to={`/profiles/${userId}`}>
-      <div className="m-4 flex gap-2 justify-start w-2/3 mr-2 self-start">
+      <div className="m-4 flex gap-2 justify-start md:w-2/3 mr-2 self-start">
         <img
           src={picture}
           alt="Moi"
-          className="aspect-square rounded-full w-20 h-20 object-cover shadow-xl"
+          className="aspect-square rounded-full w-10 h-10 self-center md:w-20 md:h-20 object-cover shadow-md"
         />
 
-        <div className="p-4 bg-white border rounded-3xl shadow-around">
-          <p className="text-sm text-primaryText">{receiveMessage}</p>
+        <div className="p-2 md:p-4 bg-secondaryPink border shadow-around rounded-md self-center">
+          <p className="text-sm text-white">{receiveMessage}</p>
         </div>
       </div>
     </Link>
