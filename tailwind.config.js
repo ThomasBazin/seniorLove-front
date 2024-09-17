@@ -39,6 +39,9 @@ module.exports = {
         xxs: '0px',
         xs: '496px', // Example custom breakpoint
       },
+      spacing: {
+        'header': '4rem',
+      },
     },
   },
   plugins: []
