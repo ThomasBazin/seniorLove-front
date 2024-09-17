@@ -17,34 +17,7 @@ function SubscribeFormV4({
   // STATE 1 : error
   const [error, setError] = useState<null | string>(null);
 
-  const formInputs = [
-    {
-      label: 'Adresse e-mail',
-      inputType: 'e-mail',
-      placeholder: 'exemple@domaine.com',
-      id: 'email',
-      type: 'email',
-      name: 'email',
-    },
-    {
-      label: 'Mot de passe',
-      inputType: 'password',
-      placeholder: 'ex@mple2024!',
-      id: 'password',
-      type: 'password',
-      name: 'password',
-    },
-    {
-      label: 'Confirmer mot de passe',
-      inputType: 'password',
-      placeholder: 'ex@mple2024!',
-      id: 'repeatPassword',
-      type: 'password',
-      name: 'repeatPassword',
-    },
-  ];
-
-  const handleValidateFormV3 = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleValidateFormV4 = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
     const { email, password, repeatPassword } = rawFormData;
@@ -70,34 +43,75 @@ function SubscribeFormV4({
 
   return (
     <div className="bg-white opacity-90 p-10 rounded-xl shadow-md max-w-xl my-10 mx-4 md:mx-auto md:my-0">
-      <form onSubmit={(e) => handleValidateFormV3(e)}>
+      <form onSubmit={(e) => handleValidateFormV4(e)}>
         <fieldset className="mb-4">
           <legend className="text-xl text-center font-semibold leading-6 text-primaryText mb-8">
             Il ne vous reste plus qu&apos;une étape pour finaliser votre
             inscription !
           </legend>
-          {formInputs.map((input) => (
-            <div className="mb-4" key={input.id}>
-              <label
-                htmlFor={input.id}
-                className="block text-lg font-medium leading-6 text-primaryText"
-              >
-                {input.label}
-              </label>
-              <div className="mt-2">
-                <div className="flex bg-white rounded-md shadow-sm border">
-                  <input
-                    id={input.id}
-                    name={input.id}
-                    type={input.type}
-                    placeholder={input.placeholder}
-                    className="block w-full border-0 bg-transparent py-1.5 p-2 text-primaryText placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    required
-                  />
-                </div>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-lg font-medium leading-6 text-primaryText"
+            >
+              Adresse e-mail
+            </label>
+            <div className="mt-2">
+              <div className="flex bg-white rounded-md shadow-sm border">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="exemple@domaine.com"
+                  className="block w-full border-0 bg-transparent py-1.5 p-2 text-primaryText placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  required
+                />
               </div>
             </div>
-          ))}
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-lg font-medium leading-6 text-primaryText"
+            >
+              Mot de passe{' '}
+              <span className="text-sm text-secondaryPink">
+                (12 caractères minimum)
+              </span>
+            </label>
+            <div className="mt-2">
+              <div className="flex bg-white rounded-md shadow-sm border">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Votre mot de passe"
+                  className="block w-full border-0 bg-transparent py-1.5 p-2 text-primaryText placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-lg font-medium leading-6 text-primaryText"
+            >
+              Confirmer mot de passe
+            </label>
+            <div className="mt-2">
+              <div className="flex bg-white rounded-md shadow-sm border">
+                <input
+                  id="repeatPassword"
+                  name="repeatPassword"
+                  type="password"
+                  placeholder="Confirmer votre mot de passe"
+                  className="block w-full border-0 bg-transparent py-1.5 p-2 text-primaryText placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  required
+                />
+              </div>
+            </div>
+          </div>
         </fieldset>
 
         {error && (

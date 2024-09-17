@@ -10,7 +10,7 @@ export interface IUsers {
   description: string;
   hobbies: IHobby[];
   email: string;
-  old_password: string;
+  old_password?: string;
   new_password?: string;
   repeat_new_password?: string;
   events?: IEvent[];

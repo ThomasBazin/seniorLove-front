@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function ErrorServerPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-full flex-grow text-center text-primaryText my-20">
+    <div className="flex flex-col items-center min-h-full flex-grow text-center text-primaryText my-20">
       <h1 className="text-3xl font-semibold mb-20">
         🐔 Oups ! Le serveur ne répond pas... 🐔
       </h1>
