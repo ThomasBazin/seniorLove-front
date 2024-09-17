@@ -2,6 +2,7 @@ import ReactModal from 'react-modal';
 import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 import { useState } from 'react';
+import { updateImageInLocalStorage } from '../../../../localStorage/localStorage';
 
 interface EditImageModalProps {
   isImageModalOpen: boolean;
@@ -72,6 +73,7 @@ export default function EditImageModal({
       if (response.ok) {
         setEditedProfile((prev) => ({ ...prev, picture: result.pictureUrl }));
         setEditedProfile((prev) => ({ ...prev, picture_id: result.pictureId }));
+        updateImageInLocalStorage(result.pictureUrl); // Update localStorage with new image
         setModifiedPhotoUrl(result.pictureUrl);
         setIsImageModalOpen(false); // Close modal after success
       } else {
@@ -133,7 +135,7 @@ export default function EditImageModal({
                 <img
                   src={previewUrl}
                   alt="New Image Preview"
-                  className="w-1/2 h-32 object-cover rounded-md border border-gray-300"
+                  className="w-1/2 object-cover rounded-md shadow border border-gray-300"
                 />
               </>
             )}

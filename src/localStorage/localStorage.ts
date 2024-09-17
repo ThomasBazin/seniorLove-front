@@ -27,6 +27,13 @@ export const getTokenAndDataFromLocalStorage = () => {
   return { token, name, picture, id };
 };
 
+export const updateImageInLocalStorage = (newImage: string) => {
+  if(newImage){
+    localStorage.setItem('picture', newImage);
+  }
+};
+
+
 // Function to delete token when disconnecting
 export const removeTokenFromLocalStorage = () => {
   localStorage.removeItem('token');

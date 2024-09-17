@@ -3,6 +3,7 @@ import {
   getTokenAndDataFromLocalStorage,
   removeTokenFromLocalStorage,
 } from '../../../localStorage/localStorage';
+import { useEffect, useState } from 'react';
 
 interface UserHeadbandProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,6 +14,14 @@ export default function UserHeadband({
 }: UserHeadbandProps) {
   const response = getTokenAndDataFromLocalStorage();
   const { name, picture } = response || { name: null, picture: null };
+  const [newPicture, setNewPicture] = useState<string | null>(picture);
+
+  useEffect(() => {
+    const response = getTokenAndDataFromLocalStorage();
+    const { picture } = response || { picture: null };
+    setNewPicture(picture);
+  }, []);
+
   const onClickDisconnect = () => {
     setIsAuthenticated(false);
     removeTokenFromLocalStorage();
@@ -22,7 +31,7 @@ export default function UserHeadband({
       <div className="flex items-center justify-center space-x-4">
         <Link to="/myprofile">
           <img
-            src={picture ?? ''}
+            src={newPicture ?? ''}
             alt={name ?? ''}
             className="w-16 h-16 md:w-24 md:h-24 rounded-full object-cover shadow-around"
           />
