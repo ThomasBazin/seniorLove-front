@@ -36,7 +36,6 @@ export default function ConnectionFormSection({
         response.data.id
       );
       setUserToken(response.data.token);
-      // setIsAuthenticated(true);
       setErrorLog(false);
       navigate('/home');
     } catch (e) {

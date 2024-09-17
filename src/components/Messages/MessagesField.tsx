@@ -6,25 +6,25 @@ import ContactsListField from './ContacstListField';
 import EditMessagesForm from './EditMessagesForm';
 import ReceivedMessage from './ReceivedMessage';
 import SentMessage from './SentMessage';
+import { IContacts } from '../../@types/IContacts';
 import Loader from '../standaloneComponents/Loader/Loader';
 import Error500Page from '../../pages/Error500Page';
 import { removeTokenFromLocalStorage } from '../../localStorage/localStorage';
 import DefaultBtn from '../standaloneComponents/Button/DefaultBtn';
-import { IMessage } from '../../@types/IMessage';
 
 export default function MessagesField() {
   // STATE 1 : données de tous les messages
-  const [messagesData, setMessagesData] = useState<[]>([]);
+  const [messagesData, setMessagesData] = useState<IContacts[]>([]);
   // STATE 2 : données du message a afficher
 
-  const [displayMessages, setDisplayMessages] = useState<IMessage | null>(null);
+  const [displayMessages, setDisplayMessages] = useState<IContacts>();
   // STATE 3 : status de l'envoi du message et id destinataire
   const [sendMessage, setSendMessage] = useState({
     sendStatus: false,
     lastReceiverId: displayMessages?.id,
   });
   // STATE 4 : state pour changer les classe css en fonction de la taille d'écran
-  const [toggleDisplay, setToggleDisplay] = useState<boolean>();
+  const [toggleDisplay, setToggleDisplay] = useState<boolean>(false);
   // STATE 5 : state pour indiquer que l'api renvoi une 403 (user not found  ou blocked)
   const [badSend, setBadSend] = useState<boolean>(false);
 
@@ -46,7 +46,7 @@ export default function MessagesField() {
         if (sendMessage.lastReceiverId) {
           setDisplayMessages(
             result.data.find(
-              (data: { id: number }) => data.id === sendMessage.lastReceiverId
+              (data: IContacts) => data.id === sendMessage.lastReceiverId
             )
           );
         } else {
@@ -74,7 +74,7 @@ export default function MessagesField() {
     }
   }, [navigate, sendMessage]);
 
-  const handleUpdateMessages = (newMessages: IMessage) => {
+  const handleUpdateMessages = (newMessages: IContacts) => {
     setDisplayMessages(newMessages);
   };
 

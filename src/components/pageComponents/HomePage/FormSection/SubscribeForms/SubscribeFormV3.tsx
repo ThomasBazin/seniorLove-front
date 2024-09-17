@@ -54,11 +54,23 @@ export default function SubscribeFormV3({
       return;
     }
 
-    // Update form info with picture and description
-    fillFormInfos({ picture: pictureFile, description: descriptionInputValue });
+    try {
+      // Prepare form data with file and description
+      const formData = new FormData();
+      formData.append('picture', pictureFile); // File upload
+      formData.append('description', descriptionInputValue);
 
-    setError(null); // reset potential error
-    setIsForm3Validated(true); // Mark step 3 as validated
+      // Update form info with picture and description
+      fillFormInfos({
+        picture: pictureFile,
+        description: descriptionInputValue,
+      });
+
+      setError(null);
+      setIsForm3Validated(true); // Mark step 3 as validated
+    } catch (err) {
+      setError('Une erreur est survenue lors de la soumission du formulaire.');
+    }
   };
 
   useEffect(() => {

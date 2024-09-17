@@ -7,7 +7,7 @@ import Error500Page from '../../pages/Error500Page';
 interface EditMessage {
   setBadSend: React.Dispatch<React.SetStateAction<boolean>>;
   badSend: boolean;
-  send: (id: any) => void;
+  send: (id: number) => void;
   receiverId: number;
 }
 
@@ -68,7 +68,7 @@ export default function EditMessagesForm({
     >
       {badSend && (
         <p className="text-red-500 text-xs text-center">
-          Ce contact n'est plus disponible pour recevoir des messages.
+          Ce contact n&aposest plus disponible pour recevoir des messages.
         </p>
       )}
       <input
