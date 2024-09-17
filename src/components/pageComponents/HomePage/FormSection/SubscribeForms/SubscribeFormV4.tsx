@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
+import stepFourSchema from '../../../../../utils/joiValidateFormV4';
 
 interface SubscribeFormV4Props {
   onPreviousClick: () => void;
@@ -15,20 +16,17 @@ function SubscribeFormV4({
   setIsGlobalFormSubmitted,
 }: SubscribeFormV4Props) {
   // STATE 1 : error
-  const [error, setError] = useState<null | string>(null);
+  const [err, setError] = useState<null | string>(null);
 
   const handleValidateFormV4 = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
     const { email, password, repeatPassword } = rawFormData;
-    if (!email) {
-      setError("L'email est obligatoire.");
-    } else if (!password || !repeatPassword) {
-      setError('Veuillez indiquer votre mot de passe et le confirmer.');
-    } else if (password.toString().length < 12) {
-      setError('Le mot de passe doit contenir au moins 12 caractères.');
-    } else if (password !== repeatPassword) {
-      setError('Le mot de passe et sa confirmation doivent être identiques.');
+    console.log(typeof rawFormData);
+
+    const { error } = stepFourSchema.validate(rawFormData);
+    if (error) {
+      setError(error.details[0].message);
     } else {
       const formV3Infos = {
         email,
@@ -114,9 +112,9 @@ function SubscribeFormV4({
           </div>
         </fieldset>
 
-        {error && (
+        {err && (
           <div className="text-secondaryPink text-center flex justify-center mt-6">
-            <p>{error}</p>
+            <p>{err}</p>
           </div>
         )}
 
