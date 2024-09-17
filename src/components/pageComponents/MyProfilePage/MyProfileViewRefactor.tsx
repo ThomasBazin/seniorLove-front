@@ -3,7 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import { IUsers } from '../../../@types/IUsers';
-import { removeTokenFromLocalStorage } from '../../../localStorage/localStorage';
+import {
+  removeTokenFromLocalStorage,
+  updateDataInLocalStorage,
+} from '../../../localStorage/localStorage';
 
 import axios from '../../../axios';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
@@ -63,9 +66,11 @@ export default function MyProfileViewRefactor({
   // STATE 10 : edited profile
   const [editedProfile, setEditedProfile] = useState<Partial<IUsers>>({});
 
-  // Test modal for confirm delete
+  // STATE 11 : confirm delete modal
   const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] =
     useState<boolean>(false);
+
+  const [isPhotoLoading, setIsPhotoLoading] = useState<boolean>(false);
 
   // Fetch the connected user using useEffect
   useEffect(() => {
@@ -162,22 +167,11 @@ export default function MyProfileViewRefactor({
     }
   };
 
-  // Handle input change function
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    if (name === 'name') {
-      updateDataInLocalStorage(editedProfile.picture || '', value);
-    }
-    setEditedProfile((prev) => ({ ...prev, [name]: value }));
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setNewName(me?.name || '');
+    setNewAbout(me?.description || '');
   };
-  
-   const handleCancelEdit = () => {
-     setIsEditing(false);
-     setNewName(me?.name || '');
-     setNewAbout(me?.description || '');
-   };
 
   if (serverError) {
     return <Error500Page />;
@@ -202,22 +196,28 @@ export default function MyProfileViewRefactor({
         <div className="flex flex-col items-center gap-5 md:w-1/3">
           {/* Profile picture */}
           <div className="relative">
-            {isEditing && (
-              <button
-                type="button"
-                onClick={() => {
-                  setIsImageModalOpen(true);
-                }}
-                className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
-              >
-                <img src={editLogo} alt="edit" className="w-6 h-6" />
-              </button>
+            {isPhotoLoading ? (
+              <Loader />
+            ) : (
+              <>
+                {isEditing && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsImageModalOpen(true);
+                    }}
+                    className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
+                  >
+                    <img src={editLogo} alt="edit" className="w-6 h-6" />
+                  </button>
+                )}
+                <img
+                  src={modifiedPhotoUrl || me.picture}
+                  alt={me.name}
+                  className="max-w-64 md:max-w-full rounded-md border border-secondaryPink"
+                />
+              </>
             )}
-            <img
-              src={modifiedPhotoUrl || me.picture}
-              alt={me.name}
-              className="max-w-64 md:max-w-full rounded-md border border-secondaryPink"
-            />
           </div>
 
           <div className="font-semibold flex flex-col text-center justify-between md:hidden">
@@ -416,6 +416,7 @@ export default function MyProfileViewRefactor({
           setIsImageModalOpen={setIsImageModalOpen}
           setEditedProfile={setEditedProfile}
           setModifiedPhotoUrl={setModifiedPhotoUrl}
+          setIsPhotoLoading={setIsPhotoLoading}
           user={me}
         />
       )}

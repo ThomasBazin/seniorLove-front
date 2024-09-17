@@ -2,7 +2,6 @@ import ReactModal from 'react-modal';
 import { useState } from 'react';
 import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
-import { updateDataInLocalStorage } from '../../../../localStorage/localStorage';
 
 interface EditImageModalProps {
   isImageModalOpen: boolean;
@@ -10,6 +9,7 @@ interface EditImageModalProps {
   user: IUsers;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
   setModifiedPhotoUrl: React.Dispatch<React.SetStateAction<string | null>>;
+  setIsPhotoLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function EditImageModal({
@@ -18,10 +18,10 @@ export default function EditImageModal({
   user,
   setEditedProfile,
   setModifiedPhotoUrl,
+  setIsPhotoLoading,
 }: EditImageModalProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  // const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +46,7 @@ export default function EditImageModal({
       return;
     }
 
+    setIsPhotoLoading(true);
     setError(null);
 
     const formData = new FormData();
@@ -76,7 +77,7 @@ export default function EditImageModal({
       setError('Error uploading image');
       console.error('Error uploading image:', error);
     } finally {
-      // setIsLoading(false);
+      setIsPhotoLoading(false);
     }
   };
 
