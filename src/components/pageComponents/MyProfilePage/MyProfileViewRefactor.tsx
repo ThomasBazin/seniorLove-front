@@ -143,6 +143,7 @@ export default function MyProfileViewRefactor({
 
       const response = await axios.patch(`/private/users/me`, dataToSend);
       setMe(response.data);
+      updateDataInLocalStorage(response.data.picture, response.data.name);
       // localStorage.setItem('name', response.data.name); // TODO: fix this with useState
       setIsEditing(false);
     } catch (e) {
@@ -160,11 +161,23 @@ export default function MyProfileViewRefactor({
       setEditedProfile(me || {});
     }
   };
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-    setNewName(me?.name || '');
-    setNewAbout(me?.description || '');
+
+  // Handle input change function
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    if (name === 'name') {
+      updateDataInLocalStorage(editedProfile.picture || '', value);
+    }
+    setEditedProfile((prev) => ({ ...prev, [name]: value }));
   };
+  
+   const handleCancelEdit = () => {
+     setIsEditing(false);
+     setNewName(me?.name || '');
+     setNewAbout(me?.description || '');
+   };
 
   if (serverError) {
     return <Error500Page />;
