@@ -139,7 +139,7 @@ export default function EditImageModal({
             )}
           </div>
         </div>
-        <DefaultBtn btnText="Sauvegarder" onClick={()=>validateImage()} />
+        <DefaultBtn btnText="Valider" onClick={() => validateImage()} />
       </div>
     </ReactModal>
   );

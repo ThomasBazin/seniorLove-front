@@ -125,7 +125,7 @@ export default function EditPasswordlModal({
             <p className="text-red-600 text-sm text-center">{errorMessage}</p>
           )}
         </div>
-        <DefaultBtn btnText="Sauvegarder" onClick={() => validatePassword()} />
+        <DefaultBtn btnText="Valider" onClick={() => validatePassword()} />
       </div>
     </ReactModal>
   );

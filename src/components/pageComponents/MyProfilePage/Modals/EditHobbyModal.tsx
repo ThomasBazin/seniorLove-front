@@ -42,7 +42,8 @@ export default function EditHobbyModal({
         throw new Error('Failed to fetch hobbies');
       }
     } catch (error) {
-      setError(error.message);
+      setError('Error updating hobbies');
+      console.error('Error updating hobbies:', error);
     } finally {
       setLoading(false);
     }
@@ -86,7 +87,7 @@ export default function EditHobbyModal({
       }}
     >
       <h3 className="text-xl font-semibold text-secondaryPink mb-4">
-        Changez vos hobbies
+        Modifiez vos centres d’intérêt
       </h3>
       <div className="flex flex-col gap-3">
         {hobbies.map((hobby) => (
@@ -105,7 +106,7 @@ export default function EditHobbyModal({
         ))}
       </div>
       <div className="flex flex-col gap-4 mt-4">
-        <DefaultBtn btnText="Sauvegarder" onClick={handleSave} />
+        <DefaultBtn btnText="Valider" onClick={handleSave} />
       </div>
     </ReactModal>
   );
