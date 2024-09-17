@@ -15,10 +15,6 @@ export default function Footer() {
       href: '/src/components/standaloneComponents/Footer/Footer%20links/GeneralConditions.html',
     },
     {
-      text: 'Charte d’utilisation des cookies',
-      href: '/src/components/standaloneComponents/Footer/Footer links/CookieUsePolicy.html',
-    },
-    {
       text: 'Règles de communauté',
       href: '/src/components/standaloneComponents/Footer/Footer links/CommunityGuidelines.html',
     },
@@ -43,7 +39,11 @@ export default function Footer() {
         <ul className="flex flex-wrap justify-center gap-2 md:gap-4">
           {footerLinks.map((link) => (
             <li key={link.text} className="list-none text-center">
-              <a href={link.href} className="text-primaryText hover:underline">
+              <a
+                href={link.href}
+                className="text-primaryText hover:underline"
+                rel="nofollow"
+              >
                 {link.text}
               </a>{' '}
             </li>
