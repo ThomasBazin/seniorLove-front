@@ -2,11 +2,22 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   const footerLinks = [
-    { text: 'Signaler un contenu illégal', href: '#' },
-    { text: 'Politique de confidentialité', href: '#' },
-    { text: 'Conditions générales', href: '#' },
-    { text: 'Charte d’utilisation des cookies', href: '#' },
-    { text: 'Règles de communauté', href: '#' },
+    {
+      text: 'Signaler un contenu illégal',
+      href: '/src/components/standaloneComponents/Footer/Footer%20links/SignalProfile.html',
+    },
+    {
+      text: 'Politique de confidentialité',
+      href: '/src/components/standaloneComponents/Footer/Footer%20links/Confidentiality.html',
+    },
+    {
+      text: 'Conditions générales',
+      href: '/src/components/standaloneComponents/Footer/Footer%20links/GeneralConditions.html',
+    },
+    {
+      text: 'Règles de communauté',
+      href: '/src/components/standaloneComponents/Footer/Footer links/CommunityGuidelines.html',
+    },
   ];
 
   return (
@@ -16,7 +27,7 @@ export default function Footer() {
           Pour toute question ou assistance, veuillez nous contacter à
           l&apos;adresse suivante :{' '}
           <a href="mailto:support@seniorlove.fr">support@seniorlove.fr</a> ou
-          appelez-nous au <a href="tel:+330123456789">+33 (0)1 23 45 67 89</a>.
+          nous appeler au <a href="tel:+330123456789">+33 (0)1 23 45 67 89</a>.
         </p>
       </div>
       <div className="footer-copyright_container text-center mb-2">
@@ -28,7 +39,11 @@ export default function Footer() {
         <ul className="flex flex-wrap justify-center gap-2 md:gap-4">
           {footerLinks.map((link) => (
             <li key={link.text} className="list-none text-center">
-              <a href={link.href} className="text-primaryText hover:underline">
+              <a
+                href={link.href}
+                className="text-primaryText hover:underline"
+                rel="nofollow"
+              >
                 {link.text}
               </a>{' '}
             </li>
