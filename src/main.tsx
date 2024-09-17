@@ -2,6 +2,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import { useEffect, useState } from 'react';
 import App from './App';
+import Modal from 'react-modal';
 import NavBarLogged from './components/standaloneComponents/NavBar/NavBarLogged';
 import NavBarV1 from './components/standaloneComponents/NavBar/NavBar';
 import Footer from './components/standaloneComponents/Footer/Footer';
@@ -9,6 +10,9 @@ import { getTokenAndDataFromLocalStorage } from './localStorage/localStorage';
 import axios from './axios';
 import UserHeadband from './components/standaloneComponents/UserHeadband/UserHeadband';
 import './index.css';
+
+// Set app element globally for modals
+Modal.setAppElement('#root'); // Replace '#root' with your main app element's ID
 
 export default function Root() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);

@@ -4,6 +4,7 @@ export interface IUsers {
   alt: string;
   age: number;
   picture: string;
+  picture_id: string;
   birth_date: Date;
   gender: string;
   description: string;
