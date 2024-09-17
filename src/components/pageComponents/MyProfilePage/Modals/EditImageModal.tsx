@@ -73,7 +73,6 @@ export default function EditImageModal({
       if (response.ok) {
         setEditedProfile((prev) => ({ ...prev, picture: result.pictureUrl }));
         setEditedProfile((prev) => ({ ...prev, picture_id: result.pictureId }));
-        updateDataInLocalStorage(result.pictureUrl, user.name); // Update localStorage with new image
         setModifiedPhotoUrl(result.pictureUrl);
         setIsImageModalOpen(false); // Close modal after success
       } else {
