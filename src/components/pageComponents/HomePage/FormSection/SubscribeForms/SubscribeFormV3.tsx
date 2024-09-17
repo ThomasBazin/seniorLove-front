@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
 import Logo from '/img/logo-text-seniorlove.webp';
 import { IRegisterForm } from '../../../../../@types/IRegisterForm';
+import stepThreeSchema from '../../../../../utils/joiValidateFormV3';
 
 interface SubscribeFormV3Props {
   formInfos: IRegisterForm;
@@ -25,7 +26,7 @@ export default function SubscribeFormV3({
     useState<string>('');
 
   // STATE 3 : error
-  const [error, setError] = useState<string | null>(null);
+  const [errorTo, setError] = useState<string | null>(null);
 
   // Handle picture input change
   const handlePictureInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,13 +45,16 @@ export default function SubscribeFormV3({
   const handleValidateFormV3 = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!pictureFile) {
-      setError('Veuillez ajouter une photo !');
-      return;
-    }
+    const { error } = stepThreeSchema.validate(
+      {
+        descriptionInputValue,
+        pictureFile,
+      },
+      { abortEarly: false }
+    );
 
-    if (!descriptionInputValue) {
-      setError('Merci de renseigner votre description !');
+    if (error) {
+      setError(error.details[0].message);
       return;
     }
 
@@ -137,9 +141,9 @@ export default function SubscribeFormV3({
           </div>
         </div>
 
-        {error && (
+        {errorTo && (
           <div className="text-secondaryPink text-center flex justify-center mt-6">
-            <p className="justify-self-center max-w-48">{error}</p>
+            <p className="justify-self-center max-w-48">{errorTo}</p>
           </div>
         )}
 

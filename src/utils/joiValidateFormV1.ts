@@ -29,7 +29,7 @@ const stepOneSchema = Joi.object({
     .messages({
       'any.only': "Le genre renseigné n'est pas valide.",
       'string.empty': 'Merci de renseigner votre genre !',
-    })
+    }),
 });
 
 export default stepOneSchema;

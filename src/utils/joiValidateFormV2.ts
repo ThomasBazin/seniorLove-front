@@ -10,7 +10,6 @@ const stepTwoSchema = Joi.array()
       'number.integer': 'Entrée non valide',
     })
   )
-
   .required()
   .min(1)
   .messages({

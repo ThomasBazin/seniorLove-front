@@ -27,10 +27,8 @@ export default function SubscribeFormV2({
       .filter((hobby) => hobby.checked)
       .map((hobby) => hobby.id);
 
-    console.log(typeof userHobbies[0]);
     const { error } = stepTwoSchema.validate(userHobbies);
     if (error) {
-      console.log(error.details)
       setError(error.details[0].message);
     } else {
       setError(null);

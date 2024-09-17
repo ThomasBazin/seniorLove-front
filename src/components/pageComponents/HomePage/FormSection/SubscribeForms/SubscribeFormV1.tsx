@@ -8,7 +8,6 @@ import { IRegisterForm } from '../../../../../@types/IRegisterForm';
 import computeAge from '../../../../../utils/computeAge';
 import stepOneSchema from '../../../../../utils/joiValidateFormV1';
 
-
 interface SubscribeFormV1Props {
   formInfos: IRegisterForm;
   setIsForm1Validated: React.Dispatch<React.SetStateAction<boolean>>;
