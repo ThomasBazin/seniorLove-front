@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable no-console */
 import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';

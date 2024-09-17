@@ -98,16 +98,11 @@ export default function FormSection({
             );
           } else {
             // For other Axios errors, set a generic error message for the user
-            setRegisterError(
-              'Une erreur est survenue. Veuillez réessayer plus tard.'
-            );
+            setServerError(true);
           }
-        } else {
-          // If the error is not an AxiosError, set a generic error message for unexpected errors
-          setRegisterError('Une erreur inattendue est survenue.');
         }
+        console.error(e);
       } finally {
-        // This block of code will execute regardless of whether an error occurred or not
         // Set the loading state to false to indicate that the request process has completed
         setIsLoading(false);
       }
