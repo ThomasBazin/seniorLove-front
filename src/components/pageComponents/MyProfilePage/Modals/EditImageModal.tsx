@@ -1,7 +1,7 @@
 import ReactModal from 'react-modal';
 import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface EditImageModalProps {
   isImageModalOpen: boolean;
@@ -23,10 +23,14 @@ export default function EditImageModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const validateImage = async () => {
+    handleImageUpload();
+    setIsImageModalOpen(false);
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
-      console.log('Selected file:', file);
       setSelectedFile(file);
     }
     // Create a preview of the selected image
@@ -34,6 +38,7 @@ export default function EditImageModal({
     reader.onloadend = () => {
       setPreviewUrl(reader.result as string);
     };
+
     if (file) {
       reader.readAsDataURL(file as Blob);
     }
@@ -128,13 +133,13 @@ export default function EditImageModal({
                 <img
                   src={previewUrl}
                   alt="New Image Preview"
-                  className="w-32 h-32 object-cover rounded-md border border-gray-300"
+                  className="w-1/2 h-32 object-cover rounded-md border border-gray-300"
                 />
               </>
             )}
           </div>
         </div>
-        <DefaultBtn btnText="Sauvegarder" onClick={handleImageUpload} />
+        <DefaultBtn btnText="Sauvegarder" onClick={()=>validateImage()} />
       </div>
     </ReactModal>
   );

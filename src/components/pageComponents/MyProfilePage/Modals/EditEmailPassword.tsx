@@ -5,13 +5,11 @@ import EditPasswordModal from './EditPasswordModal'; // Import the password moda
 
 interface EditEmailPasswordProps {
   user: IUsers;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
 }
 
 export default function EditMailPassword({
   user,
-  handleInputChange,
   setEditedProfile,
 }: EditEmailPasswordProps) {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);

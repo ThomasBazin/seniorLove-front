@@ -284,11 +284,7 @@ export default function MyProfileViewRefactor({
           </div>
 
           {isEditing && (
-            <EditMailPassword
-              user={me}
-              handleInputChange={handleInputChange}
-              setEditedProfile={setEditedProfile}
-            />
+            <EditMailPassword user={me} setEditedProfile={setEditedProfile} />
           )}
 
           {/* Events */}
