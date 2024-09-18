@@ -4,6 +4,7 @@ import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 import { IHobby } from '../../../../@types/IHobby';
 import Loader from '../../../standaloneComponents/Loader/Loader';
+import axios from '../../../../axios';
 
 interface EditHobbyModalProps {
   isHobbyModalOpen: boolean;
@@ -27,14 +28,10 @@ export default function EditHobbyModal({
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:4000/api/public/hobbies');
-      if (response.ok) {
-        const data = await response.json();
-        setHobbies(data);
-        setSelectedHobbies(user.hobbies.map((hobby) => hobby.id));
-      } else {
-        throw new Error('Failed to fetch hobbies');
-      }
+      const response = await axios.get('/public/hobbies');
+
+      setHobbies(response.data);
+      setSelectedHobbies(user.hobbies.map((hobby) => hobby.id));
     } catch (err) {
       setError('Error updating hobbies');
       console.error('Error updating hobbies:', error);
@@ -89,7 +86,10 @@ export default function EditHobbyModal({
       <h3 className="text-xl font-semibold text-secondaryPink mb-4">
         Modifiez vos centres d’intérêt
       </h3>
-      <div className="flex flex-col gap-3 overflow-y-scroll">
+      <div className="flex flex-col gap-3 h-52 md:h-fit overflow-y-scroll md:overflow-y-auto">
+        {error && (
+          <div className="text-red-500 bg-red-100 p-2 rounded-md">{error}</div>
+        )}
         {isLoading ? (
           <Loader />
         ) : (

@@ -27,12 +27,14 @@ export const getTokenAndDataFromLocalStorage = () => {
   return { token, name, picture, id };
 };
 
-export const updateDataInLocalStorage = (newImage: string, newName: string) => {
-  if (newImage) {
-    localStorage.setItem('picture', newImage);
-  }
+export const updateNameInLocalStorage = (newName: string) => {
   if (newName) {
     localStorage.setItem('name', newName);
+  }
+};
+export const updatePictureInLocalStorage = (newPicture: string) => {
+  if (newPicture) {
+    localStorage.setItem('picture', newPicture);
   }
 };
 

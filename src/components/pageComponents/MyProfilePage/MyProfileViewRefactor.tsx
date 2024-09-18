@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { IUsers } from '../../../@types/IUsers';
 import {
   removeTokenFromLocalStorage,
-  updateDataInLocalStorage,
+  updateNameInLocalStorage,
 } from '../../../localStorage/localStorage';
 
 import axios from '../../../axios';
@@ -161,8 +161,6 @@ export default function MyProfileViewRefactor({
         name: editedProfile.name,
         description: editedProfile.description,
         gender: editedProfile.gender,
-        picture: editedProfile.picture,
-        picture_id: editedProfile.picture_id,
         email: editedProfile.email,
         old_password: editedProfile.old_password,
         new_password: editedProfile.new_password,
@@ -175,7 +173,7 @@ export default function MyProfileViewRefactor({
         editNotify();
       }
       setMe(response.data);
-      updateDataInLocalStorage(response.data.picture, response.data.name);
+      updateNameInLocalStorage(response.data.name);
       setIsEditing(false);
     } catch (e) {
       console.error(e);
@@ -195,8 +193,7 @@ export default function MyProfileViewRefactor({
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setNewName(me?.name || '');
-    setNewAbout(me?.description || '');
+    setEditedProfile(me || {});
     cancelNotify();
   };
 
@@ -227,17 +224,16 @@ export default function MyProfileViewRefactor({
               <Loader />
             ) : (
               <>
-                {isEditing && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsImageModalOpen(true);
-                    }}
-                    className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
-                  >
-                    <img src={editLogo} alt="edit" className="w-6 h-6" />
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsImageModalOpen(true);
+                  }}
+                  className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
+                >
+                  <img src={editLogo} alt="edit" className="w-6 h-6" />
+                </button>
+
                 <img
                   src={modifiedPhotoUrl || me.picture}
                   alt={me.name}
@@ -313,7 +309,7 @@ export default function MyProfileViewRefactor({
               )}
             </div>
             {/* Hobbies list */}
-            <div className="flex flex-wrap justify-around gap-2">
+            <div className="flex flex-wrap justify-center gap-2">
               {me.hobbies.map((hobby) => (
                 <span
                   key={hobby.id}
