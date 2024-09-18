@@ -12,13 +12,13 @@ interface UserHeadbandProps {
 export default function UserHeadband({
   setIsAuthenticated,
 }: UserHeadbandProps) {
-  const response = getTokenAndDataFromLocalStorage();
-  const { name, picture } = response || { name: null, picture: null };
-  const [newPicture, setNewPicture] = useState<string | null>(picture);
-  const [newName, setNewName] = useState<string | null>(name);
+  const [newPicture, setNewPicture] = useState<string | null>(null);
+  const [newName, setNewName] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPicture = () => {
+      const response = getTokenAndDataFromLocalStorage();
+      const { name, picture } = response || { name: null, picture: null };
       setNewPicture(picture);
       setNewName(name);
     };
@@ -49,7 +49,7 @@ export default function UserHeadband({
         </Link>
         <div>
           <p className="italic text-base font-normal md:text-lg lg:text-xl">
-            Bienvenue {name} !
+            Bienvenue {newName} !
           </p>
           <Link
             to="/"
