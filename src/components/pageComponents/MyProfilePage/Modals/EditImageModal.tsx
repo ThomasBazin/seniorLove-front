@@ -90,6 +90,7 @@ export default function EditImageModal({
 
   const validateImage = () => {
     setModifiedPhotoUrl(previewUrl);
+    setPreviewUrl(null);
     setUpdateFunction(() => handleImageUpload);
     setIsImageModalOpen(false);
   };
@@ -170,11 +171,6 @@ export default function EditImageModal({
             btnValidate
             btnModalPicture
             onClick={() => validateImage()}
-          />
-          <DefaultBtn
-            btnText="Annuler"
-            btnModalPicture
-            onClick={() => setIsImageModalOpen(false)}
           />
         </div>
       </div>
