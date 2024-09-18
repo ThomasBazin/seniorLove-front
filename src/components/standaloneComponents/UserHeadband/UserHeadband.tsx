@@ -17,8 +17,8 @@ export default function UserHeadband({
 
   useEffect(() => {
     const fetchPicture = () => {
-      //const response = getTokenAndDataFromLocalStorage();
-      //const { name, picture } = response || { name: null, picture: null };
+      const response = getTokenAndDataFromLocalStorage();
+      const { name, picture } = response || { name: null, picture: null };
       setNewPicture(picture);
       setNewName(name);
     };
