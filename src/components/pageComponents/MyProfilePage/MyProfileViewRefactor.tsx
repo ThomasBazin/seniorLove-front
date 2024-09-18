@@ -14,12 +14,13 @@ import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
 import Error500Page from '../../../pages/Error500Page';
 import editLogo from '/icon/edit.svg';
 import Loader from '../../standaloneComponents/Loader/Loader';
-import EditMailPassword from './Modals/EditEmailPassword';
 import EditImageModal from './Modals/EditImageModal';
 import EditHobbyModal from './Modals/EditHobbyModal';
 import ConfirmDeleteModal from './Modals/ConfirmDeleteModal';
 import EditNameModal from './Modals/EditNameModal';
 import EditAboutModal from './Modals/EditAboutModal';
+import EditMailModal from './Modals/EditMailModal';
+import EditPasswordlModal from './Modals/EditPasswordModal';
 
 interface MyProfileViewRefactorProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -71,6 +72,9 @@ export default function MyProfileViewRefactor({
     useState<boolean>(false);
 
   const [isPhotoLoading, setIsPhotoLoading] = useState<boolean>(false);
+
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
   // Fetch the connected user using useEffect
   useEffect(() => {
@@ -377,7 +381,28 @@ export default function MyProfileViewRefactor({
           </div>
 
           {isEditing && (
-            <EditMailPassword user={me} setEditedProfile={setEditedProfile} />
+            <div className="flex flex-row justify-center gap-6">
+              <button
+                type="button"
+                onClick={() => setIsEmailModalOpen(true)}
+                className="text-secondaryPink text-center md:text-start px-4 rounded-lg w-fit font-semibold"
+              >
+                <div className="flex gap-2 self items-center">
+                  <img src={editLogo} alt="edit" className="w-6 h-6" />
+                  Modifier l&apos;adresse e-mail
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsPasswordModalOpen(true)}
+                className="text-secondaryPink hover:text-secondaryPinkHover text-center md:text-start px-4 py-2 rounded-lg w-fit font-semibold"
+              >
+                <div className="flex gap-2 self items-center">
+                  <img src={editLogo} alt="edit" className="w-6 h-6" />
+                  Modifier le mot de passe
+                </div>
+              </button>
+            </div>
           )}
 
           {/* Events */}
@@ -409,7 +434,21 @@ export default function MyProfileViewRefactor({
           onClick={handleDeleteClick}
         />
       </div>
-
+      {isEmailModalOpen && (
+        <EditMailModal
+          isEmailModalOpen={isEmailModalOpen}
+          setIsEmailModalOpen={setIsEmailModalOpen}
+          user={me}
+          setEditedProfile={setEditedProfile}
+        />
+      )}
+      {isPasswordModalOpen && (
+        <EditPasswordlModal
+          isPasswordModalOpen={isPasswordModalOpen}
+          setIsPasswordModalOpen={setIsPasswordModalOpen}
+          setEditedProfile={setEditedProfile}
+        />
+      )}
       {isImageModalOpen && (
         <EditImageModal
           isImageModalOpen={isImageModalOpen}
