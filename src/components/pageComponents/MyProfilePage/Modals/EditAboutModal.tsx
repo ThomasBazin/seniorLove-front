@@ -1,4 +1,5 @@
 import ReactModal from 'react-modal';
+import { useState } from 'react';
 import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 
@@ -19,10 +20,13 @@ export default function EditAboutModal({
   isNewAbout,
   setNewAbout,
 }: EditAboutProps) {
+  const [newAboutPending, setNewAboutPending] = useState(isNewAbout);
   const validateAbout = async () => {
-    setEditedProfile((prev) => ({ ...prev, about: isNewAbout }));
+    setEditedProfile((prev) => ({ ...prev, description: newAboutPending }));
     setIsAboutModalOpen(false);
+    setNewAbout(newAboutPending);
   };
+
   return (
     <ReactModal
       isOpen={isAboutModalOpen}
@@ -50,9 +54,10 @@ export default function EditAboutModal({
         <textarea
           name="new-description"
           id="new-description"
-          onChange={(e) => setNewAbout(e.target.value)}
+          onChange={(e) => setNewAboutPending(e.target.value)}
           rows={10}
           placeholder={user.description}
+          value={newAboutPending}
           className="border border-gray-300 rounded-lg px-3 py-2 text-gray-700"
         />
       </div>

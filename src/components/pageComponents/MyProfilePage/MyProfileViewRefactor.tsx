@@ -2,13 +2,12 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 import { IUsers } from '../../../@types/IUsers';
 import {
   removeTokenFromLocalStorage,
   updateDataInLocalStorage,
 } from '../../../localStorage/localStorage';
-
-import { ToastContainer, toast } from 'react-toastify';
 
 import axios from '../../../axios';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
@@ -177,7 +176,6 @@ export default function MyProfileViewRefactor({
       }
       setMe(response.data);
       updateDataInLocalStorage(response.data.picture, response.data.name);
-      // localStorage.setItem('name', response.data.name); // TODO: fix this with useState
       setIsEditing(false);
     } catch (e) {
       console.error(e);
@@ -391,14 +389,16 @@ export default function MyProfileViewRefactor({
                     </h3>
                   </div>
                 </button>
-                <p className="text-primaryText text-justify">{NewAbout}</p>
+                <p className="text-primaryText text-justify break-words">
+                  {NewAbout}
+                </p>
               </>
             ) : (
               <>
                 <h3 className="text-xl text-secondaryPink text-center font-semibold pb-3 md:text-left ">
                   A propos de moi :
                 </h3>
-                <p className="text-primaryText text-justify">
+                <p className="text-primaryText text-justify break-words">
                   {me.description}
                 </p>
               </>
