@@ -8,8 +8,8 @@ export default function computeAge(birthDate: string) {
     throw new Error('You must provide a string !');
   }
 
-  const parsedBirhDate = new Date(birthDate);
-  if (Number.isNaN(parsedBirhDate.getTime())) {
+  const parsedBirthDate = new Date(birthDate);
+  if (Number.isNaN(parsedBirthDate.getTime())) {
     throw new Error('You must provide a valid ISO date format YYYY-MM-DD');
   }
 

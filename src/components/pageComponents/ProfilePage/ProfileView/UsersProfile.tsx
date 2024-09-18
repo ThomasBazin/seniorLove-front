@@ -23,8 +23,12 @@ export default function UsersProfile() {
   // STATE 4 : send message
   const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
 
-  // STATE 5 : nessage error
+  // STATE 5 : message error
   const [isErrorMessage, setIsErrorMessage] = useState<boolean>(false);
+
+  // STATE 6 : state to store the text field values
+  const [messageField, setMessageField] = useState<string>('');
+  const [messageFieldMobile, setMessageFieldMobile] = useState<string>('');
 
   const navigate = useNavigate();
 
@@ -55,20 +59,12 @@ export default function UsersProfile() {
   }, [navigate, userId]); // L'ID de l'utilisateur est utilisé comme dépendance pour relancer le fetch si nécessaire
 
   const sendMessage = async () => {
-    // Get the message from the textarea
-    const messageField = document.getElementById(
-      'messageField'
-    ) as HTMLTextAreaElement;
-    const messageFieldMobile = document.getElementById(
-      'messageFieldMobile'
-    ) as HTMLTextAreaElement;
-
     let message = '';
-    // Check if the message is not empty
-    if (messageField.textLength > 0) {
-      message = messageField.value;
-    } else if (messageFieldMobile.textLength > 0) {
-      message = messageFieldMobile.value;
+    // Check if the text fields is not empty
+    if (messageField.trim().length > 0) {
+      message = messageField.trim();
+    } else if (messageFieldMobile.trim().length > 0) {
+      message = messageFieldMobile;
     } else {
       return;
     }
@@ -152,12 +148,12 @@ export default function UsersProfile() {
                     messages.
                   </p>
                 )}
-
                 <textarea
                   rows={3}
-                  cols={40}
-                  name="messageField"
+                  name="messageFieldMobile"
                   id="messageFieldMobile"
+                  value={messageFieldMobile}
+                  onChange={(e) => setMessageFieldMobile(e.target.value)}
                   placeholder="Écrire votre message ici"
                   className="p-2 my-2 font-normal"
                 />
@@ -199,7 +195,7 @@ export default function UsersProfile() {
               />
             </div>
           </div>
-          {isSendMessage ? (
+          {isSendMessage && (
             <>
               {isErrorMessage && (
                 <p className="text-red-500 text-xs text-center mt-2">
@@ -210,12 +206,13 @@ export default function UsersProfile() {
               <textarea
                 rows={3}
                 name="messageField"
-                id="messageField"
+                value={messageField}
+                onChange={(e) => setMessageField(e.target.value)}
                 placeholder="Écrire votre message ici"
                 className="p-2 my-2 hidden md:block"
               />
             </>
-          ) : null}
+          )}
           <div>
             <h3 className="text-xl text-secondaryPink text-center font-semibold pb-3 md:text-black md:text-left ">
               A propos de moi :
