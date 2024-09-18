@@ -22,6 +22,7 @@ import EditNameModal from './Modals/EditNameModal';
 import EditAboutModal from './Modals/EditAboutModal';
 import EditMailModal from './Modals/EditMailModal';
 import EditPasswordlModal from './Modals/EditPasswordModal';
+import { IHobby } from '../../../@types/IHobby';
 
 interface MyProfileViewRefactorProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -84,6 +85,14 @@ export default function MyProfileViewRefactor({
 
   // STATE 16 : password modal
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  const [updateFunction, setUpdateFunction] = useState<() => void>(
+    () => () => {}
+  );
+
+  const [newHobbies, setNewHobbies] = useState<IHobby[]>([]);
 
   // toast de confirmation
   const editNotify = () =>
@@ -156,6 +165,9 @@ export default function MyProfileViewRefactor({
   // Handle submit function
   const handleSubmit = async () => {
     try {
+      if (updateFunction) {
+        updateFunction();
+      }
       // Prepare the data to send to the backend
       const dataToSend = {
         name: editedProfile.name,
@@ -175,7 +187,7 @@ export default function MyProfileViewRefactor({
         editNotify();
       }
       setMe(response.data);
-      updateDataInLocalStorage(response.data.picture, response.data.name);
+      updateDataInLocalStorage('', response.data.name);
       setIsEditing(false);
     } catch (e) {
       console.error(e);
@@ -195,8 +207,12 @@ export default function MyProfileViewRefactor({
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setNewName(me?.name || '');
-    setNewAbout(me?.description || '');
+    if (me) {
+      setModifiedPhotoUrl(me.picture);
+    }
+    if (me) {
+      setEditedProfile(me);
+    }
     cancelNotify();
   };
 
@@ -239,7 +255,7 @@ export default function MyProfileViewRefactor({
                   </button>
                 )}
                 <img
-                  src={modifiedPhotoUrl || me.picture}
+                  src={modifiedPhotoUrl ? modifiedPhotoUrl : me.picture}
                   alt={me.name}
                   className="max-w-64 md:max-w-full rounded-md border border-secondaryPink"
                 />
@@ -314,14 +330,23 @@ export default function MyProfileViewRefactor({
             </div>
             {/* Hobbies list */}
             <div className="flex flex-wrap justify-around gap-2">
-              {me.hobbies.map((hobby) => (
-                <span
-                  key={hobby.id}
-                  className="bg-primaryPink text-primaryText font-medium rounded-lg text-sm py-1 px-2"
-                >
-                  {hobby.name}
-                </span>
-              ))}
+              {newHobbies.length > 0
+                ? newHobbies.map((hobby) => (
+                    <span
+                      key={hobby.id}
+                      className="bg-primaryPink text-primaryText font-medium rounded-lg text-sm py-1 px-2"
+                    >
+                      {hobby.name}
+                    </span>
+                  ))
+                : me.hobbies.map((hobby) => (
+                    <span
+                      key={hobby.id}
+                      className="bg-primaryPink text-primaryText font-medium rounded-lg text-sm py-1 px-2"
+                    >
+                      {hobby.name}
+                    </span>
+                  ))}
             </div>
           </div>
         </div>
@@ -481,6 +506,9 @@ export default function MyProfileViewRefactor({
           setEditedProfile={setEditedProfile}
           setModifiedPhotoUrl={setModifiedPhotoUrl}
           setIsPhotoLoading={setIsPhotoLoading}
+          previewUrl={previewUrl}
+          setPreviewUrl={setPreviewUrl}
+          setUpdateFunction={setUpdateFunction}
           user={me}
         />
       )}
@@ -509,6 +537,7 @@ export default function MyProfileViewRefactor({
           isHobbyModalOpen={isHobbyModalOpen}
           setIsHobbyModalOpen={setIsHobbyModalOpen}
           setEditedProfile={setEditedProfile}
+          setNewHobbies={setNewHobbies}
           user={me}
         />
       )}

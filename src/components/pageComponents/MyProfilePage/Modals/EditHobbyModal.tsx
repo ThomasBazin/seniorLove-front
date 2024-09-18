@@ -4,18 +4,21 @@ import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 import { IHobby } from '../../../../@types/IHobby';
 import Loader from '../../../standaloneComponents/Loader/Loader';
+import axios from '../../../../axios';
 
 interface EditHobbyModalProps {
   isHobbyModalOpen: boolean;
   setIsHobbyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   user: IUsers;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
+  setNewHobbies: React.Dispatch<React.SetStateAction<IHobby[]>>;
 }
 
 export default function EditHobbyModal({
   isHobbyModalOpen,
   setIsHobbyModalOpen,
   setEditedProfile,
+  setNewHobbies,
   user,
 }: EditHobbyModalProps) {
   const [hobbies, setHobbies] = useState<IHobby[]>([]);
@@ -27,9 +30,9 @@ export default function EditHobbyModal({
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:4000/api/public/hobbies');
-      if (response.ok) {
-        const data = await response.json();
+      const response = await axios.get('/public/hobbies');
+      if (response.data) {
+        const data = await response.data;
         setHobbies(data);
         setSelectedHobbies(user.hobbies.map((hobby) => hobby.id));
       } else {
@@ -58,6 +61,9 @@ export default function EditHobbyModal({
       ...prev,
       hobbies: hobbies.filter((hobby) => selectedHobbies.includes(hobby.id)),
     }));
+    setNewHobbies(
+      hobbies.filter((hobby) => selectedHobbies.includes(hobby.id))
+    );
     setIsHobbyModalOpen(false);
   };
   useEffect(() => {
