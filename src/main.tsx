@@ -1,8 +1,8 @@
 import { BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import { useEffect, useState } from 'react';
-import App from './App';
 import Modal from 'react-modal';
+import App from './App';
 import NavBarLogged from './components/standaloneComponents/NavBar/NavBarLogged';
 import NavBarV1 from './components/standaloneComponents/NavBar/NavBar';
 import Footer from './components/standaloneComponents/Footer/Footer';

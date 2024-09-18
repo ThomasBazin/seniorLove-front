@@ -23,9 +23,9 @@ export default function EditMessagesForm({
   // STATE 2 : error server
   const [serverError, setServerError] = useState(false);
 
-  const submitMessage = async () => {
-    const inputForm = document.getElementById('formMessage') as HTMLFormElement;
-    const formData = Object.fromEntries(new FormData(inputForm));
+  const submitMessage = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = Object.fromEntries(new FormData(e.currentTarget));
 
     // Check if message is not empty before sending to API
     if (formData.sendMessage.toString().length === 0) {
@@ -49,13 +49,6 @@ export default function EditMessagesForm({
     }
   };
 
-  const handleKeyPress = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      event.preventDefault(); // Prevents the default action (form submission or new line in a textarea)
-      submitMessage();
-    }
-  };
-
   if (serverError) {
     return <Error500Page />;
   }
@@ -65,6 +58,7 @@ export default function EditMessagesForm({
       action="post"
       className="bg-transparent shadow-message"
       id="formMessage"
+      onSubmit={(e) => submitMessage(e)}
     >
       {badSend && (
         <p className="text-red-500 text-xs text-center">
@@ -80,9 +74,8 @@ export default function EditMessagesForm({
         onChange={(e) => {
           setMessage(e.target.value);
         }}
-        onKeyDown={handleKeyPress}
       />
-      <DefaultBtn btnText="Envoyer" onClick={submitMessage} />
+      <DefaultBtn btnType="submit" btnText="Envoyer" />
     </form>
   );
 }

@@ -61,7 +61,9 @@ export default function SubscribeFormV3({
     try {
       // Prepare form data with file and description
       const formData = new FormData();
-      formData.append('picture', pictureFile); // File upload
+      if (pictureFile) {
+        formData.append('picture', pictureFile); // File upload
+      }
       formData.append('description', descriptionInputValue);
 
       // Update form info with picture and description
