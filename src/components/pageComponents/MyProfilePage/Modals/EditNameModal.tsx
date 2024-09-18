@@ -53,6 +53,7 @@ export default function EditNameModal({
           id="new-text"
           onChange={(e) => setNewName(e.target.value)}
           placeholder={user.name}
+          value={isNewName}
           className="border border-gray-300 rounded-lg px-3 py-2 text-gray-700"
         />
       </div>

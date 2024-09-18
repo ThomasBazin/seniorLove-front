@@ -118,10 +118,8 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
   // s'inscrire à un évenement
   async function subscribeEvent(eventId: number) {
     try {
-      const result = await axios.put(`/private/events/${eventId}/register`);
-      console.log(result.status);
+      await axios.put(`/private/events/${eventId}/register`);
       setIsSubscribe(true);
-      console.log('ATTEMPT');
       subNotify();
     } catch (e) {
       console.error(e);
@@ -140,10 +138,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
   // se désinscrire d'un évenement
   async function unsubscribeEvent(eventId: number) {
     try {
-      const result = await axios.delete(
-        `/private/events/${eventId}/unregister`
-      );
-      console.log(result.status);
+      await axios.delete(`/private/events/${eventId}/unregister`);
       setIsSubscribe(false);
       UnsubNotify();
     } catch (e) {
@@ -185,7 +180,9 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
 
           <div className="flex flex-col justify-between">
             <div className="p-2 w-full text-primaryText text-xl text-center mb-4">
-              <p>{event.name}</p>
+              <p className="text-secondaryPink font-semibold text-3xl">
+                {event.name}
+              </p>
             </div>{' '}
             {/* Aside */}
             <div className="flex flex-col md:flex-row-reverse md:justify-between">
@@ -226,22 +223,20 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
           </div>
           {isSubscribe && (
             <p className="text-center text-x0 text-secondaryPink">
-              Vous êtes déja inscrit(e) à cet évenement
+              Vous êtes inscrit(e) à cet évenement
             </p>
           )}
 
           {isAuthenticated ? (
-            <button
-              type="button"
-              className="min-w-44 bg-buttonGreen hover:bg-secondaryPinkHover rounded-lg text-black font-bold text-lg shadow-md py-1 px-4 block mx-auto my-4"
+            <DefaultBtn
+              btnText={buttonText}
+              btnEvent={buttonText}
               onClick={() =>
                 isSubscribe
                   ? unsubscribeEvent(event.id as number)
                   : subscribeEvent(event.id as number)
               }
-            >
-              {buttonText}
-            </button>
+            />
           ) : (
             <>
               <Link to="/">

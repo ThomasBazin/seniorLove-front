@@ -1,5 +1,6 @@
 interface DefaultBtnProps {
   btnText: string;
+  btnEvent?: string;
   onClick?: () => void;
   btnType?: 'button' | 'submit' | 'reset';
   btnPage?: string;
@@ -20,8 +21,12 @@ export default function DefaultBtn({
   btnMessageMobile,
   btnEdit,
   btnModalDelete,
+  btnEvent,
 }: DefaultBtnProps) {
   const getBackgroundColor = () => {
+    if (btnEvent === 'Je participe') {
+      return 'bg-green-500 hover:bg-green-400';
+    }
     if (btnDelete) return 'bg-red-600 hover:bg-red-500';
     if (btnMessage || btnEdit) return 'bg-green-500 hover:bg-green-400';
     return 'bg-secondaryPink hover:bg-secondaryPinkHover';
