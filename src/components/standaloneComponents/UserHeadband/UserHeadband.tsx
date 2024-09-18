@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import {
   getTokenAndDataFromLocalStorage,
   removeTokenFromLocalStorage,
 } from '../../../localStorage/localStorage';
-import { useEffect, useState } from 'react';
 
 interface UserHeadbandProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,10 +12,8 @@ interface UserHeadbandProps {
 export default function UserHeadband({
   setIsAuthenticated,
 }: UserHeadbandProps) {
-  const response = getTokenAndDataFromLocalStorage();
-  const { name, picture } = response || { name: null, picture: null };
-  const [newPicture, setNewPicture] = useState<string | null>(picture);
-  const [newName, setNewName] = useState<string | null>(name);
+  const [newPicture, setNewPicture] = useState<string | null>(null);
+  const [newName, setNewName] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPicture = () => {
@@ -29,7 +27,7 @@ export default function UserHeadband({
     fetchPicture();
 
     // Set up an interval to fetch data periodically
-    const intervalId = setInterval(fetchPicture, 1000); // Fetch data every 5 seconds
+    const intervalId = setInterval(fetchPicture, 1000); // Fetch data every second
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
@@ -51,7 +49,7 @@ export default function UserHeadband({
         </Link>
         <div>
           <p className="italic text-base font-normal md:text-lg lg:text-xl">
-            Bienvenue {name} !
+            Bienvenue {newName} !
           </p>
           <Link
             to="/"
