@@ -29,7 +29,7 @@ export default function UserHeadband({
     fetchPicture();
 
     // Set up an interval to fetch data periodically
-    const intervalId = setInterval(fetchPicture, 1000); // Fetch data every 5 seconds
+    const intervalId = setInterval(fetchPicture, 1000); // Fetch data every second
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
