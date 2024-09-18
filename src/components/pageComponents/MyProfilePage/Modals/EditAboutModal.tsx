@@ -20,7 +20,7 @@ export default function EditAboutModal({
   setNewAbout,
 }: EditAboutProps) {
   const validateAbout = async () => {
-    setEditedProfile((prev) => ({ ...prev, about: isNewAbout }));
+    setEditedProfile((prev) => ({ ...prev, description: isNewAbout }));
     setIsAboutModalOpen(false);
   };
   return (
