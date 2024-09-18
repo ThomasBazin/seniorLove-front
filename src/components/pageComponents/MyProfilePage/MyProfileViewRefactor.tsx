@@ -537,7 +537,7 @@ export default function MyProfileViewRefactor({
           setIsHobbyModalOpen={setIsHobbyModalOpen}
           setEditedProfile={setEditedProfile}
           setNewHobbies={setNewHobbies}
-          newHobbies={newHobbies}
+          // newHobbies={newHobbies}
           user={me}
         />
       )}
