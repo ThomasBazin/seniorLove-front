@@ -12,6 +12,7 @@ interface EditHobbyModalProps {
   user: IUsers;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
   setNewHobbies: React.Dispatch<React.SetStateAction<IHobby[]>>;
+  newHobbies: IHobby[];
 }
 
 export default function EditHobbyModal({
@@ -19,6 +20,7 @@ export default function EditHobbyModal({
   setIsHobbyModalOpen,
   setEditedProfile,
   setNewHobbies,
+  newHobbies,
   user,
 }: EditHobbyModalProps) {
   const [hobbies, setHobbies] = useState<IHobby[]>([]);
