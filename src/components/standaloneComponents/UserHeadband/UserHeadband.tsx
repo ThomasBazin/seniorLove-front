@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import {
   getTokenAndDataFromLocalStorage,
   removeTokenFromLocalStorage,
 } from '../../../localStorage/localStorage';
-import { useEffect, useState } from 'react';
 
 interface UserHeadbandProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,8 +19,6 @@ export default function UserHeadband({
 
   useEffect(() => {
     const fetchPicture = () => {
-      const response = getTokenAndDataFromLocalStorage();
-      const { name, picture } = response || { name: null, picture: null };
       setNewPicture(picture);
       setNewName(name);
     };
