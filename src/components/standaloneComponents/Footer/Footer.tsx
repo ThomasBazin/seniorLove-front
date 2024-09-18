@@ -4,19 +4,19 @@ export default function Footer() {
   const footerLinks = [
     {
       text: 'Signaler un contenu illégal',
-      href: '/src/components/standaloneComponents/Footer/Footer%20links/SignalProfile.html',
+      href: 'html/SignalProfile.html',
     },
     {
       text: 'Politique de confidentialité',
-      href: '/src/components/standaloneComponents/Footer/Footer%20links/Confidentiality.html',
+      href: 'html/Confidentiality.html',
     },
     {
       text: 'Conditions générales',
-      href: '/src/components/standaloneComponents/Footer/Footer%20links/GeneralConditions.html',
+      href: 'html/GeneralConditions.html',
     },
     {
       text: 'Règles de communauté',
-      href: '/src/components/standaloneComponents/Footer/Footer links/CommunityGuidelines.html',
+      href: 'html/CommunityGuidelines.html',
     },
   ];
 
