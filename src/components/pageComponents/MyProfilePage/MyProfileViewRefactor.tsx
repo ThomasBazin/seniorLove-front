@@ -8,6 +8,8 @@ import {
   updateDataInLocalStorage,
 } from '../../../localStorage/localStorage';
 
+import { ToastContainer, toast } from 'react-toastify';
+
 import axios from '../../../axios';
 import EventSticker from '../../standaloneComponents/EventSticker/EventSticker';
 import DefaultBtn from '../../standaloneComponents/Button/DefaultBtn';
@@ -52,29 +54,48 @@ export default function MyProfileViewRefactor({
 
   // STATE 6 : name modal
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+
+  // STATE 7 : new name
   const [NewName, setNewName] = useState('');
 
-  // STATE 7 : about modal
+  // STATE 8 : about modal
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+
+  // STATE 9 : new about
   const [NewAbout, setNewAbout] = useState('');
 
-  // STATE 8 : modified photo URL
+  // STATE 10 : modified photo URL
   const [modifiedPhotoUrl, setModifiedPhotoUrl] = useState<string | null>(null);
 
-  // STATE 9 : editing mode
+  // STATE 11 : editing mode
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  // STATE 10 : edited profile
+  // STATE 12 : edited profile
   const [editedProfile, setEditedProfile] = useState<Partial<IUsers>>({});
 
-  // STATE 11 : confirm delete modal
+  // STATE 13 : confirm delete modal
   const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] =
     useState<boolean>(false);
 
+  // STATE 14 : photo loading
   const [isPhotoLoading, setIsPhotoLoading] = useState<boolean>(false);
 
+  // STATE 15 : email modal
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+
+  // STATE 16 : password modal
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+
+  // toast de confirmation
+  const editNotify = () =>
+    toast.success('Votre profil a été mis à jour avec succès.', {
+      autoClose: 3000,
+    });
+
+  const cancelNotify = () =>
+    toast.info('Vous avez annulé la modification de votre profil.', {
+      autoClose: 3000,
+    });
 
   // Fetch the connected user using useEffect
   useEffect(() => {
@@ -151,6 +172,9 @@ export default function MyProfileViewRefactor({
       };
 
       const response = await axios.patch(`/private/users/me`, dataToSend);
+      if (response.status) {
+        editNotify();
+      }
       setMe(response.data);
       updateDataInLocalStorage(response.data.picture, response.data.name);
       // localStorage.setItem('name', response.data.name); // TODO: fix this with useState
@@ -175,6 +199,7 @@ export default function MyProfileViewRefactor({
     setIsEditing(false);
     setNewName(me?.name || '');
     setNewAbout(me?.description || '');
+    cancelNotify();
   };
 
   if (serverError) {
@@ -500,6 +525,7 @@ export default function MyProfileViewRefactor({
           Une erreur est survenue lors de la suppression du compte.
         </p>
       )}
+      <ToastContainer />
     </div>
   );
 }
