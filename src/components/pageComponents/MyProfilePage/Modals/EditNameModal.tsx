@@ -1,4 +1,5 @@
 import ReactModal from 'react-modal';
+import { useState } from 'react';
 import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 
@@ -19,9 +20,11 @@ export default function EditNameModal({
   isNewName,
   setNewName,
 }: EditNameProps) {
+  const [newNamePending, setNewNamePending] = useState(isNewName);
   const validateName = async () => {
-    setEditedProfile((prev) => ({ ...prev, name: isNewName }));
+    setEditedProfile((prev) => ({ ...prev, name: newNamePending }));
     setIsNameModalOpen(false);
+    setNewName(newNamePending);
   };
   return (
     <ReactModal
@@ -51,9 +54,9 @@ export default function EditNameModal({
           type="text"
           name="new-text"
           id="new-text"
-          onChange={(e) => setNewName(e.target.value)}
+          onChange={(e) => setNewNamePending(e.target.value)}
           placeholder={user.name}
-          value={isNewName}
+          value={newNamePending}
           className="border border-gray-300 rounded-lg px-3 py-2 text-gray-700"
         />
       </div>

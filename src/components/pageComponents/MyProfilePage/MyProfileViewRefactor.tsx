@@ -173,8 +173,6 @@ export default function MyProfileViewRefactor({
         name: editedProfile.name,
         description: editedProfile.description,
         gender: editedProfile.gender,
-        picture: editedProfile.picture,
-        picture_id: editedProfile.picture_id,
         email: editedProfile.email,
         old_password: editedProfile.old_password,
         new_password: editedProfile.new_password,
@@ -243,17 +241,16 @@ export default function MyProfileViewRefactor({
               <Loader />
             ) : (
               <>
-                {isEditing && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsImageModalOpen(true);
-                    }}
-                    className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
-                  >
-                    <img src={editLogo} alt="edit" className="w-6 h-6" />
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsImageModalOpen(true);
+                  }}
+                  className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
+                >
+                  <img src={editLogo} alt="edit" className="w-6 h-6" />
+                </button>
+
                 <img
                   src={modifiedPhotoUrl ? modifiedPhotoUrl : me.picture}
                   alt={me.name}
@@ -329,7 +326,7 @@ export default function MyProfileViewRefactor({
               )}
             </div>
             {/* Hobbies list */}
-            <div className="flex flex-wrap justify-around gap-2">
+            <div className="flex flex-wrap justify-center gap-2">
               {newHobbies.length > 0
                 ? newHobbies.map((hobby) => (
                     <span

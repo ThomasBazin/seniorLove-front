@@ -22,7 +22,6 @@ function SubscribeFormV4({
     e.preventDefault();
     const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
     const { email, password, repeatPassword } = rawFormData;
-    console.log(typeof rawFormData);
 
     const { error } = stepFourSchema.validate(rawFormData);
     if (error) {
@@ -70,12 +69,24 @@ function SubscribeFormV4({
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-lg font-medium leading-6 text-primaryText"
+              className="flex text-lg font-medium leading-6 text-primaryText"
             >
               Mot de passe{' '}
-              <span className="text-sm text-secondaryPink">
-                (12 caractères minimum)
-              </span>
+              <p
+                className="text-sm text-center ml-4"
+                title="12 caractères minimum avec 1 majuscule, 1 minuscule, 1 chiffre
+                & 1 caractère spécial"
+              >
+                <img
+                  src="/icon/question-circle.svg"
+                  alt="aide"
+                  className="w-6 cursor-help"
+                />
+                <span className="sr-only">
+                  12 caractères minimum avec 1 majuscule, 1 minuscule, 1 chiffre
+                  & 1 caractère spécial
+                </span>
+              </p>
             </label>
             <div className="mt-2">
               <div className="flex bg-white rounded-md shadow-sm border">

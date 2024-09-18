@@ -9,6 +9,8 @@ interface DefaultBtnProps {
   btnMessageMobile?: boolean;
   btnEdit?: boolean;
   btnModalDelete?: boolean;
+  btnValidate?: boolean;
+  btnModalPicture?: boolean;
 }
 
 export default function DefaultBtn({
@@ -22,9 +24,11 @@ export default function DefaultBtn({
   btnEdit,
   btnModalDelete,
   btnEvent,
+  btnValidate,
+  btnModalPicture,
 }: DefaultBtnProps) {
   const getBackgroundColor = () => {
-    if (btnEvent === 'Je participe') {
+    if (btnEvent === 'Je participe' || btnValidate) {
       return 'bg-green-500 hover:bg-green-400';
     }
     if (btnDelete) return 'bg-red-600 hover:bg-red-500';
@@ -35,6 +39,9 @@ export default function DefaultBtn({
   const getSizeAndPadding = () => {
     if (btnPage === 'profile' || btnMessageMobile) {
       return 'text-sm px-2 min-w-24 my-0';
+    }
+    if (btnModalPicture) {
+      return 'text-sm px-2 min-w-24 my-0 md:text-lg md:px-4 md:min-w-44 md:my-4';
     }
     if (btnModalDelete) {
       return 'text-sm px-4 md:min-w-44 my-4';

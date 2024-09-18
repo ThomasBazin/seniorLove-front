@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import ReactModal from 'react-modal';
 import { useState } from 'react';
 import { IUsers } from '../../../../@types/IUsers';
@@ -113,7 +114,7 @@ export default function EditImageModal({
         },
       }}
     >
-      <h3 className="text-xl font-semibold text-secondaryPink">
+      <h3 className="text-xl text-center font-semibold text-secondaryPink">
         Changez votre image
       </h3>
       <div className="flex flex-col gap-4 mt-4">
@@ -124,20 +125,36 @@ export default function EditImageModal({
               alt={user.name}
               className="w-1/2 object-cover rounded-md border border-gray-300"
             />
-            <p className="mt-2 text-gray-600">Ancienne image</p>
+            <p className="mt-2 text-gray-600">Ancienne photo</p>
           </div>
 
           <div className="flex flex-col items-center">
-            <input
-              type="file"
-              name="new-image"
-              id="new-image"
-              className="border border-gray-300 rounded-lg px-3 py-2 text-gray-700 mb-2"
-              onChange={handleFileChange}
-            />
+            <label
+              htmlFor="doc"
+              className="flex items-center px-8 py-1 md:py-3 gap-3 rounded-3xl border border-gray-300 border-dashed bg-gray-100 cursor-pointer"
+            >
+              <img
+                className="h-6 w-auto"
+                src="/icon/upload.svg"
+                alt="Télécharger"
+              />
+              <div className="space-y-2">
+                <h4 className="text-sm md:text-base font-semibold text-gray-700 text-center">
+                  Charger une nouvelle photo
+                </h4>
+              </div>
+              <input
+                type="file"
+                id="doc"
+                name="doc"
+                accept="png, jpg"
+                hidden
+                onChange={handleFileChange}
+              />
+            </label>
             {previewUrl && (
               <>
-                <p className="mt-2 text-gray-600">Nouvelle image</p>
+                <p className="mt-2 text-gray-600">Nouvelle photo</p>
                 <img
                   src={previewUrl}
                   alt={user.name}
@@ -147,7 +164,19 @@ export default function EditImageModal({
             )}
           </div>
         </div>
-        <DefaultBtn btnText="Valider" onClick={() => validateImage()} />
+        <div className="flex">
+          <DefaultBtn
+            btnText="Valider"
+            btnValidate
+            btnModalPicture
+            onClick={() => validateImage()}
+          />
+          <DefaultBtn
+            btnText="Annuler"
+            btnModalPicture
+            onClick={() => setIsImageModalOpen(false)}
+          />
+        </div>
       </div>
     </ReactModal>
   );

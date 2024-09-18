@@ -97,7 +97,10 @@ export default function EditHobbyModal({
       <h3 className="text-xl font-semibold text-secondaryPink mb-4">
         Modifiez vos centres d’intérêt
       </h3>
-      <div className="flex flex-col gap-3 overflow-y-scroll">
+      <div className="flex flex-col gap-3 h-52 md:h-fit overflow-y-scroll md:overflow-y-auto">
+        {error && (
+          <div className="text-red-500 bg-red-100 p-2 rounded-md">{error}</div>
+        )}
         {isLoading ? (
           <Loader />
         ) : (
