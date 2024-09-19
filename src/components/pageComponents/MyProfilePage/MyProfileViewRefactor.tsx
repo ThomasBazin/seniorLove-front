@@ -94,6 +94,10 @@ export default function MyProfileViewRefactor({
 
   const [newHobbies, setNewHobbies] = useState<IHobby[]>([]);
 
+  const [addedHobbies, setAddedHobbies] = useState<number[]>([]);
+
+  const [selectedHobbies, setSelectedHobbies] = useState<number[]>([]);
+
   // toast de confirmation
   const editNotify = () =>
     toast.success('Votre profil a été mis à jour avec succès.', {
@@ -132,6 +136,12 @@ export default function MyProfileViewRefactor({
     };
     fetchConnectedUser();
   }, [myId, navigate, me?.name, me?.description]);
+
+  useEffect(() => {
+    if (me) {
+      setAddedHobbies(me.hobbies.map((hobby) => hobby.id));
+    }
+  }, [me]);
 
   // Delete account function
   const deleteAccount = async () => {
@@ -207,10 +217,10 @@ export default function MyProfileViewRefactor({
     setIsEditing(false);
     if (me) {
       setModifiedPhotoUrl(me.picture);
-    }
-    if (me) {
+      setAddedHobbies(me.hobbies.map((hobby) => hobby.id));
       setEditedProfile(me);
     }
+
     cancelNotify();
   };
 
@@ -537,6 +547,10 @@ export default function MyProfileViewRefactor({
           setIsHobbyModalOpen={setIsHobbyModalOpen}
           setEditedProfile={setEditedProfile}
           setNewHobbies={setNewHobbies}
+          addedHobbies={addedHobbies}
+          setAddedHobbies={setAddedHobbies}
+          setSelectedHobbies={setSelectedHobbies}
+          selectedHobbies={selectedHobbies}
           // newHobbies={newHobbies}
           user={me}
         />
