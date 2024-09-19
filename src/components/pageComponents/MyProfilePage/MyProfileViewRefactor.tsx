@@ -95,7 +95,6 @@ export default function MyProfileViewRefactor({
 
   const [addedHobbies, setAddedHobbies] = useState<number[]>([]);
 
-  const [selectedHobbies, setSelectedHobbies] = useState<number[]>([]);
 
   // toast de confirmation
   const editNotify = () =>
@@ -548,9 +547,6 @@ export default function MyProfileViewRefactor({
           setNewHobbies={setNewHobbies}
           addedHobbies={addedHobbies}
           setAddedHobbies={setAddedHobbies}
-          setSelectedHobbies={setSelectedHobbies}
-          // newHobbies={newHobbies}
-          user={me}
         />
       )}
       {isConfirmDeleteModalOpen && (

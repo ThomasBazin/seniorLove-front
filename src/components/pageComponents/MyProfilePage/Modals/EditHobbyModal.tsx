@@ -9,12 +9,10 @@ import axios from '../../../../axios';
 interface EditHobbyModalProps {
   isHobbyModalOpen: boolean;
   setIsHobbyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  user: IUsers;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
   setNewHobbies: React.Dispatch<React.SetStateAction<IHobby[]>>;
   addedHobbies: number[];
   setAddedHobbies: React.Dispatch<React.SetStateAction<number[]>>;
-  setSelectedHobbies: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 export default function EditHobbyModal({
@@ -22,10 +20,8 @@ export default function EditHobbyModal({
   setIsHobbyModalOpen,
   setEditedProfile,
   setNewHobbies,
-  user,
   addedHobbies,
   setAddedHobbies,
-  setSelectedHobbies,
 }: EditHobbyModalProps) {
   const [hobbies, setHobbies] = useState<IHobby[]>([]);
 
@@ -39,7 +35,6 @@ export default function EditHobbyModal({
       if (response.data) {
         const data = await response.data;
         setHobbies(data);
-        setSelectedHobbies(user.hobbies.map((hobby) => hobby.id));
       } else {
         throw new Error('Failed to fetch hobbies');
       }
@@ -52,11 +47,6 @@ export default function EditHobbyModal({
   };
 
   const handleCheckboxChange = (hobbyId: number) => {
-    setSelectedHobbies((prevSelectedHobbies) =>
-      prevSelectedHobbies.includes(hobbyId)
-        ? prevSelectedHobbies.filter((id) => id !== hobbyId)
-        : [...prevSelectedHobbies, hobbyId]
-    );
     setAddedHobbies((prevAddedHobbies) =>
       prevAddedHobbies.includes(hobbyId)
         ? prevAddedHobbies.filter((id) => id !== hobbyId)
