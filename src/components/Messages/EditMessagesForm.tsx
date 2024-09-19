@@ -62,7 +62,7 @@ export default function EditMessagesForm({
     >
       {badSend && (
         <p className="text-red-500 text-xs text-center">
-          Ce contact n&aposest plus disponible pour recevoir des messages.
+          Ce contact n&apos;est plus disponible pour recevoir des messages.
         </p>
       )}
       <input
