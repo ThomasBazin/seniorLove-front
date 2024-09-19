@@ -158,7 +158,6 @@ export default function MyProfileViewRefactor({
 
   const handleDeleteClick = () => {
     // Affiche la modale de confirmation
-    // setShowModal(true);
     setIsConfirmDeleteModalOpen(true);
   };
 
@@ -217,7 +216,7 @@ export default function MyProfileViewRefactor({
     setIsEditing(false);
     if (me) {
       setModifiedPhotoUrl(me.picture);
-      setAddedHobbies(me.hobbies.map((hobby) => hobby.id));
+      setNewHobbies([]);
       setEditedProfile(me);
     }
 

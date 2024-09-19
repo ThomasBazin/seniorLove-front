@@ -89,10 +89,6 @@ export default function EditHobbyModal({
     }
   }, []);
 
-  useEffect(() => {
-    console.log(addedHobbies);
-  }, [addedHobbies]);
-
   return (
     <ReactModal
       isOpen={isHobbyModalOpen}
