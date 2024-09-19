@@ -3,8 +3,8 @@ import ReactModal from 'react-modal';
 import { useState } from 'react';
 import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
+import { updateDataInLocalStorage } from '../../../../localStorage/localStorage';
 import axios from '../../../../axios';
-import { updatePictureInLocalStorage } from '../../../../localStorage/localStorage';
 
 interface EditImageModalProps {
   isImageModalOpen: boolean;
@@ -13,6 +13,9 @@ interface EditImageModalProps {
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
   setModifiedPhotoUrl: React.Dispatch<React.SetStateAction<string | null>>;
   setIsPhotoLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  previewUrl: string | null;
+  setPreviewUrl: React.Dispatch<React.SetStateAction<string | null>>;
+  setUpdateFunction: React.Dispatch<React.SetStateAction<() => void>>;
 }
 
 export default function EditImageModal({
@@ -22,9 +25,11 @@ export default function EditImageModal({
   setEditedProfile,
   setModifiedPhotoUrl,
   setIsPhotoLoading,
+  previewUrl,
+  setPreviewUrl,
+  setUpdateFunction,
 }: EditImageModalProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,11 +72,14 @@ export default function EditImageModal({
       );
 
       const result = response.data;
-      setEditedProfile((prev) => ({ ...prev, picture: result.pictureUrl }));
-      setEditedProfile((prev) => ({ ...prev, picture_id: result.pictureId }));
-      setModifiedPhotoUrl(result.pictureUrl);
-      setIsImageModalOpen(false); // Close modal after success
-      updatePictureInLocalStorage(result.pictureUrl);
+      if (response.status === 200) {
+        setEditedProfile((prev) => ({ ...prev, picture: result.pictureUrl }));
+        setEditedProfile((prev) => ({ ...prev, picture_id: result.pictureId }));
+        updateDataInLocalStorage(result.pictureUrl, '');
+        setIsImageModalOpen(false); // Close modal after success
+      } else {
+        setError(result.error || 'Image upload failed');
+      }
     } catch (err) {
       setError('Error uploading image');
       console.error('Error uploading image:', error);
@@ -80,8 +88,10 @@ export default function EditImageModal({
     }
   };
 
-  const validateImage = async () => {
-    handleImageUpload();
+  const validateImage = () => {
+    setModifiedPhotoUrl(previewUrl);
+    setPreviewUrl(null);
+    setUpdateFunction(() => handleImageUpload);
     setIsImageModalOpen(false);
   };
 
@@ -161,11 +171,6 @@ export default function EditImageModal({
             btnValidate
             btnModalPicture
             onClick={() => validateImage()}
-          />
-          <DefaultBtn
-            btnText="Annuler"
-            btnModalPicture
-            onClick={() => setIsImageModalOpen(false)}
           />
         </div>
       </div>

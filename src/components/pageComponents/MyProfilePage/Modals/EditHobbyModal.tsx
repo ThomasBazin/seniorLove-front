@@ -11,27 +11,38 @@ interface EditHobbyModalProps {
   setIsHobbyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   user: IUsers;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
+  setNewHobbies: React.Dispatch<React.SetStateAction<IHobby[]>>;
+  addedHobbies: number[];
+  setAddedHobbies: React.Dispatch<React.SetStateAction<number[]>>;
+  setSelectedHobbies: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 export default function EditHobbyModal({
   isHobbyModalOpen,
   setIsHobbyModalOpen,
   setEditedProfile,
+  setNewHobbies,
   user,
+  addedHobbies,
+  setAddedHobbies,
+  setSelectedHobbies,
 }: EditHobbyModalProps) {
   const [hobbies, setHobbies] = useState<IHobby[]>([]);
-  const [selectedHobbies, setSelectedHobbies] = useState<number[]>([]);
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchHobbies = async () => {
     setError(null);
-
     try {
       const response = await axios.get('/public/hobbies');
-
-      setHobbies(response.data);
-      setSelectedHobbies(user.hobbies.map((hobby) => hobby.id));
+      if (response.data) {
+        const data = await response.data;
+        setHobbies(data);
+        setSelectedHobbies(user.hobbies.map((hobby) => hobby.id));
+      } else {
+        throw new Error('Failed to fetch hobbies');
+      }
     } catch (err) {
       setError('Error updating hobbies');
       console.error('Error updating hobbies:', error);
@@ -46,22 +57,36 @@ export default function EditHobbyModal({
         ? prevSelectedHobbies.filter((id) => id !== hobbyId)
         : [...prevSelectedHobbies, hobbyId]
     );
+    setAddedHobbies((prevAddedHobbies) =>
+      prevAddedHobbies.includes(hobbyId)
+        ? prevAddedHobbies.filter((id) => id !== hobbyId)
+        : [...prevAddedHobbies, hobbyId]
+    );
   };
 
   const handleSave = async () => {
-    setIsLoading(true);
-    setError(null);
-    setEditedProfile((prev) => ({
-      ...prev,
-      hobbies: hobbies.filter((hobby) => selectedHobbies.includes(hobby.id)),
-    }));
-    setIsHobbyModalOpen(false);
+    try {
+      setIsLoading(true);
+      setError(null);
+      setEditedProfile((prev) => ({
+        ...prev,
+        hobbies: hobbies.filter((hobby) => addedHobbies.includes(hobby.id)),
+      }));
+      setNewHobbies(hobbies.filter((hobby) => addedHobbies.includes(hobby.id)));
+      setIsHobbyModalOpen(false);
+    } catch (err) {
+      setError('Error updating hobbies');
+      console.error('Error updating hobbies:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
   useEffect(() => {
     if (isHobbyModalOpen) {
       fetchHobbies();
     }
-  }, [isHobbyModalOpen]);
+  }, []);
 
   return (
     <ReactModal
@@ -99,7 +124,7 @@ export default function EditHobbyModal({
                 <input
                   type="checkbox"
                   id={`hobby-${hobby.id}`}
-                  checked={selectedHobbies.includes(hobby.id)}
+                  checked={addedHobbies.includes(hobby.id)}
                   onChange={() => handleCheckboxChange(hobby.id)}
                   className="form-checkbox h-5 w-5 text-primaryPink"
                 />

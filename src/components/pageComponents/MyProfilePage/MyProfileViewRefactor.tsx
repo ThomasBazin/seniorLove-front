@@ -1,4 +1,3 @@
-// TODO: add | hobbies, email, password, picture | update
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
@@ -6,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { IUsers } from '../../../@types/IUsers';
 import {
   removeTokenFromLocalStorage,
-  updateNameInLocalStorage,
+  updateDataInLocalStorage,
 } from '../../../localStorage/localStorage';
 
 import axios from '../../../axios';
@@ -22,6 +21,7 @@ import EditNameModal from './Modals/EditNameModal';
 import EditAboutModal from './Modals/EditAboutModal';
 import EditMailModal from './Modals/EditMailModal';
 import EditPasswordlModal from './Modals/EditPasswordModal';
+import { IHobby } from '../../../@types/IHobby';
 
 interface MyProfileViewRefactorProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -85,6 +85,18 @@ export default function MyProfileViewRefactor({
   // STATE 16 : password modal
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  const [updateFunction, setUpdateFunction] = useState<() => void>(
+    () => () => { }
+  );
+
+  const [newHobbies, setNewHobbies] = useState<IHobby[]>([]);
+
+  const [addedHobbies, setAddedHobbies] = useState<number[]>([]);
+
+  const [selectedHobbies, setSelectedHobbies] = useState<number[]>([]);
+
   // toast de confirmation
   const editNotify = () =>
     toast.success('Votre profil a été mis à jour avec succès.', {
@@ -124,6 +136,12 @@ export default function MyProfileViewRefactor({
     fetchConnectedUser();
   }, [myId, navigate, me?.name, me?.description]);
 
+  useEffect(() => {
+    if (me) {
+      setAddedHobbies(me.hobbies.map((hobby) => hobby.id));
+    }
+  }, [me]);
+
   // Delete account function
   const deleteAccount = async () => {
     try {
@@ -139,7 +157,6 @@ export default function MyProfileViewRefactor({
 
   const handleDeleteClick = () => {
     // Affiche la modale de confirmation
-    // setShowModal(true);
     setIsConfirmDeleteModalOpen(true);
   };
 
@@ -156,6 +173,9 @@ export default function MyProfileViewRefactor({
   // Handle submit function
   const handleSubmit = async () => {
     try {
+      if (updateFunction) {
+        updateFunction();
+      }
       // Prepare the data to send to the backend
       const dataToSend = {
         name: editedProfile.name,
@@ -173,7 +193,7 @@ export default function MyProfileViewRefactor({
         editNotify();
       }
       setMe(response.data);
-      updateNameInLocalStorage(response.data.name);
+      updateDataInLocalStorage('', response.data.name);
       setIsEditing(false);
     } catch (e) {
       console.error(e);
@@ -193,7 +213,13 @@ export default function MyProfileViewRefactor({
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setEditedProfile(me || {});
+    setUpdateFunction(() => () => { });
+    if (me) {
+      setModifiedPhotoUrl(me.picture);
+      setNewHobbies([]);
+      setEditedProfile(me);
+    }
+
     cancelNotify();
   };
 
@@ -224,15 +250,17 @@ export default function MyProfileViewRefactor({
               <Loader />
             ) : (
               <>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsImageModalOpen(true);
-                  }}
-                  className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
-                >
-                  <img src={editLogo} alt="edit" className="w-6 h-6" />
-                </button>
+                {isEditing && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsImageModalOpen(true);
+                    }}
+                    className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
+                  >
+                    <img src={editLogo} alt="edit" className="w-6 h-6" />
+                  </button>
+                )}
 
                 <img
                   src={modifiedPhotoUrl || me.picture}
@@ -310,14 +338,23 @@ export default function MyProfileViewRefactor({
             </div>
             {/* Hobbies list */}
             <div className="flex flex-wrap justify-center gap-2">
-              {me.hobbies.map((hobby) => (
-                <span
-                  key={hobby.id}
-                  className="bg-primaryPink text-primaryText font-medium rounded-lg text-sm py-1 px-2"
-                >
-                  {hobby.name}
-                </span>
-              ))}
+              {newHobbies.length > 0
+                ? newHobbies.map((hobby) => (
+                  <span
+                    key={hobby.id}
+                    className="bg-primaryPink text-primaryText font-medium rounded-lg text-sm py-1 px-2"
+                  >
+                    {hobby.name}
+                  </span>
+                ))
+                : me.hobbies.map((hobby) => (
+                  <span
+                    key={hobby.id}
+                    className="bg-primaryPink text-primaryText font-medium rounded-lg text-sm py-1 px-2"
+                  >
+                    {hobby.name}
+                  </span>
+                ))}
             </div>
           </div>
         </div>
@@ -477,6 +514,9 @@ export default function MyProfileViewRefactor({
           setEditedProfile={setEditedProfile}
           setModifiedPhotoUrl={setModifiedPhotoUrl}
           setIsPhotoLoading={setIsPhotoLoading}
+          previewUrl={previewUrl}
+          setPreviewUrl={setPreviewUrl}
+          setUpdateFunction={setUpdateFunction}
           user={me}
         />
       )}
@@ -505,6 +545,11 @@ export default function MyProfileViewRefactor({
           isHobbyModalOpen={isHobbyModalOpen}
           setIsHobbyModalOpen={setIsHobbyModalOpen}
           setEditedProfile={setEditedProfile}
+          setNewHobbies={setNewHobbies}
+          addedHobbies={addedHobbies}
+          setAddedHobbies={setAddedHobbies}
+          setSelectedHobbies={setSelectedHobbies}
+          // newHobbies={newHobbies}
           user={me}
         />
       )}
