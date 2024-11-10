@@ -5,7 +5,7 @@ import MobileFooterMenuV1 from '../MobileNavBar/MobileNavBar';
 import Logo from '/img/logo-text-seniorlove.webp';
 
 export default function NavBarV1() {
-  const NavBarButtons = [
+  const NavBarLinks = [
     { text: 'Evènements', to: '/events' },
     { text: 'Se connecter', to: '/login' },
   ];
@@ -21,13 +21,13 @@ export default function NavBarV1() {
           />
         </Link>
         <div className="flex gap-6">
-          {NavBarButtons.map((button) => (
+          {NavBarLinks.map((link) => (
             <Link
-              to={button.to}
-              key={button.text}
+              to={link.to}
+              key={link.text}
               className="text-secondaryPink hover:text-primaryText font-bold py-2 px-3 hidden md:block"
             >
-              {button.text}
+              {link.text}
             </Link>
           ))}
         </div>

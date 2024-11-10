@@ -73,21 +73,21 @@ export default function ArticleReverse({
           <img
             src="/img/senior-love-guitar.webp"
             alt="Un homme jouant de la guitare avec une femme à ses côtés."
-            className="hidden md:block w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
+            className="w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg mx-auto"
           />
         )}
         {isForm1Validated && !isForm2Validated && (
           <img
             src="/img/senior-dancer.webp"
             alt="Un couple qui danse"
-            className="hidden md:block w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
+            className="w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg mx-auto"
           />
         )}
         {isForm1Validated && isForm2Validated && (
           <img
             src="/img/senior-field.webp"
             alt="Un couple qui fait du trekking"
-            className="hidden md:block w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg"
+            className="w-60 h-80 xl:w-1/4 xl:h-96 object-cover rounded-2xl shadow-lg mx-auto"
           />
         )}
       </div>

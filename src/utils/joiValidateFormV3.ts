@@ -10,9 +10,9 @@ const stepThreeSchema = Joi.object({
   }),
 
   pictureFile: Joi.object().required().messages({
-    'object.base': "Veuillez d'ajouter une photo !",
-    'object.empty': "Veuillez d'ajouter une photo !",
-    'object.required': "Veuillez d'ajouter une photo !",
+    'object.base': 'Veuillez ajouter une photo !',
+    'object.empty': 'Veuillez ajouter une photo !',
+    'object.required': 'Veuillez ajouter une photo !',
   }),
 });
 

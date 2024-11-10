@@ -26,7 +26,7 @@ export default function Root() {
   useEffect(() => {
     const checkAuthentication = () => {
       const response = getTokenAndDataFromLocalStorage();
-      const token = response?.token;
+      const token = response?.token || null;
       if (token && token === userToken) {
         setIsAuthenticated(true);
         axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;

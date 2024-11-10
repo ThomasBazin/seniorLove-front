@@ -1,3 +1,4 @@
 {
-    "cSpell.language": "en,fr,fr-FR"
+    "cSpell.language": "en,fr,fr-FR",
+    "editor.formatOnSave": true
 }
