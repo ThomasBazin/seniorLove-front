@@ -25,14 +25,14 @@ function SubscribeFormV4({
 
     const { error } = stepFourSchema.validate(rawFormData);
     if (error) {
-      setError(error.details[0].message);
+      setError(error.message);
     } else {
-      const formV3Infos = {
+      const formV4Infos = {
         email,
         password,
         repeat_password: repeatPassword,
       };
-      fillFormInfos(formV3Infos);
+      fillFormInfos(formV4Infos);
       setIsForm4Validated(true);
       setIsGlobalFormSubmitted(true);
     }

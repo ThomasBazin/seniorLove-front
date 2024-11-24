@@ -4,12 +4,12 @@ import Joi from 'joi';
 // Joi schema configuration (no picture in schema)
 const stepOneSchema = Joi.object({
   name: Joi.string()
+    .min(1)
     .max(50)
     .regex(/^(?!.*\d).+$/)
     .required()
     .messages({
-      'string.pattern.base':
-        'Le champ prénom doit être une chaîne de caractères !',
+      'string.pattern.base': 'Votre prénom ne doit pas contenir de chiffre !',
       'string.empty': 'Le champ prénom est obligatoire !',
       'string.max': 'Le nom doit être inférieur ou égal à 50 caractères.',
       'any.required': 'Le champ prénom est requis.',

@@ -58,8 +58,7 @@ export default function SubscribeFormV1({
       }
     );
     if (error) {
-      const newError = error.details[0].message;
-      setError(newError);
+      setError(error.message);
     } else {
       const formV1Infos = {
         name,

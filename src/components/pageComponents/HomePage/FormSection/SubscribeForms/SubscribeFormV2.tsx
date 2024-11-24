@@ -29,7 +29,7 @@ export default function SubscribeFormV2({
 
     const { error } = stepTwoSchema.validate(userHobbies);
     if (error) {
-      setError(error.details[0].message);
+      setError(error.message);
     } else {
       setError(null);
       fillFormInfos({ hobbies: userHobbies });

@@ -54,7 +54,7 @@ export default function SubscribeFormV3({
     );
 
     if (error) {
-      setError(error.details[0].message);
+      setError(error.message);
       return;
     }
 
