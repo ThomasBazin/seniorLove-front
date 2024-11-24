@@ -88,13 +88,12 @@ export default function MyProfileViewRefactor({
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const [updateFunction, setUpdateFunction] = useState<() => void>(
-    () => () => { }
+    () => () => {}
   );
 
   const [newHobbies, setNewHobbies] = useState<IHobby[]>([]);
 
   const [addedHobbies, setAddedHobbies] = useState<number[]>([]);
-
 
   // toast de confirmation
   const editNotify = () =>
@@ -179,12 +178,11 @@ export default function MyProfileViewRefactor({
       const dataToSend = {
         name: editedProfile.name,
         description: editedProfile.description,
-        gender: editedProfile.gender,
         email: editedProfile.email,
         old_password: editedProfile.old_password,
         new_password: editedProfile.new_password,
         repeat_new_password: editedProfile.repeat_new_password,
-        hobbies: editedProfile.hobbies,
+        hobbies: editedProfile.hobbies?.map((hobby) => hobby.id),
       };
 
       const response = await axios.patch(`/private/users/me`, dataToSend);
@@ -212,7 +210,7 @@ export default function MyProfileViewRefactor({
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setUpdateFunction(() => () => { });
+    setUpdateFunction(() => () => {});
     if (me) {
       setModifiedPhotoUrl(me.picture);
       setNewHobbies([]);
@@ -339,21 +337,21 @@ export default function MyProfileViewRefactor({
             <div className="flex flex-wrap justify-center gap-2">
               {newHobbies.length > 0
                 ? newHobbies.map((hobby) => (
-                  <span
-                    key={hobby.id}
-                    className="bg-primaryPink text-primaryText font-medium rounded-lg text-sm py-1 px-2"
-                  >
-                    {hobby.name}
-                  </span>
-                ))
+                    <span
+                      key={hobby.id}
+                      className="bg-primaryPink text-primaryText font-medium rounded-lg text-sm py-1 px-2"
+                    >
+                      {hobby.name}
+                    </span>
+                  ))
                 : me.hobbies.map((hobby) => (
-                  <span
-                    key={hobby.id}
-                    className="bg-primaryPink text-primaryText font-medium rounded-lg text-sm py-1 px-2"
-                  >
-                    {hobby.name}
-                  </span>
-                ))}
+                    <span
+                      key={hobby.id}
+                      className="bg-primaryPink text-primaryText font-medium rounded-lg text-sm py-1 px-2"
+                    >
+                      {hobby.name}
+                    </span>
+                  ))}
             </div>
           </div>
         </div>

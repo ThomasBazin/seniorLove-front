@@ -28,24 +28,6 @@ export default function EditHobbyModal({
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchHobbies = async () => {
-    setError(null);
-    try {
-      const response = await axios.get('/public/hobbies');
-      if (response.data) {
-        const data = await response.data;
-        setHobbies(data);
-      } else {
-        throw new Error('Failed to fetch hobbies');
-      }
-    } catch (err) {
-      setError('Error updating hobbies');
-      console.error('Error updating hobbies:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const handleCheckboxChange = (hobbyId: number) => {
     setAddedHobbies((prevAddedHobbies) =>
       prevAddedHobbies.includes(hobbyId)
@@ -73,10 +55,25 @@ export default function EditHobbyModal({
   };
 
   useEffect(() => {
-    if (isHobbyModalOpen) {
-      fetchHobbies();
-    }
-  }, []);
+    const fetchHobbies = async () => {
+      setError(null);
+      try {
+        const response = await axios.get('/public/hobbies');
+        if (response.data) {
+          const data = await response.data;
+          setHobbies(data);
+        } else {
+          throw new Error('Failed to fetch hobbies');
+        }
+      } catch (err) {
+        setError('Error updating hobbies');
+        console.error('Error updating hobbies:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchHobbies();
+  }, [error]);
 
   return (
     <ReactModal
