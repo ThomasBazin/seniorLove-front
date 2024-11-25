@@ -4,8 +4,11 @@ import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 interface ConfirmDeleteModalProps {
   isConfirmDeleteModalOpen: boolean;
   setIsConfirmDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleConfirmDelete: () => void;
+  handleConfirmDelete: (
+    event: React.FormEvent<HTMLFormElement>
+  ) => Promise<void>;
   handleCancelDelete: () => void;
+  deleteError: string | null;
 }
 
 export default function ConfirmDeleteModal({
@@ -13,6 +16,7 @@ export default function ConfirmDeleteModal({
   setIsConfirmDeleteModalOpen,
   handleConfirmDelete,
   handleCancelDelete,
+  deleteError,
 }: ConfirmDeleteModalProps) {
   return (
     <ReactModal
@@ -34,40 +38,47 @@ export default function ConfirmDeleteModal({
         },
       }}
     >
-      <div className="flex flex-col text-center gap-3">
+      <div className="flex flex-col text-center gap-3 text-primaryText">
         <p className="flex flex-col">
           Êtes-vous sûr de vouloir supprimer votre compte ?
           <span className="text-red-500 font-medium">
             Cette action est irréversible.
           </span>
         </p>
-        <div className="mt-4 flex gap-2">
-          <DefaultBtn
-            btnText="Oui, supprimer"
-            onClick={handleConfirmDelete}
-            btnDelete
-            btnModalDelete
-          />
-          {/* <button
-            className="bg-buttonGreen hover:bg-red-500 text-black font-bold py-2 px-4 rounded mr-2"
-            onClick={handleConfirmDelete}
-            type="button"
+        <form className="mt-4" onSubmit={(event) => handleConfirmDelete(event)}>
+          <label
+            htmlFor="password"
+            className="flex text-base font-medium leading-6 text-left"
           >
-            Oui, supprimer
-          </button> */}
-          <DefaultBtn
-            btnText="Annuler"
-            onClick={handleCancelDelete}
-            btnModalDelete
+            Veuillez entrer votre mot de passe pour confirmer la suppression de
+            votre compte :
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Votre mot de passe"
+            className="rounded-md shadow-sm border block w-full mt-2 bg-transparent py-1.5 p-2 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+            required
           />
-          {/* <button
-            className="bg-secondaryPink hover:bg-gray-500 text-white font-bold py-2 px-4 rounded"
-            onClick={handleCancelDelete}
-            type="button"
-          >
-            Annuler
-          </button> */}
-        </div>
+          {deleteError && (
+            <p className="text-red-500 font-medium mt-2">{deleteError}</p>
+          )}
+          <div className="mt-4 flex gap-2">
+            <DefaultBtn
+              btnType="submit"
+              btnText="Oui, supprimer"
+              btnDelete
+              btnModalDelete
+            />
+
+            <DefaultBtn
+              btnText="Annuler"
+              onClick={handleCancelDelete}
+              btnModalDelete
+            />
+          </div>
+        </form>
       </div>
       <div className="flex flex-col gap-4 mt-4" />
     </ReactModal>

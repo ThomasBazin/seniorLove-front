@@ -68,7 +68,7 @@ function SubscribeFormV4({
           </div>
           <div className="mb-4">
             <label
-              htmlFor="email"
+              htmlFor="password"
               className="flex text-lg font-medium leading-6 text-primaryText"
             >
               Mot de passe{' '}
@@ -115,7 +115,7 @@ function SubscribeFormV4({
                   name="repeatPassword"
                   type="password"
                   placeholder="Confirmer votre mot de passe"
-                  className="block w-full border-0 bg-transparent py-1.5 p-2 text-primaryText placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  className="block w-full border-0 bg-transparent py-1.5 p-2 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                   required
                 />
               </div>

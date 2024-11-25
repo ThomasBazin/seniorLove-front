@@ -85,8 +85,10 @@ export default function MyProfileViewRefactor({
   // STATE 16 : password modal
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
+  // STATE 17 : preview URL
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
+  // STATE 18 : updated function
   const [updateFunction, setUpdateFunction] = useState<() => void>(
     () => () => {}
   );
@@ -94,6 +96,8 @@ export default function MyProfileViewRefactor({
   const [newHobbies, setNewHobbies] = useState<IHobby[]>([]);
 
   const [addedHobbies, setAddedHobbies] = useState<number[]>([]);
+
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   // toast de confirmation
   const editNotify = () =>
@@ -140,27 +144,31 @@ export default function MyProfileViewRefactor({
     }
   }, [me]);
 
-  // Delete account function
-  const deleteAccount = async () => {
-    try {
-      await axios.delete(`/private/users/me/delete`);
-      setIsAuthenticated(false);
-      removeTokenFromLocalStorage();
-      navigate('/');
-    } catch (e) {
-      console.error(e);
-      setServerError(true);
-    }
-  };
-
   const handleDeleteClick = () => {
     // Affiche la modale de confirmation
     setIsConfirmDeleteModalOpen(true);
   };
 
-  const handleConfirmDelete = () => {
-    // Confirmation de la suppression
-    deleteAccount();
+  const handleConfirmDelete = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+    const rawFormData = Object.fromEntries(new FormData(event.currentTarget));
+    const { password } = rawFormData;
+    try {
+      setDeleteError(null);
+      await axios.delete(`/private/users/me/delete`, { data: password });
+      setIsAuthenticated(false);
+      removeTokenFromLocalStorage();
+      navigate('/');
+    } catch (e) {
+      console.error(e);
+      if (e instanceof AxiosError && (e.response?.status === 400 || 401)) {
+        setDeleteError('Mot de passe incorrect');
+      } else {
+        setServerError(true);
+      }
+    }
   };
 
   const handleCancelDelete = () => {
@@ -553,6 +561,7 @@ export default function MyProfileViewRefactor({
           setIsConfirmDeleteModalOpen={setIsConfirmDeleteModalOpen}
           handleConfirmDelete={handleConfirmDelete}
           handleCancelDelete={handleCancelDelete}
+          deleteError={deleteError}
         />
       )}
       {serverError && (

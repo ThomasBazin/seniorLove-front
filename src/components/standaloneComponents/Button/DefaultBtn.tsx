@@ -56,6 +56,7 @@ export default function DefaultBtn({
   `;
 
   return (
+    // eslint-disable-next-line react/button-has-type
     <button type={btnType} className={buttonClasses} onClick={onClick}>
       {btnText}
     </button>
