@@ -56,7 +56,7 @@ export default function UserHeadband({
             onClick={() => onClickDisconnect()}
             className="text-sm md:text-lg text-secondaryPink hover:text-primaryText font-semibold py-2 px-3"
           >
-            Déconnexion
+            Se déconnecter
           </Link>
         </div>
       </div>

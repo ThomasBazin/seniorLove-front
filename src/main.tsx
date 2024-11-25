@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import App from './App';
-import NavBarLogged from './components/standaloneComponents/NavBar/NavBarLogged';
-import NavBarV1 from './components/standaloneComponents/NavBar/NavBar';
+import NavBar from './components/standaloneComponents/NavBar/NavBar';
 import Footer from './components/standaloneComponents/Footer/Footer';
 import { getTokenAndDataFromLocalStorage } from './localStorage/localStorage';
 import axios from './axios';
@@ -62,12 +61,11 @@ export default function Root() {
     <BrowserRouter>
       {isAuthenticated ? (
         <>
-          {/* <NavBarLogged setIsAuthenticated={setIsAuthenticated} /> */}
-          <NavBarLogged />
+          <NavBar isLogged />
           <UserHeadband setIsAuthenticated={setIsAuthenticated} />
         </>
       ) : (
-        <NavBarV1 />
+        <NavBar isLogged={false} />
       )}
 
       <App
