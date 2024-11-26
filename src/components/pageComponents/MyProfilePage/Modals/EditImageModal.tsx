@@ -7,8 +7,7 @@ import { updateDataInLocalStorage } from '../../../../localStorage/localStorage'
 import axios from '../../../../axios';
 
 interface EditImageModalProps {
-  isImageModalOpen: boolean;
-  setIsImageModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenedModal: React.Dispatch<React.SetStateAction<string | null>>;
   user: IUsers;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
   setModifiedPhotoUrl: React.Dispatch<React.SetStateAction<string | null>>;
@@ -19,8 +18,7 @@ interface EditImageModalProps {
 }
 
 export default function EditImageModal({
-  isImageModalOpen,
-  setIsImageModalOpen,
+  setOpenedModal,
   user,
   setEditedProfile,
   setModifiedPhotoUrl,
@@ -76,7 +74,7 @@ export default function EditImageModal({
         setEditedProfile((prev) => ({ ...prev, picture: result.pictureUrl }));
         setEditedProfile((prev) => ({ ...prev, picture_id: result.pictureId }));
         updateDataInLocalStorage(result.pictureUrl, '');
-        setIsImageModalOpen(false); // Close modal after success
+        setOpenedModal(null); // Close modal after success
       } else {
         setError(result.error || 'Image upload failed');
       }
@@ -92,13 +90,13 @@ export default function EditImageModal({
     setModifiedPhotoUrl(previewUrl);
     setPreviewUrl(null);
     setUpdateFunction(() => handleImageUpload);
-    setIsImageModalOpen(false);
+    setOpenedModal(null);
   };
 
   return (
     <ReactModal
-      isOpen={isImageModalOpen}
-      onRequestClose={() => setIsImageModalOpen(false)}
+      isOpen
+      onRequestClose={() => setOpenedModal(null)}
       style={{
         content: {
           width: '80vw',

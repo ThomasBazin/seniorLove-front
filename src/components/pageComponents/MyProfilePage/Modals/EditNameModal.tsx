@@ -5,8 +5,7 @@ import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 
 interface EditNameProps {
   user: IUsers;
-  isNameModalOpen: boolean;
-  setIsNameModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenedModal: React.Dispatch<React.SetStateAction<string | null>>;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
   isNewName: string;
   setNewName: React.Dispatch<React.SetStateAction<string>>;
@@ -15,21 +14,21 @@ interface EditNameProps {
 export default function EditNameModal({
   user,
   setEditedProfile,
-  isNameModalOpen,
-  setIsNameModalOpen,
+  setOpenedModal,
   isNewName,
   setNewName,
 }: EditNameProps) {
   const [newNamePending, setNewNamePending] = useState(isNewName);
+
   const validateName = async () => {
     setEditedProfile((prev) => ({ ...prev, name: newNamePending }));
-    setIsNameModalOpen(false);
+    setOpenedModal(null);
     setNewName(newNamePending);
   };
   return (
     <ReactModal
-      isOpen={isNameModalOpen}
-      onRequestClose={() => setIsNameModalOpen(false)}
+      isOpen
+      onRequestClose={() => setOpenedModal(null)}
       style={{
         content: {
           width: '80vw',

@@ -7,8 +7,7 @@ import Loader from '../../../standaloneComponents/Loader/Loader';
 import axios from '../../../../axios';
 
 interface EditHobbyModalProps {
-  isHobbyModalOpen: boolean;
-  setIsHobbyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenedModal: React.Dispatch<React.SetStateAction<string | null>>;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
   setNewHobbies: React.Dispatch<React.SetStateAction<IHobby[]>>;
   addedHobbies: number[];
@@ -16,8 +15,7 @@ interface EditHobbyModalProps {
 }
 
 export default function EditHobbyModal({
-  isHobbyModalOpen,
-  setIsHobbyModalOpen,
+  setOpenedModal,
   setEditedProfile,
   setNewHobbies,
   addedHobbies,
@@ -45,7 +43,7 @@ export default function EditHobbyModal({
         hobbies: hobbies.filter((hobby) => addedHobbies.includes(hobby.id)),
       }));
       setNewHobbies(hobbies.filter((hobby) => addedHobbies.includes(hobby.id)));
-      setIsHobbyModalOpen(false);
+      setOpenedModal(null);
     } catch (err) {
       setError('Error updating hobbies');
       console.error('Error updating hobbies:', error);
@@ -77,8 +75,8 @@ export default function EditHobbyModal({
 
   return (
     <ReactModal
-      isOpen={isHobbyModalOpen}
-      onRequestClose={() => setIsHobbyModalOpen(false)}
+      isOpen
+      onRequestClose={() => setOpenedModal(null)}
       style={{
         content: {
           width: '80vw',

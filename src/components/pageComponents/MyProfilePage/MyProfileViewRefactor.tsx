@@ -45,20 +45,17 @@ export default function MyProfileViewRefactor({
   // STATE 3 : error server
   const [serverError, setServerError] = useState(false);
 
-  // STATE 4 : image modal
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  // STATE 4 : delete error
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
-  // STATE 5 : hobbies modal
-  const [isHobbyModalOpen, setIsHobbyModalOpen] = useState(false);
+  // STATE 11 : editing mode
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  // STATE 6 : name modal
-  const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+  // STATE 5 : modal opening
+  const [openedModal, setOpenedModal] = useState<string | null>(null);
 
   // STATE 7 : new name
-  const [NewName, setNewName] = useState('');
-
-  // STATE 8 : about modal
-  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [newName, setNewName] = useState('');
 
   // STATE 9 : new about
   const [NewAbout, setNewAbout] = useState('');
@@ -66,24 +63,11 @@ export default function MyProfileViewRefactor({
   // STATE 10 : modified photo URL
   const [modifiedPhotoUrl, setModifiedPhotoUrl] = useState<string | null>(null);
 
-  // STATE 11 : editing mode
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-
   // STATE 12 : edited profile
   const [editedProfile, setEditedProfile] = useState<Partial<IUsers>>({});
 
-  // STATE 13 : confirm delete modal
-  const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] =
-    useState<boolean>(false);
-
   // STATE 14 : photo loading
   const [isPhotoLoading, setIsPhotoLoading] = useState<boolean>(false);
-
-  // STATE 15 : email modal
-  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
-
-  // STATE 16 : password modal
-  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
   // STATE 17 : preview URL
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -96,8 +80,6 @@ export default function MyProfileViewRefactor({
   const [newHobbies, setNewHobbies] = useState<IHobby[]>([]);
 
   const [addedHobbies, setAddedHobbies] = useState<number[]>([]);
-
-  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   // toast de confirmation
   const editNotify = () =>
@@ -144,11 +126,6 @@ export default function MyProfileViewRefactor({
     }
   }, [me]);
 
-  const handleDeleteClick = () => {
-    // Affiche la modale de confirmation
-    setIsConfirmDeleteModalOpen(true);
-  };
-
   const handleConfirmDelete = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
@@ -169,11 +146,6 @@ export default function MyProfileViewRefactor({
         setServerError(true);
       }
     }
-  };
-
-  const handleCancelDelete = () => {
-    // Annulation de la suppression
-    setIsConfirmDeleteModalOpen(false);
   };
 
   // Handle submit function
@@ -259,7 +231,7 @@ export default function MyProfileViewRefactor({
                   <button
                     type="button"
                     onClick={() => {
-                      setIsImageModalOpen(true);
+                      setOpenedModal('image');
                     }}
                     className="bg-white border border-gray-300 shadow p-1 rounded-2xl absolute top-2 left-2"
                   >
@@ -283,14 +255,14 @@ export default function MyProfileViewRefactor({
                 <button
                   type="button"
                   onClick={() => {
-                    setIsNameModalOpen(true);
+                    setOpenedModal('name');
                   }}
                   className="p-1 rounded-2xl"
                 >
                   <div className="flex gap-2 items-center">
                     <img src={editLogo} alt="edit" className="w-6 h-6" />
                     <span className="text-3xl text-secondaryPink hover:text-secondaryPinkHover">
-                      {NewName}
+                      {newName}
                     </span>
                   </div>
                 </button>
@@ -327,7 +299,7 @@ export default function MyProfileViewRefactor({
                 <button
                   type="button"
                   onClick={() => {
-                    setIsHobbyModalOpen(true);
+                    setOpenedModal('hobbies');
                   }}
                 >
                   <h2 className="text-xl w-full flex gap-2 font-semibold text-secondaryPink hover:text-secondaryPinkHover pb-3 text-center">
@@ -373,14 +345,14 @@ export default function MyProfileViewRefactor({
                 <button
                   type="button"
                   onClick={() => {
-                    setIsNameModalOpen(true);
+                    setOpenedModal('name');
                   }}
                   className="p-1 rounded-2xl"
                 >
                   <div className="flex gap-2 items-center">
                     <img src={editLogo} alt="edit" className="w-6 h-6" />
                     <span className="text-3xl text-secondaryPink hover:text-secondaryPinkHover">
-                      {NewName}
+                      {newName}
                     </span>
                   </div>
                 </button>
@@ -416,7 +388,7 @@ export default function MyProfileViewRefactor({
                 <button
                   type="button"
                   onClick={() => {
-                    setIsAboutModalOpen(true);
+                    setOpenedModal('about');
                   }}
                   className="p-1 rounded-2xl"
                 >
@@ -447,7 +419,7 @@ export default function MyProfileViewRefactor({
             <div className="flex flex-row justify-center gap-6">
               <button
                 type="button"
-                onClick={() => setIsEmailModalOpen(true)}
+                onClick={() => setOpenedModal('email')}
                 className="text-secondaryPink text-center md:text-start px-4 rounded-lg w-fit font-semibold"
               >
                 <div className="flex gap-2 self items-center">
@@ -457,7 +429,7 @@ export default function MyProfileViewRefactor({
               </button>
               <button
                 type="button"
-                onClick={() => setIsPasswordModalOpen(true)}
+                onClick={() => setOpenedModal('password')}
                 className="text-secondaryPink hover:text-secondaryPinkHover text-center md:text-start px-4 py-2 rounded-lg w-fit font-semibold"
               >
                 <div className="flex gap-2 self items-center">
@@ -494,28 +466,25 @@ export default function MyProfileViewRefactor({
           btnText="Supprimer mon compte"
           btnPage="profile"
           btnDelete
-          onClick={handleDeleteClick}
+          onClick={() => setOpenedModal('delete')}
         />
       </div>
-      {isEmailModalOpen && (
+      {openedModal === 'email' && (
         <EditMailModal
-          isEmailModalOpen={isEmailModalOpen}
-          setIsEmailModalOpen={setIsEmailModalOpen}
+          setOpenedModal={setOpenedModal}
           user={me}
           setEditedProfile={setEditedProfile}
         />
       )}
-      {isPasswordModalOpen && (
+      {openedModal === 'password' && (
         <EditPasswordlModal
-          isPasswordModalOpen={isPasswordModalOpen}
-          setIsPasswordModalOpen={setIsPasswordModalOpen}
+          setOpenedModal={setOpenedModal}
           setEditedProfile={setEditedProfile}
         />
       )}
-      {isImageModalOpen && (
+      {openedModal === 'image' && (
         <EditImageModal
-          isImageModalOpen={isImageModalOpen}
-          setIsImageModalOpen={setIsImageModalOpen}
+          setOpenedModal={setOpenedModal}
           setEditedProfile={setEditedProfile}
           setModifiedPhotoUrl={setModifiedPhotoUrl}
           setIsPhotoLoading={setIsPhotoLoading}
@@ -525,42 +494,38 @@ export default function MyProfileViewRefactor({
           user={me}
         />
       )}
-      {isNameModalOpen && (
+      {openedModal === 'name' && (
         <EditNameModal
-          isNameModalOpen={isNameModalOpen}
-          setIsNameModalOpen={setIsNameModalOpen}
+          setOpenedModal={setOpenedModal}
           user={me}
           setEditedProfile={setEditedProfile}
-          isNewName={NewName}
+          isNewName={newName}
           setNewName={setNewName}
         />
       )}
-      {isAboutModalOpen && (
+      {openedModal === 'about' && (
         <EditAboutModal
-          isAboutModalOpen={isAboutModalOpen}
-          setIsAboutModalOpen={setIsAboutModalOpen}
+          setOpenedModal={setOpenedModal}
           user={me}
           setEditedProfile={setEditedProfile}
           isNewAbout={NewAbout}
           setNewAbout={setNewAbout}
         />
       )}
-      {isHobbyModalOpen && (
+      {openedModal === 'hobbies' && (
         <EditHobbyModal
-          isHobbyModalOpen={isHobbyModalOpen}
-          setIsHobbyModalOpen={setIsHobbyModalOpen}
+          setOpenedModal={setOpenedModal}
           setEditedProfile={setEditedProfile}
           setNewHobbies={setNewHobbies}
           addedHobbies={addedHobbies}
           setAddedHobbies={setAddedHobbies}
         />
       )}
-      {isConfirmDeleteModalOpen && (
+      {openedModal === 'delete' && (
         <ConfirmDeleteModal
-          isConfirmDeleteModalOpen={isConfirmDeleteModalOpen}
-          setIsConfirmDeleteModalOpen={setIsConfirmDeleteModalOpen}
+          setOpenedModal={setOpenedModal}
           handleConfirmDelete={handleConfirmDelete}
-          handleCancelDelete={handleCancelDelete}
+          handleCancelDelete={() => setOpenedModal(null)}
           deleteError={deleteError}
         />
       )}

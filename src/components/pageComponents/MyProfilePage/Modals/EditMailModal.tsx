@@ -4,15 +4,13 @@ import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 
 interface EditMailModalProps {
-  isEmailModalOpen: boolean;
-  setIsEmailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenedModal: React.Dispatch<React.SetStateAction<string | null>>;
   user: IUsers;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
 }
 
 export default function EditMailModal({
-  isEmailModalOpen,
-  setIsEmailModalOpen,
+  setOpenedModal,
   user,
   setEditedProfile,
 }: EditMailModalProps) {
@@ -20,13 +18,13 @@ export default function EditMailModal({
 
   const validateEmail = async () => {
     setEditedProfile((prev) => ({ ...prev, email: newEmail }));
-    setIsEmailModalOpen(false);
+    setOpenedModal(null);
   };
 
   return (
     <ReactModal
-      isOpen={isEmailModalOpen}
-      onRequestClose={() => setIsEmailModalOpen(false)}
+      isOpen
+      onRequestClose={() => setOpenedModal(null)}
       style={{
         content: {
           width: '80vw',

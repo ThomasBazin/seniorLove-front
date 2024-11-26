@@ -2,8 +2,7 @@ import ReactModal from 'react-modal';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 
 interface ConfirmDeleteModalProps {
-  isConfirmDeleteModalOpen: boolean;
-  setIsConfirmDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenedModal: React.Dispatch<React.SetStateAction<string | null>>;
   handleConfirmDelete: (
     event: React.FormEvent<HTMLFormElement>
   ) => Promise<void>;
@@ -12,16 +11,15 @@ interface ConfirmDeleteModalProps {
 }
 
 export default function ConfirmDeleteModal({
-  isConfirmDeleteModalOpen,
-  setIsConfirmDeleteModalOpen,
+  setOpenedModal,
   handleConfirmDelete,
   handleCancelDelete,
   deleteError,
 }: ConfirmDeleteModalProps) {
   return (
     <ReactModal
-      isOpen={isConfirmDeleteModalOpen}
-      onRequestClose={() => setIsConfirmDeleteModalOpen(false)}
+      isOpen
+      onRequestClose={() => setOpenedModal(null)}
       style={{
         content: {
           width: '80vw',

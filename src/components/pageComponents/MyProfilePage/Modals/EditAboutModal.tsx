@@ -5,8 +5,7 @@ import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 
 interface EditAboutProps {
   user: IUsers;
-  isAboutModalOpen: boolean;
-  setIsAboutModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenedModal: React.Dispatch<React.SetStateAction<string | null>>;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
   isNewAbout: string;
   setNewAbout: React.Dispatch<React.SetStateAction<string>>;
@@ -15,22 +14,21 @@ interface EditAboutProps {
 export default function EditAboutModal({
   user,
   setEditedProfile,
-  isAboutModalOpen,
-  setIsAboutModalOpen,
+  setOpenedModal,
   isNewAbout,
   setNewAbout,
 }: EditAboutProps) {
   const [newAboutPending, setNewAboutPending] = useState(isNewAbout);
   const validateAbout = async () => {
     setEditedProfile((prev) => ({ ...prev, description: newAboutPending }));
-    setIsAboutModalOpen(false);
+    setOpenedModal(null);
     setNewAbout(newAboutPending);
   };
 
   return (
     <ReactModal
-      isOpen={isAboutModalOpen}
-      onRequestClose={() => setIsAboutModalOpen(false)}
+      isOpen
+      onRequestClose={() => setOpenedModal(null)}
       style={{
         content: {
           width: '80vw',

@@ -4,14 +4,12 @@ import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 import { IUsers } from '../../../../@types/IUsers';
 
 interface EditPasswordModalProps {
-  isPasswordModalOpen: boolean;
-  setIsPasswordModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenedModal: React.Dispatch<React.SetStateAction<string | null>>;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
 }
 
 export default function EditPasswordlModal({
-  isPasswordModalOpen,
-  setIsPasswordModalOpen,
+  setOpenedModal,
   setEditedProfile,
 }: EditPasswordModalProps) {
   const [oldPassword, setOldPassword] = useState('');
@@ -42,13 +40,13 @@ export default function EditPasswordlModal({
         ...prev,
         repeat_new_password: confirmPassword,
       }));
-      setIsPasswordModalOpen(false);
+      setOpenedModal(null);
     }
   };
   return (
     <ReactModal
-      isOpen={isPasswordModalOpen}
-      onRequestClose={() => setIsPasswordModalOpen(false)}
+      isOpen
+      onRequestClose={() => setOpenedModal(null)}
       style={{
         content: {
           width: '80vw',
