@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import HeadbandV1 from '../../standaloneComponents/Headband/HeadbandV1';
 import DescriptionSection from './DescriptionSection/DescriptionSection';
 import FormSection from './FormSection/FormSection';
@@ -6,7 +6,7 @@ import HeadbandV2 from '../../standaloneComponents/Headband/HeadbandV2';
 
 export default function Main() {
   // STATE 1 : isFirstFormValidated
-  const [isForm1Validated, setIsForm1Validated] = useState(false);
+  const [isForm1Validated, setIsForm1Validated] = useState(true);
 
   // STATE 2 : isSecondFormValidated
   const [isForm2Validated, setIsForm2Validated] = useState(false);
@@ -16,6 +16,10 @@ export default function Main() {
 
   // STATE 4 : isFourthFormValidated
   const [isForm4Validated, setisForm4Validated] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 94, behavior: 'smooth' });
+  }, [isForm1Validated, isForm2Validated, isForm3Validated, isForm4Validated]);
 
   return (
     <main className="w-full">
