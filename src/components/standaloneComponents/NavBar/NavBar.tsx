@@ -92,10 +92,10 @@ export default function NavBar({ isLogged }: INavBarProps) {
         </Link>
         <ul className="flex fixed h-fit px-3 pt-2 md:gap-6 bottom-0 md:top-3 md:right-0 bg-white md:bg-inherit shadow-mobileNav md:shadow-none w-full md:w-fit justify-around items-center md:items-start ">
           {navItems.map((item) => (
-            <li key={item.key}>
+            <li key={item.key} className={`${item.mobileOnly && 'md:hidden'}`}>
               <NavLink
                 to={item.href}
-                className={`text-primaryText md:text-secondaryPink md:hover:text-primaryText md:font-bold text-sm md:text-base mb-1 md:mb-0 md:px-3 nav-link ${item.mobileOnly && 'md:hidden'}`}
+                className="text-primaryText md:text-secondaryPink md:hover:text-primaryText md:font-bold text-sm md:text-base mb-1 md:mb-0 md:px-3 nav-link"
               >
                 <img
                   src={item.img}
