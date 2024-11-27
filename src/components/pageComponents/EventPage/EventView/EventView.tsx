@@ -223,7 +223,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
           </div>
           {isSubscribe && (
             <p className="text-center text-x0 text-secondaryPink">
-              Vous êtes inscrit(e) à cet évenement
+              Vous êtes inscrit(e) à cet événement.
             </p>
           )}
 

@@ -52,7 +52,7 @@ export default function MainEventsPage() {
     <main className="w-full min-h-screen flex-grow flex flex-col justify-start items-center bg-primaryGrey pb-8 gap-8">
       <p className="text-sm text-center font-medium md:text-xl my-4 text-primaryText w-9/12 pt-8">
         Bienvenue sur la page dédiée aux{' '}
-        <span className="text-secondaryPink">évènements</span> que nous
+        <span className="text-secondaryPink">événements</span> que nous
         organisons ! Découvrez une sélection d&apos;activités et
         d&apos;événements qui se dérouleront prochainement dans notre
         communauté. Que vous soyez amateur de culture, passionné de sport, ou

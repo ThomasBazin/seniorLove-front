@@ -9,28 +9,26 @@ import axios from '../../../../axios';
 interface EditHobbyModalProps {
   setOpenedModal: React.Dispatch<React.SetStateAction<string | null>>;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
-  setNewHobbies: React.Dispatch<React.SetStateAction<IHobby[]>>;
-  addedHobbies: number[];
-  setAddedHobbies: React.Dispatch<React.SetStateAction<number[]>>;
+  userHobbies: IHobby[];
 }
 
 export default function EditHobbyModal({
   setOpenedModal,
   setEditedProfile,
-  setNewHobbies,
-  addedHobbies,
-  setAddedHobbies,
+  userHobbies,
 }: EditHobbyModalProps) {
-  const [hobbies, setHobbies] = useState<IHobby[]>([]);
+  const [hobbiesList, setHobbiesList] = useState<IHobby[]>([]);
+
+  const [newUserHobbies, setNewUserHobbies] = useState(userHobbies);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const handleCheckboxChange = (hobbyId: number) => {
-    setAddedHobbies((prevAddedHobbies) =>
-      prevAddedHobbies.includes(hobbyId)
-        ? prevAddedHobbies.filter((id) => id !== hobbyId)
-        : [...prevAddedHobbies, hobbyId]
+  const handleCheckboxChange = (hobby: IHobby) => {
+    setNewUserHobbies((prevHobbies) =>
+      prevHobbies.map((prevHobby) => prevHobby.id).includes(hobby.id)
+        ? prevHobbies.filter((prevHobby) => prevHobby.id !== hobby.id)
+        : [...prevHobbies, hobby]
     );
   };
 
@@ -40,9 +38,8 @@ export default function EditHobbyModal({
       setError(null);
       setEditedProfile((prev) => ({
         ...prev,
-        hobbies: hobbies.filter((hobby) => addedHobbies.includes(hobby.id)),
+        hobbies: newUserHobbies,
       }));
-      setNewHobbies(hobbies.filter((hobby) => addedHobbies.includes(hobby.id)));
       setOpenedModal(null);
     } catch (err) {
       setError('Error updating hobbies');
@@ -59,7 +56,7 @@ export default function EditHobbyModal({
         const response = await axios.get('/public/hobbies');
         if (response.data) {
           const data = await response.data;
-          setHobbies(data);
+          setHobbiesList(data);
         } else {
           throw new Error('Failed to fetch hobbies');
         }
@@ -104,13 +101,15 @@ export default function EditHobbyModal({
           <Loader />
         ) : (
           <>
-            {hobbies.map((hobby) => (
+            {hobbiesList.map((hobby) => (
               <div key={hobby.id} className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   id={`hobby-${hobby.id}`}
-                  checked={addedHobbies.includes(hobby.id)}
-                  onChange={() => handleCheckboxChange(hobby.id)}
+                  checked={newUserHobbies
+                    .map((newUserHobby) => newUserHobby.id)
+                    .includes(hobby.id)}
+                  onChange={() => handleCheckboxChange(hobby)}
                   className="form-checkbox h-5 w-5 text-primaryPink"
                 />
                 <label htmlFor={`hobby-${hobby.id}`} className="text-gray-700">

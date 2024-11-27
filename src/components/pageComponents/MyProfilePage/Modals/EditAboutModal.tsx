@@ -4,25 +4,20 @@ import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 
 interface EditAboutProps {
-  user: IUsers;
+  description: string;
   setOpenedModal: React.Dispatch<React.SetStateAction<string | null>>;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
-  isNewAbout: string;
-  setNewAbout: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function EditAboutModal({
-  user,
+  description,
   setEditedProfile,
   setOpenedModal,
-  isNewAbout,
-  setNewAbout,
 }: EditAboutProps) {
-  const [newAboutPending, setNewAboutPending] = useState(isNewAbout);
+  const [newAboutPending, setNewAboutPending] = useState(description);
   const validateAbout = async () => {
     setEditedProfile((prev) => ({ ...prev, description: newAboutPending }));
     setOpenedModal(null);
-    setNewAbout(newAboutPending);
   };
 
   return (
@@ -54,7 +49,6 @@ export default function EditAboutModal({
           id="new-description"
           onChange={(e) => setNewAboutPending(e.target.value)}
           rows={10}
-          placeholder={user.description}
           value={newAboutPending}
           className="border border-gray-300 rounded-lg px-3 py-2 text-gray-700"
         />

@@ -4,26 +4,21 @@ import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 
 interface EditNameProps {
-  user: IUsers;
+  name: string;
   setOpenedModal: React.Dispatch<React.SetStateAction<string | null>>;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
-  isNewName: string;
-  setNewName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function EditNameModal({
-  user,
+  name,
   setEditedProfile,
   setOpenedModal,
-  isNewName,
-  setNewName,
 }: EditNameProps) {
-  const [newNamePending, setNewNamePending] = useState(isNewName);
+  const [newNamePending, setNewNamePending] = useState(name);
 
   const validateName = async () => {
     setEditedProfile((prev) => ({ ...prev, name: newNamePending }));
     setOpenedModal(null);
-    setNewName(newNamePending);
   };
   return (
     <ReactModal
@@ -54,7 +49,6 @@ export default function EditNameModal({
           name="new-text"
           id="new-text"
           onChange={(e) => setNewNamePending(e.target.value)}
-          placeholder={user.name}
           value={newNamePending}
           className="border border-gray-300 rounded-lg px-3 py-2 text-gray-700"
         />

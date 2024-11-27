@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -21,18 +21,14 @@ import EditNameModal from './Modals/EditNameModal';
 import EditAboutModal from './Modals/EditAboutModal';
 import EditMailModal from './Modals/EditMailModal';
 import EditPasswordlModal from './Modals/EditPasswordModal';
-import { IHobby } from '../../../@types/IHobby';
 
 interface MyProfileViewRefactorProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function MyProfileViewRefactor({
+export default function MyProfileView({
   setIsAuthenticated,
 }: MyProfileViewRefactorProps) {
-  // Get the user ID from the URL parameters
-  const { myId } = useParams<{ myId: string }>();
-
   // Use the navigate function from react-router-dom
   const navigate = useNavigate();
 
@@ -48,46 +44,28 @@ export default function MyProfileViewRefactor({
   // STATE 4 : delete error
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
-  // STATE 11 : editing mode
+  // STATE 5 : editing mode
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  // STATE 5 : modal opening
-  const [openedModal, setOpenedModal] = useState<string | null>(null);
-
-  // STATE 7 : new name
-  const [newName, setNewName] = useState('');
-
-  // STATE 9 : new about
-  const [NewAbout, setNewAbout] = useState('');
-
-  // STATE 10 : modified photo URL
-  const [modifiedPhotoUrl, setModifiedPhotoUrl] = useState<string | null>(null);
-
-  // STATE 12 : edited profile
+  // STATE 6 : edited profile
   const [editedProfile, setEditedProfile] = useState<Partial<IUsers>>({});
 
-  // STATE 14 : photo loading
-  const [isPhotoLoading, setIsPhotoLoading] = useState<boolean>(false);
+  // STATE 7 : modal opening
+  const [openedModal, setOpenedModal] = useState<string | null>(null);
 
-  // STATE 17 : preview URL
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  // STATE 8 : modified photo URL
+  const [modifiedPhotoUrl, setModifiedPhotoUrl] = useState<string | null>(null);
 
-  // STATE 18 : updated function
-  const [updateFunction, setUpdateFunction] = useState<() => void>(
-    () => () => {}
-  );
-
-  const [newHobbies, setNewHobbies] = useState<IHobby[]>([]);
-
-  const [addedHobbies, setAddedHobbies] = useState<number[]>([]);
+  // STATE 9 : picture file
+  const [pictureFile, setPictureFile] = useState<File | null>(null);
 
   // toast de confirmation
-  const editNotify = () =>
+  const editSuccessNotify = () =>
     toast.success('Votre profil a été mis à jour avec succès.', {
       autoClose: 3000,
     });
 
-  const cancelNotify = () =>
+  const editCancelNotify = () =>
     toast.info('Vous avez annulé la modification de votre profil.', {
       autoClose: 3000,
     });
@@ -99,9 +77,6 @@ export default function MyProfileViewRefactor({
       try {
         const response = await axios.get(`/private/users/me`);
         setMe(response.data);
-        setEditedProfile(response.data);
-        setNewName(me?.name || '');
-        setNewAbout(me?.description || '');
       } catch (e) {
         console.error(e);
         if (
@@ -118,13 +93,7 @@ export default function MyProfileViewRefactor({
       }
     };
     fetchConnectedUser();
-  }, [myId, navigate, me?.name, me?.description]);
-
-  useEffect(() => {
-    if (me) {
-      setAddedHobbies(me.hobbies.map((hobby) => hobby.id));
-    }
-  }, [me]);
+  }, [navigate]);
 
   const handleConfirmDelete = async (
     event: React.FormEvent<HTMLFormElement>
@@ -148,33 +117,49 @@ export default function MyProfileViewRefactor({
     }
   };
 
-  // Handle submit function
+  // Send update request to API
   const handleSubmit = async () => {
+    let newPictureData;
     try {
-      if (updateFunction) {
-        updateFunction();
+      setIsLoading(true);
+      if (pictureFile) {
+        const formData = new FormData();
+        formData.append('new-image', pictureFile);
+        const responsePicturePost = await axios.post(
+          `/private/users/${me?.id}/uploadPhoto`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+        newPictureData = responsePicturePost.data;
       }
-      // Prepare the data to send to the backend
-      const dataToSend = {
-        name: editedProfile.name,
-        description: editedProfile.description,
-        email: editedProfile.email,
-        old_password: editedProfile.old_password,
-        new_password: editedProfile.new_password,
-        repeat_new_password: editedProfile.repeat_new_password,
-        hobbies: editedProfile.hobbies?.map((hobby) => hobby.id),
-      };
 
-      const response = await axios.patch(`/private/users/me`, dataToSend);
-      if (response.status) {
-        editNotify();
+      if (Object.keys(editedProfile).length || newPictureData) {
+        const dataToSend = {
+          ...editedProfile,
+          ...newPictureData,
+          hobbies: editedProfile.hobbies?.map((hobby) => hobby.id),
+        };
+
+        const response = await axios.patch(`/private/users/me`, dataToSend);
+        if (response.status) {
+          editSuccessNotify();
+        }
+        setMe(response.data);
+        updateDataInLocalStorage(response.data.picture, response.data.name);
       }
-      setMe(response.data);
-      updateDataInLocalStorage('', response.data.name);
-      setIsEditing(false);
+      setEditedProfile({});
     } catch (e) {
       console.error(e);
       setServerError(true);
+    } finally {
+      setModifiedPhotoUrl(null);
+      setPictureFile(null);
+      setIsEditing(false);
+      setIsLoading(false);
     }
   };
 
@@ -184,20 +169,16 @@ export default function MyProfileViewRefactor({
       handleSubmit();
     } else {
       setIsEditing(true);
-      setEditedProfile(me || {});
     }
   };
 
   const handleCancelEdit = () => {
-    setIsEditing(false);
-    setUpdateFunction(() => () => {});
-    if (me) {
-      setModifiedPhotoUrl(me.picture);
-      setNewHobbies([]);
-      setEditedProfile(me);
-    }
+    setModifiedPhotoUrl(null);
+    setPictureFile(null);
+    setEditedProfile({});
 
-    cancelNotify();
+    setIsEditing(false);
+    editCancelNotify();
   };
 
   if (serverError) {
@@ -223,7 +204,7 @@ export default function MyProfileViewRefactor({
         <div className="flex flex-col items-center gap-5 md:w-1/3">
           {/* Profile picture */}
           <div className="relative">
-            {isPhotoLoading ? (
+            {isLoading ? (
               <Loader />
             ) : (
               <>
@@ -248,49 +229,6 @@ export default function MyProfileViewRefactor({
             )}
           </div>
 
-          <div className="font-semibold flex flex-col text-center justify-between md:hidden">
-            {/* Name & Age */}
-            <div>
-              {isEditing ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOpenedModal('name');
-                  }}
-                  className="p-1 rounded-2xl"
-                >
-                  <div className="flex gap-2 items-center">
-                    <img src={editLogo} alt="edit" className="w-6 h-6" />
-                    <span className="text-3xl text-secondaryPink hover:text-secondaryPinkHover">
-                      {newName}
-                    </span>
-                  </div>
-                </button>
-              ) : (
-                <div>
-                  <span className="text-3xl text-secondaryPink">{me.name}</span>
-                  , {me.age} ans
-                </div>
-              )}
-            </div>
-            {/* Edit button */}
-            <div className="flex pt-4 gap-3">
-              <DefaultBtn
-                btnText={isEditing ? 'Sauvegarder' : 'Éditer mon profil'}
-                btnPage="profile"
-                btnEdit={isEditing}
-                onClick={handleEditToggle}
-              />
-              {isEditing && (
-                <DefaultBtn
-                  btnText="Annuler"
-                  btnPage="profile"
-                  btnEdit={!isEditing}
-                  onClick={handleCancelEdit}
-                />
-              )}
-            </div>
-          </div>
           {/* Hobbies */}
           <div>
             {/* Title */}
@@ -315,8 +253,8 @@ export default function MyProfileViewRefactor({
             </div>
             {/* Hobbies list */}
             <div className="flex flex-wrap justify-center gap-2">
-              {newHobbies.length > 0
-                ? newHobbies.map((hobby) => (
+              {editedProfile.hobbies
+                ? editedProfile.hobbies?.map((hobby) => (
                     <span
                       key={hobby.id}
                       className="bg-primaryPink text-primaryText font-medium rounded-lg text-sm py-1 px-2"
@@ -338,7 +276,7 @@ export default function MyProfileViewRefactor({
 
         {/* Main content */}
         <div className="md:w-2/3 flex flex-col gap-3 md:gap-6">
-          <div className="hidden font-semibold md:flex text-center justify-between">
+          <div className="font-semibold md:flex text-center justify-between">
             {/* Name & Age */}
             <div>
               {isEditing ? (
@@ -352,7 +290,7 @@ export default function MyProfileViewRefactor({
                   <div className="flex gap-2 items-center">
                     <img src={editLogo} alt="edit" className="w-6 h-6" />
                     <span className="text-3xl text-secondaryPink hover:text-secondaryPinkHover">
-                      {newName}
+                      {editedProfile.name || me.name}
                     </span>
                   </div>
                 </button>
@@ -370,6 +308,12 @@ export default function MyProfileViewRefactor({
                 btnPage="profile"
                 btnEdit={isEditing}
                 onClick={handleEditToggle}
+                disabled={
+                  isEditing
+                    ? !Object.keys(editedProfile).length &&
+                      Boolean(!modifiedPhotoUrl)
+                    : false
+                }
               />
               {isEditing && (
                 <DefaultBtn
@@ -400,7 +344,7 @@ export default function MyProfileViewRefactor({
                   </div>
                 </button>
                 <p className="text-primaryText text-justify break-words">
-                  {NewAbout}
+                  {editedProfile.description || me.description}
                 </p>
               </>
             ) : (
@@ -472,7 +416,7 @@ export default function MyProfileViewRefactor({
       {openedModal === 'email' && (
         <EditMailModal
           setOpenedModal={setOpenedModal}
-          user={me}
+          email={editedProfile.email || me.email}
           setEditedProfile={setEditedProfile}
         />
       )}
@@ -485,40 +429,30 @@ export default function MyProfileViewRefactor({
       {openedModal === 'image' && (
         <EditImageModal
           setOpenedModal={setOpenedModal}
-          setEditedProfile={setEditedProfile}
+          setPictureFile={setPictureFile}
           setModifiedPhotoUrl={setModifiedPhotoUrl}
-          setIsPhotoLoading={setIsPhotoLoading}
-          previewUrl={previewUrl}
-          setPreviewUrl={setPreviewUrl}
-          setUpdateFunction={setUpdateFunction}
-          user={me}
+          picture={modifiedPhotoUrl || me.picture}
         />
       )}
       {openedModal === 'name' && (
         <EditNameModal
           setOpenedModal={setOpenedModal}
-          user={me}
+          name={editedProfile.name || me.name}
           setEditedProfile={setEditedProfile}
-          isNewName={newName}
-          setNewName={setNewName}
         />
       )}
       {openedModal === 'about' && (
         <EditAboutModal
           setOpenedModal={setOpenedModal}
-          user={me}
+          description={editedProfile.description || me.description}
           setEditedProfile={setEditedProfile}
-          isNewAbout={NewAbout}
-          setNewAbout={setNewAbout}
         />
       )}
       {openedModal === 'hobbies' && (
         <EditHobbyModal
           setOpenedModal={setOpenedModal}
           setEditedProfile={setEditedProfile}
-          setNewHobbies={setNewHobbies}
-          addedHobbies={addedHobbies}
-          setAddedHobbies={setAddedHobbies}
+          userHobbies={editedProfile.hobbies || me.hobbies}
         />
       )}
       {openedModal === 'delete' && (

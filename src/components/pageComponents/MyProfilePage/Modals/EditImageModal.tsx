@@ -1,39 +1,29 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import ReactModal from 'react-modal';
 import { useState } from 'react';
-import { IUsers } from '../../../../@types/IUsers';
 import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
-import { updateDataInLocalStorage } from '../../../../localStorage/localStorage';
-import axios from '../../../../axios';
 
 interface EditImageModalProps {
   setOpenedModal: React.Dispatch<React.SetStateAction<string | null>>;
-  user: IUsers;
-  setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
+  picture: string;
+
+  setPictureFile: React.Dispatch<React.SetStateAction<File | null>>;
   setModifiedPhotoUrl: React.Dispatch<React.SetStateAction<string | null>>;
-  setIsPhotoLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  previewUrl: string | null;
-  setPreviewUrl: React.Dispatch<React.SetStateAction<string | null>>;
-  setUpdateFunction: React.Dispatch<React.SetStateAction<() => void>>;
 }
 
 export default function EditImageModal({
   setOpenedModal,
-  user,
-  setEditedProfile,
+  picture,
   setModifiedPhotoUrl,
-  setIsPhotoLoading,
-  previewUrl,
-  setPreviewUrl,
-  setUpdateFunction,
+  setPictureFile,
 }: EditImageModalProps) {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  // STATE 17 : preview URL
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
-      setSelectedFile(file);
+      setPictureFile(file);
     }
     // Create a preview of the selected image
     const reader = new FileReader();
@@ -46,57 +36,21 @@ export default function EditImageModal({
     }
   };
 
-  const handleImageUpload = async () => {
-    if (!selectedFile) {
-      console.error('No file selected');
-      return;
-    }
-
-    setIsPhotoLoading(true);
-    setError(null);
-
-    const formData = new FormData();
-    formData.append('new-image', selectedFile);
-
-    try {
-      const response = await axios.post(
-        `/private/users/${user.id}/uploadPhoto`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-
-      const result = response.data;
-      if (response.status === 200) {
-        setEditedProfile((prev) => ({ ...prev, picture: result.pictureUrl }));
-        setEditedProfile((prev) => ({ ...prev, picture_id: result.pictureId }));
-        updateDataInLocalStorage(result.pictureUrl, '');
-        setOpenedModal(null); // Close modal after success
-      } else {
-        setError(result.error || 'Image upload failed');
-      }
-    } catch (err) {
-      setError('Error uploading image');
-      console.error('Error uploading image:', error);
-    } finally {
-      setIsPhotoLoading(false);
-    }
-  };
-
   const validateImage = () => {
     setModifiedPhotoUrl(previewUrl);
     setPreviewUrl(null);
-    setUpdateFunction(() => handleImageUpload);
+    setOpenedModal(null);
+  };
+
+  const handleImageModalClose = () => {
+    setPictureFile(null);
     setOpenedModal(null);
   };
 
   return (
     <ReactModal
       isOpen
-      onRequestClose={() => setOpenedModal(null)}
+      onRequestClose={handleImageModalClose}
       style={{
         content: {
           width: '80vw',
@@ -120,8 +74,8 @@ export default function EditImageModal({
         <div className="flex flex-col gap-6">
           <div className="flex flex-col items-center">
             <img
-              src={user.picture} // Replace with actual image path
-              alt={user.name}
+              src={picture}
+              alt="Ancienne"
               className="w-1/2 object-cover rounded-md border border-gray-300"
             />
             <p className="mt-2 text-gray-600">Ancienne photo</p>
@@ -156,7 +110,7 @@ export default function EditImageModal({
                 <p className="mt-2 text-gray-600">Nouvelle photo</p>
                 <img
                   src={previewUrl}
-                  alt={user.name}
+                  alt="Nouvelle"
                   className="w-1/2 object-cover rounded-md shadow border border-gray-300"
                 />
               </>

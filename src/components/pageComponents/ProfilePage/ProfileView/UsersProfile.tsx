@@ -37,19 +37,18 @@ export default function UsersProfile() {
       try {
         const response = await axios.get(`/private/users/${userId}`);
         setProfile(response.data); // Stocke les données de l'utilisateur dans le state
-      } catch (e) {
+      } catch (err) {
+        console.error(err);
         if (
-          e instanceof AxiosError &&
-          (e.response?.data.blocked || e.response?.status === 401)
+          err instanceof AxiosError &&
+          (err.response?.data.blocked || err.response?.status === 401)
         ) {
           removeTokenFromLocalStorage();
           navigate('/loggedout');
-        } else if (e instanceof AxiosError && e.response?.status === 404) {
-          console.error(e);
+        } else if (err instanceof AxiosError && err.response?.status === 404) {
           setIsError(404);
         } else {
           setIsError(500);
-          console.log(e);
         }
       } finally {
         setIsLoading(false);

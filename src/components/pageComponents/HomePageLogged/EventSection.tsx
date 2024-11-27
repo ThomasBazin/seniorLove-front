@@ -52,11 +52,11 @@ export default function EventSection() {
       try {
         const result = await axios.get('/public/events');
         setEvents(result.data);
-      } catch (e) {
-        console.log(e);
+      } catch (err) {
+        console.error(err);
         if (
-          e instanceof AxiosError &&
-          (e.response?.data.blocked || e.response?.status === 401)
+          err instanceof AxiosError &&
+          (err.response?.data.blocked || err.response?.status === 401)
         ) {
           removeTokenFromLocalStorage();
           navigate('/loggedout');
@@ -86,7 +86,7 @@ export default function EventSection() {
         ))}
       </div>
       <Link to="/events">
-        <DefaultBtn btnText="Voir plus d'évènements" />
+        <DefaultBtn btnText="Voir plus d'événements" />
       </Link>
     </div>
   );

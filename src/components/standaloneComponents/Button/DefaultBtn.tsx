@@ -11,6 +11,7 @@ interface DefaultBtnProps {
   btnModalDelete?: boolean;
   btnValidate?: boolean;
   btnModalPicture?: boolean;
+  disabled?: boolean;
 }
 
 export default function DefaultBtn({
@@ -26,6 +27,7 @@ export default function DefaultBtn({
   btnEvent,
   btnValidate,
   btnModalPicture,
+  disabled,
 }: DefaultBtnProps) {
   const getBackgroundColor = () => {
     if (btnEvent === 'Je participe' || btnValidate) {
@@ -56,8 +58,13 @@ export default function DefaultBtn({
   `;
 
   return (
-    // eslint-disable-next-line react/button-has-type
-    <button type={btnType} className={buttonClasses} onClick={onClick}>
+    <button
+      // eslint-disable-next-line react/button-has-type
+      type={btnType}
+      className={buttonClasses}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {btnText}
     </button>
   );

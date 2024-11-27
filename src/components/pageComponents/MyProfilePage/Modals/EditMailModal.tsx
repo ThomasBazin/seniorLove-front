@@ -5,13 +5,13 @@ import DefaultBtn from '../../../standaloneComponents/Button/DefaultBtn';
 
 interface EditMailModalProps {
   setOpenedModal: React.Dispatch<React.SetStateAction<string | null>>;
-  user: IUsers;
+  email: string;
   setEditedProfile: React.Dispatch<React.SetStateAction<Partial<IUsers>>>;
 }
 
 export default function EditMailModal({
   setOpenedModal,
-  user,
+  email,
   setEditedProfile,
 }: EditMailModalProps) {
   const [newEmail, setNewEmail] = useState('');
@@ -49,7 +49,7 @@ export default function EditMailModal({
           <label htmlFor="old-email" className="font-medium text-secondaryPink">
             Ancienne adresse e-mail
           </label>
-          <p className="text-gray-700">{user.email}</p>
+          <p className="text-gray-700">{email}</p>
         </div>
         <div className="flex flex-col gap-3">
           <label htmlFor="new-email" className="font-medium text-secondaryPink">

@@ -1,4 +1,4 @@
-import MyProfileViewRefactor from '../components/pageComponents/MyProfilePage/MyProfileViewRefactor';
+import MyProfileViewRefactor from '../components/pageComponents/MyProfilePage/MyProfileView';
 
 interface MyProfilePageProps {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;

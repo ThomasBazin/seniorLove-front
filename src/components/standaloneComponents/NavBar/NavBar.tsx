@@ -15,18 +15,21 @@ interface INavBarProps {
 export default function NavBar({ isLogged }: INavBarProps) {
   const standardNavItems = [
     {
+      key: 'events',
       img: eventLogo,
       text: 'Événements',
       href: '/events',
       mobileOnly: false,
     },
     {
+      key: 'home',
       img: logo,
       text: 'Accueil',
       href: '/',
       mobileOnly: true,
     },
     {
+      key: 'login',
       img: connexionLogo,
       text: 'Connexion',
       href: '/login',
@@ -36,30 +39,35 @@ export default function NavBar({ isLogged }: INavBarProps) {
 
   const authenticatedNavItems = [
     {
+      key: 'discover',
       img: discoverLogo,
       text: 'Découvrir',
       href: '/profiles',
       mobileOnly: false,
     },
     {
+      key: 'messages',
       img: messageLogo,
       text: 'Messages',
       href: '/messages',
       mobileOnly: false,
     },
     {
+      key: 'home',
       img: logo,
       text: 'Accueil',
       href: '/home',
       mobileOnly: true,
     },
     {
+      key: 'events',
       img: eventLogo,
-      text: 'Évènements',
+      text: 'Événements',
       href: '/events',
       mobileOnly: false,
     },
     {
+      key: 'profile',
       img: profileLogo,
       text: 'Profil',
       href: '/myprofile',
@@ -82,23 +90,24 @@ export default function NavBar({ isLogged }: INavBarProps) {
             className="max-w-36 lg:max-w-52"
           />
         </Link>
-        <div className="flex fixed h-fit px-3 pt-2 md:gap-6 bottom-0 md:top-3 md:right-0 bg-white md:bg-inherit shadow-mobileNav md:shadow-none w-full md:w-fit justify-around items-center md:items-start ">
+        <ul className="flex fixed h-fit px-3 pt-2 md:gap-6 bottom-0 md:top-3 md:right-0 bg-white md:bg-inherit shadow-mobileNav md:shadow-none w-full md:w-fit justify-around items-center md:items-start ">
           {navItems.map((item) => (
-            <NavLink
-              to={item.href}
-              key={item.text}
-              className={`text-primaryText md:text-secondaryPink md:hover:text-primaryText md:font-bold text-sm md:text-base mb-1 md:mb-0 md:px-3 nav-link ${item.mobileOnly && 'md:hidden'}`}
-            >
-              <img
-                src={item.img}
-                alt=""
-                aria-hidden="true"
-                className="mx-auto w-8 object-contain md:hidden"
-              />
-              {item.text}
-            </NavLink>
+            <li key={item.key}>
+              <NavLink
+                to={item.href}
+                className={`text-primaryText md:text-secondaryPink md:hover:text-primaryText md:font-bold text-sm md:text-base mb-1 md:mb-0 md:px-3 nav-link ${item.mobileOnly && 'md:hidden'}`}
+              >
+                <img
+                  src={item.img}
+                  alt=""
+                  aria-hidden="true"
+                  className="mx-auto w-8 object-contain md:hidden"
+                />
+                {item.text}
+              </NavLink>
+            </li>
           ))}
-        </div>
+        </ul>
       </nav>
     </header>
   );
