@@ -2,7 +2,7 @@
 import Joi from 'joi';
 
 // Joi schema configuration (no picture in schema)
-const stepOneSchema = Joi.object({
+const joiValidateFormV1 = Joi.object({
   name: Joi.string()
     .min(1)
     .max(50)
@@ -32,4 +32,4 @@ const stepOneSchema = Joi.object({
     }),
 });
 
-export default stepOneSchema;
+export default joiValidateFormV1;

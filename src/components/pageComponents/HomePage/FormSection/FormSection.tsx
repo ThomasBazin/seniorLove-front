@@ -78,30 +78,27 @@ export default function FormSection({
 
   useEffect(() => {
     const submitGlobalForm = async () => {
+      setIsLoading(true);
+      setRegisterError(null);
       try {
-        // Attempt to post the formInfos object to the server
         // The 'Content-Type' header is set to 'multipart/form-data' to indicate that the request is sending form data
         await axios.post('/public/register', formInfos, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
-
-        // If the request is successful, clear any previous register error
-        setRegisterError(null);
-      } catch (e) {
-        // Handle errors that occur during the request
-        if (e instanceof AxiosError) {
+      } catch (err) {
+        console.error(err);
+        if (err instanceof AxiosError) {
           // Check if the error is an AxiosError, indicating an error response from the server
-          if (e.response?.status === 400) {
-            // If the server responds with a 400 status code, set a specific error message related to email already being registered
+          if (err.response?.status === 409) {
+            // If the server responds with a 409 status code, set a specific error message related to email already being registered
             setRegisterError(
-              "L'adresse e-mail que vous avez renseigné correspond à un compte déjà créé. Essayez de vous connecter"
+              "L'adresse e-mail que vous avez renseignée est déjà utilisée. Essayez de vous connecter ou modifiez votre adresse e-mail."
             );
           } else {
             // For other Axios errors, set a generic error message for the user
             setServerError(true);
           }
         }
-        console.error(e);
       } finally {
         // Set the loading state to false to indicate that the request process has completed
         setIsLoading(false);
@@ -148,8 +145,8 @@ export default function FormSection({
   // if form 1 not yet validated, show form 1
   if (!isForm1Validated) {
     return (
-      <section className="bg-firstForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
-        <div className="hidden md:block font-semibold text-2xl xl:text-4xl md:w-1/2 lg:2/3">
+      <section className="bg-firstForm bg-cover bg-no-repeat bg-center flex justify-center md:items-center gap-12 md:px-16 md:h-screen text-white">
+        <div className="hidden md:block font-semibold text-2xl xl:text-4xl text-pretty">
           <p>
             Rejoignez notre communauté dédiée aux seniors en quête de belles
             rencontres.
@@ -158,8 +155,8 @@ export default function FormSection({
         </div>
         <SubscribeFormV1
           formInfos={formInfos}
-          setIsForm1Validated={setIsForm1Validated}
           fillFormInfos={fillFormInfos}
+          setIsForm1Validated={setIsForm1Validated}
         />
       </section>
     );
@@ -172,9 +169,9 @@ export default function FormSection({
         <SubscribeFormV2
           hobbies={hobbies}
           setHobbies={setHobbies}
+          fillFormInfos={fillFormInfos}
           setIsForm2Validated={setIsForm2Validated}
           onPreviousClick={goToForm1}
-          fillFormInfos={fillFormInfos}
         />
       </section>
     );
@@ -186,22 +183,22 @@ export default function FormSection({
       <section className="bg-thirdForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
         <SubscribeFormV3
           formInfos={formInfos}
-          setIsForm3Validated={setIsForm3Validated}
           fillFormInfos={fillFormInfos}
+          setIsForm3Validated={setIsForm3Validated}
           onPreviousClick={goToForm2}
         />
       </section>
     );
   }
-  // // if form 4 not yet validated, show form 4
+  // if form 4 not yet validated, show form 4
   if (!isForm4Validated) {
     return (
       <section className="bg-fourthForm bg-cover bg-no-repeat bg-center text-white content-center justify-center md:items-center gap-12 flex md:px-16 md:h-screen flex-1">
         <SubscribeFormV4
-          onPreviousClick={goToForm3}
           fillFormInfos={fillFormInfos}
           setIsForm4Validated={setIsForm4Validated}
           setIsGlobalFormSubmitted={setIsGlobalFormSubmitted}
+          onPreviousClick={goToForm3}
         />
       </section>
     );

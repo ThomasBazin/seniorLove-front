@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
 import { IHobby } from '../../../../../@types/IHobby';
-import stepTwoSchema from '../../../../../utils/joiValidateFormV2';
+import joiValidateFormV2 from '../../../../../utils/joiValidateFormV2';
 
 interface SubscribeFormV2Props {
   hobbies: IHobby[];
@@ -27,7 +27,7 @@ export default function SubscribeFormV2({
       .filter((hobby) => hobby.checked)
       .map((hobby) => hobby.id);
 
-    const { error } = stepTwoSchema.validate(userHobbies);
+    const { error } = joiValidateFormV2.validate(userHobbies);
     if (error) {
       setError(error.message);
     } else {
@@ -46,14 +46,14 @@ export default function SubscribeFormV2({
   };
 
   return (
-    <div className="bg-white opacity-90 p-10 rounded-xl shadow-md max-w-xl my-10 mx-4 md:mx-auto md:my-0">
+    <div className="bg-white opacity-90 p-10 rounded-xl sm:h-auto shadow-md max-w-xl my-10 mx-4 md:mx-auto md:my-0">
       <form onSubmit={(e) => handleValidateFormV2(e)}>
         <fieldset className="mb-4">
-          <legend className="text-xl font-semibold leading-6 text-primaryText">
+          <legend className="text-lg font-semibold leading-6 text-primaryText">
             Afin de mieux vous connaître, veuillez sélectionner vos centres
             d&apos;intérêt parmi ces options:
           </legend>
-          <div className="mt-6 grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-8">
+          <div className="mt-6 grid grid-cols-1 gap-y-4 sm:grid-cols-2 max-h-[55vh] sm:gap-x-8 sm:h-auto overflow-y-auto">
             {hobbies.map((hobby) => (
               <div key={hobby.id} className="flex items-center">
                 <input
@@ -79,7 +79,7 @@ export default function SubscribeFormV2({
           </div>
         )}
         <div className="flex justify-center mt-6 mb-2">
-          <DefaultBtn btnType="submit" btnText="Valider" />
+          <DefaultBtn btnType="submit" btnText="Suivant" />
         </div>
 
         <div className="step_paragraph text-primaryText flex justify-center">

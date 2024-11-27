@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
 import Logo from '/img/logo-text-seniorlove.webp';
 import { IRegisterForm } from '../../../../../@types/IRegisterForm';
-import stepThreeSchema from '../../../../../utils/joiValidateFormV3';
+import joiValidateFormV3 from '../../../../../utils/joiValidateFormV3';
 
 interface SubscribeFormV3Props {
   formInfos: IRegisterForm;
@@ -28,12 +28,9 @@ export default function SubscribeFormV3({
   // STATE 3 : error
   const [errorTo, setError] = useState<string | null>(null);
 
-  // Handle picture input change
-  // const handlePictureInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files[0]) {
-  //     setPictureFile(e.target.files[0]); // Save the selected file in state
-  //   }
-  // };
+  const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(
+    null
+  );
 
   // Handle description input change
   const handleDescriptionInputChange = (
@@ -44,8 +41,9 @@ export default function SubscribeFormV3({
 
   const handleValidateFormV3 = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(pictureFile);
 
-    const { error } = stepThreeSchema.validate(
+    const { error } = joiValidateFormV3.validate(
       {
         descriptionInputValue,
         pictureFile,
@@ -80,17 +78,24 @@ export default function SubscribeFormV3({
   };
 
   useEffect(() => {
-    if (formInfos.picture && formInfos.description) {
+    const generatePicturePreview = () => {
+      if (pictureFile) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result); // Set image preview in state
+        };
+        reader.readAsDataURL(pictureFile); // Read the file as a data URL
+      }
+    };
+    if (formInfos.picture) {
       setPictureFile(formInfos.picture);
+      generatePicturePreview();
+    }
+
+    if (formInfos.description) {
       setDescriptionInputValue(formInfos.description);
     }
-  }, [formInfos]);
-
-  const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(
-    null
-  );
-
-  // State to store the selected image file
+  }, [formInfos, pictureFile]);
 
   // Event handler for file input change
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,7 +190,7 @@ export default function SubscribeFormV3({
         )}
 
         <div className="flex justify-center mt-6 mb-2">
-          <DefaultBtn btnType="submit" btnText="Valider" />
+          <DefaultBtn btnType="submit" btnText="Suivant" />
         </div>
         <div className="step_paragraph text-primaryText text-center text-sm">
           <p>Étape 3/4: Photo de profil et description</p>

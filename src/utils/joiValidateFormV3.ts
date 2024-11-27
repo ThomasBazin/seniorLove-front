@@ -1,7 +1,7 @@
 // eslint-disable-next-line prettier/prettier, import/no-extraneous-dependencies
 import Joi from 'joi';
 
-const stepThreeSchema = Joi.object({
+const joiValidateFormV3 = Joi.object({
   descriptionInputValue: Joi.string().min(1).required().messages({
     'string.base': 'Veuillez entrez une chaine de caractères valide',
     'string.min': 'Merci de renseigner votre description !.',
@@ -9,7 +9,9 @@ const stepThreeSchema = Joi.object({
     'any.required': 'Merci de renseigner votre description !',
   }),
 
-  pictureFile: Joi.optional(),
+  pictureFile: Joi.object().required().messages({
+    'object.base': 'Veuillez ajouter une photo !',
+  }),
 });
 
-export default stepThreeSchema;
+export default joiValidateFormV3;

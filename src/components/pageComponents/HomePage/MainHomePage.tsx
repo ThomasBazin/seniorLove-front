@@ -6,7 +6,7 @@ import HeadbandV2 from '../../standaloneComponents/Headband/HeadbandV2';
 
 export default function Main() {
   // STATE 1 : isFirstFormValidated
-  const [isForm1Validated, setIsForm1Validated] = useState(true);
+  const [isForm1Validated, setIsForm1Validated] = useState(false);
 
   // STATE 2 : isSecondFormValidated
   const [isForm2Validated, setIsForm2Validated] = useState(false);

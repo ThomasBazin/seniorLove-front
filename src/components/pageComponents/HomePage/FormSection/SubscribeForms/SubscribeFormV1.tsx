@@ -6,7 +6,7 @@ import Logo from '/img/logo-text-seniorlove.webp';
 import { IRegisterForm } from '../../../../../@types/IRegisterForm';
 
 import computeAge from '../../../../../utils/computeAge';
-import stepOneSchema from '../../../../../utils/joiValidateFormV1';
+import joiValidateFormV1 from '../../../../../utils/joiValidateFormV1';
 
 interface SubscribeFormV1Props {
   formInfos: IRegisterForm;
@@ -51,12 +51,7 @@ export default function SubscribeFormV1({
     const { name, gender, birthDate } = rawFormData;
     const age = computeAge(birthDate as string);
 
-    const { error } = stepOneSchema.validate(
-      { name, age, gender },
-      {
-        abortEarly: false,
-      }
-    );
+    const { error } = joiValidateFormV1.validate({ name, age, gender });
     if (error) {
       setError(error.message);
     } else {
@@ -141,7 +136,7 @@ export default function SubscribeFormV1({
         )}
 
         <div className="flex justify-center mt-6 mb-2">
-          <DefaultBtn btnType="submit" btnText="Valider" />
+          <DefaultBtn btnType="submit" btnText="Je crée un compte" />
         </div>
         <div className="connexion_paragraph text-primaryText text-center text-base mb-4">
           <p>

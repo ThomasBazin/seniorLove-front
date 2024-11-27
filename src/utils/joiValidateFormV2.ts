@@ -2,7 +2,7 @@
 import Joi from 'joi';
 
 // Joi schema configuration (no picture in schema)
-const stepTwoSchema = Joi.array()
+const joiValidateFormV2 = Joi.array()
   .items(
     Joi.number().integer().min(1).messages({
       'number.base': 'Entrée non valide',
@@ -20,4 +20,4 @@ const stepTwoSchema = Joi.array()
 // email: Joi.string().email({ minDomainSegments: 2 }).required(),
 // password: Joi.string().min(12).max(255).required(),
 // repeat_password: Joi.valid(Joi.ref('password')).required(),
-export default stepTwoSchema;
+export default joiValidateFormV2;

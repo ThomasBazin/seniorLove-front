@@ -1,7 +1,7 @@
 // eslint-disable-next-line prettier/prettier, import/no-extraneous-dependencies
 import Joi from 'joi';
 
-const stepFourSchema = Joi.object({
+const joiValidateFormV4 = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false }, minDomainSegments: 2 })
     .required()
@@ -30,4 +30,4 @@ const stepFourSchema = Joi.object({
   }),
 });
 
-export default stepFourSchema;
+export default joiValidateFormV4;

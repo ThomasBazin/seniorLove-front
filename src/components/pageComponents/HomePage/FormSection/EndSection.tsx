@@ -11,7 +11,7 @@ export default function EndSection({
   onPreviousClick,
 }: EndSectionProps) {
   return (
-    <div className="bg-white opacity-90 px-10 pb-10 pt-4 rounded-xl shadow-md my-10 mx-4 md:mx-auto md:my-0">
+    <div className="bg-white opacity-90 px-10 pb-10 pt-4 rounded-xl h-[70vh] md:h-auto md:w-1/2 shadow-md my-10 mx-4 md:mx-auto md:my-0">
       <div className="flex flex-col items-center justify-center mb-4">
         <img src={Logo} alt="" className="max-w-44 mb-4" />
       </div>
@@ -35,7 +35,7 @@ export default function EndSection({
         </>
       )}
 
-      <div className="flex justify-center mt-6 mb-2">
+      <div className="flex justify-center mt-14 mb-2">
         <Link to="/login">
           <DefaultBtn btnType="button" btnText="Me connecter" />
         </Link>

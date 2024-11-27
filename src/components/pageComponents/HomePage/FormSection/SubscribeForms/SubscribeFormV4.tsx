@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import DefaultBtn from '../../../../standaloneComponents/Button/DefaultBtn';
-import stepFourSchema from '../../../../../utils/joiValidateFormV4';
+import joiValidateFormV4 from '../../../../../utils/joiValidateFormV4';
 
 interface SubscribeFormV4Props {
   onPreviousClick: () => void;
@@ -23,7 +23,7 @@ function SubscribeFormV4({
     const rawFormData = Object.fromEntries(new FormData(e.currentTarget));
     const { email, password, repeatPassword } = rawFormData;
 
-    const { error } = stepFourSchema.validate(rawFormData);
+    const { error } = joiValidateFormV4.validate(rawFormData);
     if (error) {
       setError(error.message);
     } else {
@@ -74,19 +74,20 @@ function SubscribeFormV4({
               Mot de passe{' '}
               <p
                 className="text-sm text-center ml-4"
-                title="12 caractères minimum avec 1 majuscule, 1 minuscule, 1 chiffre
-                & 1 caractère spécial"
+                title="Votre mot de passe doit contenir 12 caractères minimum, une
+                  majuscule, une minuscule, un chiffre et un caractère spécal."
+                aria-hidden="true"
               >
                 <img
                   src="/icon/question-circle.svg"
-                  alt="aide"
+                  alt=""
                   className="w-6 cursor-help"
                 />
-                <span className="sr-only">
-                  12 caractères minimum avec 1 majuscule, 1 minuscule, 1 chiffre
-                  & 1 caractère spécial
-                </span>
               </p>
+              <span className="sr-only">
+                Votre mot de passe doit contenir 12 caractères minimum, une
+                majuscule, une minuscule, un chiffre et un caractère spécal.
+              </span>
             </label>
             <div className="mt-2">
               <div className="flex bg-white rounded-md shadow-sm border">
@@ -103,10 +104,10 @@ function SubscribeFormV4({
           </div>
           <div className="mb-4">
             <label
-              htmlFor="email"
+              htmlFor="repeatPassword"
               className="block text-lg font-medium leading-6 text-primaryText"
             >
-              Confirmer mot de passe
+              Confirmer votre mot de passe
             </label>
             <div className="mt-2">
               <div className="flex bg-white rounded-md shadow-sm border">
@@ -115,7 +116,7 @@ function SubscribeFormV4({
                   name="repeatPassword"
                   type="password"
                   placeholder="Confirmer votre mot de passe"
-                  className="block w-full border-0 bg-transparent py-1.5 p-2 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  className="block w-full border-0 bg-transparent py-1.5 p-2 text-primaryText placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                   required
                 />
               </div>
