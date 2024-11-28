@@ -1,6 +1,6 @@
 // NavBar V1 (before connexion)
 
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import textLogo from '/img/logo-text-seniorlove.webp';
 import logo from '/icon/logo-pink-background.png';
 import connexionLogo from '/icon/connexion.png';
@@ -81,16 +81,16 @@ export default function NavBar({ isLogged }: INavBarProps) {
   }
 
   return (
-    <header className="bg-white bg-opacity-90 md:sticky top-0 w-full py-4 z-10">
+    <header className="bg-white bg-opacity-90 w-full py-4 md:sticky top-0 z-10">
       <nav className="flex justify-center md:justify-between items-center w-full px-3">
-        <Link to="/">
+        <a href="/">
           <img
             src={textLogo}
             alt="Retour à l'accueil"
             className="max-w-36 lg:max-w-52"
           />
-        </Link>
-        <ul className="flex fixed h-fit px-3 pt-2 md:gap-6 bottom-0 md:top-3 md:right-0 bg-white md:bg-inherit shadow-mobileNav md:shadow-none w-full md:w-fit justify-around items-center md:items-start ">
+        </a>
+        <ul className="bg-white md:bg-inherit flex justify-around items-center md:gap-6 w-full md:h-fit md:w-fit fixed bottom-0 md:top-3 md:right-0 px-3 pt-2 shadow-mobileNav md:shadow-none">
           {navItems.map((item) => (
             <li key={item.key} className={`${item.mobileOnly && 'md:hidden'}`}>
               <NavLink
