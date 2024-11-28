@@ -19,22 +19,20 @@ export default function ContactsListField({
 }: ContactInterface) {
   const [isSelected, setIsSelected] = useState<boolean[]>([]);
 
-  function handleSelected(index: number) {
+  const handleSelect = (index: number) => {
     const newSelected = new Array(isSelected.length).fill(false);
     newSelected[index] = true;
     setIsSelected(newSelected);
-  }
+  };
 
   useEffect(() => {
-    const set = () => {
-      setIsSelected([...Array(listContacts.length).fill(false)]);
-      const newDefaultList = [...isSelected];
-      newDefaultList[0] = true;
-      setIsSelected(newDefaultList);
-      handleSelected(0);
+    const setFirstMessageSelected = () => {
+      const defaultSelected = [...Array(listContacts.length).fill(false)];
+      defaultSelected[0] = true;
+      setIsSelected(defaultSelected);
     };
-    set();
-  }, [listContacts]);
+    setFirstMessageSelected();
+  }, [listContacts.length]);
 
   return (
     <div
@@ -48,7 +46,8 @@ export default function ContactsListField({
             contact={contact}
             setBadSend={setBadSend}
             selectedContact={selectedContact}
-            onSelect={() => handleSelected(i)}
+            onSelect={handleSelect}
+            index={i}
             isSelected={isSelected[i]}
             switchView={switchView}
           />

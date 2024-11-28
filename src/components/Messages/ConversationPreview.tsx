@@ -4,9 +4,10 @@ interface ConversationPreviewProps {
   selectedContact: (newMessages: IContacts) => void;
   contact: IContacts;
   setBadSend: React.Dispatch<React.SetStateAction<boolean>>;
-  onSelect: () => void;
+  onSelect: (index: number) => void;
   isSelected: boolean;
   switchView: () => void;
+  index: number;
 }
 
 export default function ConversationPreview({
@@ -16,6 +17,7 @@ export default function ConversationPreview({
   onSelect,
   isSelected,
   switchView,
+  index,
 }: ConversationPreviewProps) {
   const lastMessage = contact.messages[contact.messages.length - 1];
   const { message }: { message: string } = lastMessage;
@@ -27,7 +29,7 @@ export default function ConversationPreview({
       onClick={() => {
         selectedContact(contact);
         setBadSend(false);
-        onSelect();
+        onSelect(index);
         if (window.innerWidth <= 768) {
           switchView();
         }
