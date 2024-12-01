@@ -175,6 +175,7 @@ export default function EventView({ isAuthenticated }: EventViewProps) {
               src={event.picture}
               alt={event.name}
               className="h-full object-cover rounded-md shadow-xl w-full"
+              loading="lazy"
             />
           </div>
 
