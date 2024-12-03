@@ -32,6 +32,7 @@ export default function SubscribeFormV1({
   const [err, setError] = useState<string | null>(null);
 
   const handleNameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(null);
     setNameInputValue(e.currentTarget.value);
   };
 
