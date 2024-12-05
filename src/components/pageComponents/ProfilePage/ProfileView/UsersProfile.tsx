@@ -214,7 +214,7 @@ export default function UsersProfile() {
           )}
           <div>
             <h3 className="text-xl text-secondaryPink text-center font-semibold pb-3 md:text-black md:text-left ">
-              A propos de moi :
+              À propos :
             </h3>
 
             <p className="text-primaryText text-justify">
@@ -224,7 +224,7 @@ export default function UsersProfile() {
           {/* Add more editable fields here as needed */}
           <div className="pt-8">
             <h3 className="text-xl text-secondaryPink text-center font-semibold md:text-black pb-3">
-              Mes prochaines sorties :
+              Ses prochaines sorties :
             </h3>
             {profile.events && profile.events.length > 0 ? (
               <div className="flex flex-wrap justify-center gap-5 md:gap-10 py-5">
@@ -234,7 +234,8 @@ export default function UsersProfile() {
               </div>
             ) : (
               <p className="text-center py-6">
-                Je ne suis actuellement enregistré à aucun futur événement.
+                {profile.name} n&apos;est actuellement enregistré
+                {profile.gender === 'female' && <>e</>} à aucun futur événement.
               </p>
             )}
           </div>
