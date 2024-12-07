@@ -14,7 +14,7 @@ const joiValidateFormV4 = Joi.object({
   password: Joi.string()
     .min(12)
     .max(36)
-    .pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,36}$/)
+    .pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{12,36}$/)
     .required()
     .messages({
       'string.min': 'Le mot de passe doit contenir au moins 12 caractères.',
